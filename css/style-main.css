@@ -149,7 +149,7 @@ main {
   top: 70px; /* = height of navbar*/
   bottom: 50px; /* = height of footer */
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 @media screen and (max-width: 375px) {
@@ -548,14 +548,14 @@ footer {
 
 /* scroll bar */
 ::-webkit-scrollbar-button{
-  /*display: none;*/
-/*  height: 13px;
+  display: none;
+  height: 13px;
   border-radius: 0px;
-  background-color: #AAA;*/
+  background-color: #007f98;
 }
 ::-webkit-scrollbar-button:hover{
-  /*background-color: #AAA;*/
-}
+  background-color: #ccc;
+  }
 ::-webkit-scrollbar-thumb{
   background-color: #4bafc9;
 }
@@ -563,13 +563,13 @@ footer {
   background-color: #4bafc9;
 }
 ::-webkit-scrollbar-track{
-  background-color: #ffffff;
+  background-color: #ccc;
 }
 ::-webkit-scrollbar-track:hover{
-  background-color: #ffffff;
+  background-color: #ccc;
 }
 ::-webkit-scrollbar{
-  width: 0.5em;
+  width: 8px;
 }
 
 /* Input Forms */
