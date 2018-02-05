@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Homepage</title>
+
+  <!-- Make sure that special characters show up correctly. -->
+  <meta charset="utf-8">
+  <!-- Tell Internet Explorer to use the best engine you've got and give the user the most up to date experience. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Tell the browser how to display the page initially when it loads on a mobile device. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap Framework -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Link to Google Fonts -->
+  <!-- Raleway - for text -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext" rel="stylesheet">
+  <!-- Other -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+
+  <!-- Link to CSS files -->
+  <!-- Text Sizing Stylesheet -->
+<!--   <link rel="stylesheet" href="css/text-sizing-framework.css"> -->
+  <!-- Design Stylesheet -->
+  <link rel="stylesheet" href="../css/style-main.css">
+  <!-- Text Sizes Stylesheet -->
+  <!-- <link rel="stylesheet" href="css/text-framework.css"> -->
+  <!-- Link to JS files -->
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Bootstrap Framework -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Main Custom JS -->
+  <script src="../js/script-main.js"></script>
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#myPage"><img class="logo-img" alt="Logo" src="../media/images/logo-white.png"/></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="homepage.html">Stories</a></li>
+
+          <li><a href="map.html">Map</a></li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Stories<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="nav-collapsible-dropdown-list-li"><a href="new-post.html">New Post</a></li>
+              <li class="nav-collapsible-dropdown-list-li"><a href="view-posts.html">View Posts</a></li>
+              <li class="nav-collapsible-dropdown-list-li"><a href="edit-profile.html">Edit Profile</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="nav-collapsible-dropdown-list-li"><a class="nav-dropdown" href="manage-members.html">Manage Members</a></li>
+              <li class="nav-collapsible-dropdown-list-li"><a href="new-group.html">New Group</a></li>
+              <li class="nav-collapsible-dropdown-list-li"><a href="edit-group.html">Edit Group</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="nav-collapsible-dropdown-list-li"><a class="nav-dropdown" href="about.html">About</a></li>
+              <li class="nav-collapsible-dropdown-list-li"><a href="help.html">Help</a></li>
+              <li class="nav-collapsible-dropdown-list-li"><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#">Login</a></li>
+
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <!-- All content except the navbar and footer. This is the thing that changes as the page changes. -->
+  <main>
+
+    <!-- Website Title/Welcome Header -->
+    <header class="jumbotron text-center">
+      <h1>Montage</h1>
+      <p>Insert snazzy one sentence description for new visitors.</p>
+    </header>
+
+    <!-- Featured Section -->
+    <section id="featured" class="container-fluid text-center bg-grey">
+      <h4>Insert filtering system here.</h4>
+
+      <div class="row">
+        <!-- Carousel div -->
+        <div class="col-sm-12">
+          <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#myCarousel" data-slide-to="1"></li>
+              <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+              <div class="item active">
+                <img class="carousel-img" src="https://static.pexels.com/photos/8453/nature-night-frog.jpg" alt="Frog on a rock.">
+                <div class="carousel-caption">
+                  <h4>"Il était une fois inconnu, il y aurait..."</h4>
+                  <p>Collection: Grenouilles dans les déserts</p>
+                </div>
+              </div>
+
+              <div class="item">
+                <img class="carousel-img" src="https://static.pexels.com/photos/162917/ice-fruit-ice-mixed-ice-cream-sundae-162917.jpeg" alt="Ice cream.">
+                <div class="carousel-caption">
+                  <h4>"Fruity tuti, kulfi, pista..."</h4>
+                  <p>Collection: Ice cream in the tropics</p>
+                </div>
+              </div>
+
+              <div class="item">
+                <img class="carousel-img" src="http://handeyemagazine.com/sites/default/files/small_QA006-1.jpg" alt="Pakistani quilt.">
+                <div class="carousel-caption">
+                  <h4>"En la pared colgaba un gran tapiz..."</h4>
+                  <p>Colección: Edredones</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Stories Section -->
+    <section id="stories" class="container-fluid">
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/10678/road-travel-fence-empty-10678.jpg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">At the Gate</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-quote panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <blockquote class="quote panel-body-height">
+              <p>Paint anything you want on the canvas. Create your own world.</p>
+            </blockquote>
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">My World</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/461189/pexels-photo-461189.jpeg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Making Popsicles</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/63650/frog-toad-eyes-animal-63650.jpeg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Look at Me</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- Note: There's something weird about how the glyphicon loads initially. -->
+      <!-- An audio Story -->
+<!--       <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-audio panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <span class="audio-symbol glyphicon glyphicon-volume-up logo slide"></span>
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Fireflies</h4>
+          </div>
+        </div>
+      </article> -->
+
+      <!-- A Video Story -->
+<!--       <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-video panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <iframe class="iframe-video" src="https://player.vimeo.com/video/108191030?controls=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          <embed>
+            <source src="media/videos/waterfall.mp4" type="video/mp4">
+            <p class="quote">Video of a waterfall in autumn.</p>
+          </embed>
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Autumn Water</h4>
+          </div>
+        </div>
+      </article> -->
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/40906/art-attachment-background-boat-40906.jpeg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Decorative Treasure</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title text">Row, Row, Row Your Boat</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/33196/still-life-teddy-white-read.jpg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Bedtime Stories</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/6981/food-kitchen-dessert-pie.jpg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Baking with Grandma</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/333529/pexels-photo-333529.jpeg">
+          </div>
+          <div class="panel-heading"  data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Childhood Memories</h4>
+          </div>
+        </div>
+      </article>
+
+      <!-- A Story -->
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/279453/pexels-photo-279453.jpeg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Making a Wish</h4>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Trigger the modal with a button -->
+    <!--   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#storyModal0001">Ready Story</button> -->
+
+    <!-- Modal -->
+    <div class="modal" id="storyModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            <h2 class="modal-title text-center">At the Gate</h2>
+          </div>
+          <div class="modal-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae luctus elit. Nullam ut ligula eu orci venenatis ullamcorper sit amet non nibh. Cras suscipit est nec molestie pulvinar. Ut at massa et neque blandit luctus. Curabitur tincidunt, libero at dapibus auctor, justo metus gravida justo, a hendrerit tellus ligula sit amet tortor. Morbi ac quam nec nisi accumsan aliquam. Nunc sem lectus, congue ac felis at, ultricies porta purus. Mauris ac mauris sollicitudin, euismod libero id, posuere enim.</p>
+            <p>Nunc vestibulum, orci vel congue malesuada, lacus tellus congue augue, ac pharetra dui lectus ac arcu. Donec egestas libero sed neque rutrum, vitae viverra metus molestie. Aenean commodo malesuada viverra. In mollis justo tellus, quis vehicula justo gravida in. Morbi ultricies elit eget tempus iaculis. Suspendisse pulvinar eros sed efficitur efficitur. Etiam egestas mi eu purus egestas, a varius lacus condimentum. Sed dignissim, lorem et iaculis laoreet, nunc magna commodo sapien, at molestie ligula ex nec quam.</p>
+            <p>Cras pharetra, dolor vitae ultrices luctus, velit sem tempor mi, id iaculis ligula ligula ut eros. Morbi maximus enim eu justo vehicula dignissim sit amet ut enim. Nullam dictum tincidunt leo. Integer condimentum vestibulum tortor, in convallis dui sodales vel. In ac nulla eleifend, blandit lacus ac, posuere nibh. Suspendisse a porttitor augue, quis pulvinar tellus. Morbi fringilla eros vitae auctor semper. In non eros consequat, lacinia ex sit amet, convallis massa. Mauris eu dapibus ante, nec imperdiet odio.</p>
+            <p>Donec id lacinia tellus, a bibendum turpis. Nunc et sapien tortor. Donec at velit consequat, euismod orci ut, scelerisque justo. Morbi in purus vehicula, sodales libero vel, lobortis urna. Nulla sit amet suscipit quam, non fringilla enim. Praesent condimentum libero id ante interdum faucibus. Duis tellus risus, commodo vehicula tempor eget, accumsan vel dui. Donec fermentum at risus eget bibendum. Sed neque sem, ornare ac justo quis, placerat efficitur est.</p>
+            <p>Nulla mollis pretium orci quis lobortis. Ut semper dolor nec urna hendrerit accumsan. Integer fermentum neque sed rhoncus efficitur. Suspendisse blandit tincidunt turpis vel faucibus. Aliquam at dictum dolor. Aliquam sagittis tempus tempus. Nam tincidunt urna vestibulum elementum tincidunt. In non nulla dui. Phasellus pretium gravida sem, at ullamcorper justo pulvinar dapibus. Mauris a viverra nulla. Pellentesque ut orci vel neque fermentum facilisis. Suspendisse ac dolor non urna interdum tempus a a elit.</p>
+            <p>Fusce nec metus non leo tincidunt lacinia. Curabitur tempus mollis dui, vel vestibulum lorem vehicula non. Curabitur lacinia risus libero. Aliquam erat volutpat. Duis eget varius massa. Proin gravida ex sit amet sollicitudin tempus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean sodales metus ac dui pharetra facilisis. Aliquam varius, arcu id condimentum vulputate, massa ligula elementum ante, ac semper nisl libero sed mi. Maecenas in consequat neque.</p>
+            <p>Morbi quis tristique elit. Quisque mi sapien, viverra in volutpat ac, laoreet quis mi. Proin sodales at ex vel dictum. Aenean fringilla metus mi, euismod porttitor eros varius nec. Nullam fermentum fermentum libero, ac condimentum nisl pellentesque at. Pellentesque posuere, nulla in interdum accumsan, risus enim iaculis mi, nec volutpat sem mi in mi. Donec ut felis ultricies mi pulvinar vulputate. Proin ut ex pulvinar ante feugiat lobortis in in ipsum. Phasellus eget velit a tortor scelerisque sodales sit amet aliquam sapien. Suspendisse felis ligula, scelerisque eu dolor vel, cursus bibendum lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo elit, placerat at nibh non, pellentesque semper eros.</p>
+            <p>Nam imperdiet ornare libero eget finibus. Nunc dapibus blandit mi, ac feugiat quam. Fusce lobortis nisl nec turpis venenatis, semper tristique nisl lobortis. Morbi felis magna, mollis id volutpat non, ullamcorper id mi. Fusce consectetur bibendum nisi, vitae condimentum ligula placerat ut. Nam efficitur nibh eros, non maximus massa viverra eu. Vestibulum elit odio, tempor nec sagittis sed, ullamcorper ut purus. Nulla sit amet libero in sem congue vulputate. In suscipit magna et magna rhoncus, quis sagittis ligula bibendum.</p>
+            <p>Aliquam hendrerit congue quam, ut convallis metus posuere vitae. Sed pretium interdum suscipit. Nullam tortor eros, semper eget porta at, sodales sit amet ipsum. Vestibulum id accumsan purus. Vestibulum id condimentum arcu. Nullam gravida mauris tristique purus porttitor lobortis in quis velit. Aliquam eleifend tincidunt felis, quis cursus est tempus ut. Etiam sed tincidunt nisi. Sed mollis libero lacus, non feugiat lacus suscipit id.</p>
+            <p>Aenean fermentum egestas nibh, non feugiat lorem tincidunt quis. Nam vehicula, justo et volutpat bibendum, mauris erat luctus mi, ut dictum sem diam in nunc. Nullam placerat mattis arcu. Nunc ultricies rutrum ligula, at maximus diam finibus ut. Mauris eu nibh a magna pellentesque aliquam at at dui. Pellentesque scelerisque condimentum augue. Morbi ac massa molestie, vestibulum lacus in, viverra tellus. Proin molestie sed magna viverra congue. Nulla elit ex, tincidunt vel convallis vel, mattis in arcu. Praesent massa erat, elementum in augue vitae, volutpat consectetur justo. Aliquam erat volutpat. Phasellus tristique non justo in scelerisque. Nullam rutrum dictum pretium. Duis faucibus orci ornare justo pretium iaculis.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container-fluid text-center footer-padding">
+    <p>
+      Copyright ©
+      <!-- Automate the current year -->
+      <script type="text/javascript">
+        document.write(new Date().getFullYear());
+      </script>
+     Dhakira. All Rights Reserved.
+   </p>
+  </footer>
+
+</body>
+</html>
