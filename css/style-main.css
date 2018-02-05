@@ -548,7 +548,7 @@ footer {
 
 /* scroll bar */
 ::-webkit-scrollbar-button{
-  display: none;
+  /*display: none;*/
 /*  height: 13px;
   border-radius: 0px;
   background-color: #AAA;*/
@@ -570,4 +570,70 @@ footer {
 }
 ::-webkit-scrollbar{
   width: 0.5em;
+}
+
+/* Input Forms */
+.input-spacing {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  /*font-size: 20px;*/
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+  color: #474747;
+  border-radius: 4px;
+}
+
+.form-headings {
+  font-weight: 600;
+}
+
+input[type=text]:focus {
+  border: 3px solid #4bafc9;
+}
+
+input[type=password]:focus {
+  border: 3px solid #4bafc9;
+}
+
+.form-style {
+  /*font-size: 20px;*/
+}
+
+.text-note {
+  color: #474747;
+}
+
+.login-form {
+  padding: 30px;
+}
+
+.login-form-button {
+  color: #ffffff;
+  background: #4bafc9;
+  padding: 20px;
+  text-decoration: none;
+  border: none;
+  margin: 1em 0;
+}
+
+.login-form-button:hover {
+  background: #007f98;
+  text-decoration: none;
+}
+
+.login-form-link {
+  text-decoration: none;
+  color: #4bafc9;
+}
+
+.login-form-link:hover {
+  color: #007f98;
+}
+.login-form-link:visited,
+.login-form-link:active {
+  text-decoration: none;
+  color: #4bafc9;
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>About Us</title>
+  <title>Sign Up</title>
 
   <!-- Make sure that special characters show up correctly. -->
   <meta charset="utf-8">
@@ -92,14 +92,46 @@
 
   <!-- All content except the navbar and footer. This is the thing that changes as the page changes. -->
   <main>
-    <header class="jumbotron text-center">
-      <h1>About Us</h1>
+    <header class="jumbotron mini-header text-center">
+      <h1>Sign Up</h1>
     </header>
+
+    <section class="main-padding container-fluid">
+      <!-- Create an Account -->
+      <article class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 login-form">
+        <form action="#" class="form-style form-headings"> <!-- Example: /action_page.php -->
+          Username:
+          <br>
+          <input type="text" name="Username" class="input-spacing">
+          <br>
+          Email:
+          <br>
+          <input type="text" name="Email" class="input-spacing">
+          <br>
+          Password:
+          <br>
+          <input type="password" name="Password" class="input-spacing">
+          <br>
+          Password (Again):
+          <br>
+          <input type="password" name="Password (Again)" class="input-spacing">
+          <input type="submit" value="Register" class="login-form-button">
+        </form>
+        <p class="text-note">If you already have an account, <a href="#" class="login-link">login here</a>.</p>
+      </article>
+    </section>
 
   </main>
 
   <footer class="container-fluid text-center footer-padding">
-    <p>Copyright © 2017 Dhakira. All Rights Reserved.</p>
+    <p>
+      Copyright ©
+      <!-- Automate the current year -->
+      <script type="text/javascript">
+        document.write(new Date().getFullYear());
+      </script>
+     Dhakira. All Rights Reserved.
+   </p>
   </footer>
 
 </body>
