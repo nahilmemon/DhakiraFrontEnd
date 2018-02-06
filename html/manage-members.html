@@ -12,20 +12,15 @@
 
   <!-- Bootstrap Framework -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
   <!-- Link to Google Fonts -->
-  <!-- Raleway - for text -->
+  <!-- Raleway -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext" rel="stylesheet">
-  <!-- Other -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
 
   <!-- Link to CSS files -->
-  <!-- Text Sizing Stylesheet -->
-<!--   <link rel="stylesheet" href="css/text-sizing-framework.css"> -->
   <!-- Design Stylesheet -->
   <link rel="stylesheet" href="../css/style-main.css">
-  <!-- Text Sizes Stylesheet -->
-  <!-- <link rel="stylesheet" href="css/text-framework.css"> -->
+
   <!-- Link to JS files -->
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -83,7 +78,7 @@
             </ul>
           </li>
 
-          <li><a href="#">Login</a></li>
+          <li><a href="login.html">Login</a></li>
 
         </ul>
       </div><!--/.nav-collapse -->
@@ -92,14 +87,29 @@
 
   <!-- All content except the navbar and footer. This is the thing that changes as the page changes. -->
   <main>
-    <header class="jumbotron text-center">
+    <header class="jumbotron mini-header text-center">
       <h1>Manage Members</h1>
     </header>
+
+    <section class="main-padding container-fluid">
+      <article class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+        <h2>Member Sign Up Requests</h2>
+        <p>Below is a list of people who would like to join Dhakira's Montage project. Check the names of the people you would like to give access to site. Cross the names of the people that you would not like to give access to the site. Click submit to finalize your decisions.</p>
+
+      </article>
+    </section>
 
   </main>
 
   <footer class="container-fluid text-center footer-padding">
-    <p>Copyright © 2017 Dhakira. All Rights Reserved.</p>
+    <p>
+      Copyright ©
+      <!-- Automate the current year -->
+      <script type="text/javascript">
+        document.write(new Date().getFullYear());
+      </script>
+     Dhakira. All Rights Reserved.
+   </p>
   </footer>
 
 </body>
