@@ -638,3 +638,8 @@ input[type=password]:focus {
   text-decoration: none;
   color: #4bafc9;
 }
+
+.filters-layout {
+  padding-left: 30px;
+  padding-right: 30px;
+}

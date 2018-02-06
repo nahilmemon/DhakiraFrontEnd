@@ -4,6 +4,12 @@ $(document).ready(function(){
   $(".panel-body-height").height(panelHeight);
   var carouselImageHeight = $(".carousel-img").width()*0.67;
   $(".carousel-img").height(carouselImageHeight);
+
+  // Semantic UI Dropdown
+  $('.ui.dropdown')
+  .dropdown()
+;
+
 })
 
 // Make sure the story card tiles are always the same dimensions
