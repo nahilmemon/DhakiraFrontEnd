@@ -646,3 +646,24 @@ input[type=password]:focus {
   padding-left: 30px;
   padding-right: 30px;
 }
+
+/* Search Filters */
+section > section > div > i.icon,
+section > section > div > span,
+section > section > div > div.menu > div.icon.search.input > i.search.icon,
+section > section > div > div.menu > div.header > i.icon,
+section > section > div > div.menu > div.header > span {
+  color: #4bafc9;
+}
+
+section > section > div > div.menu > div.icon.search.input > input {
+  border-color: #4bafc9;
+}
+
+section > section > div > div.menu > div.scrolling.menu > div.item {
+  font-size: 1em;
+}
+
+section > section > div > a.label {
+  color: #818181;
+}
