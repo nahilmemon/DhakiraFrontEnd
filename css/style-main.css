@@ -619,11 +619,13 @@ input[type=password]:focus {
   border: none;
   border-radius: 5px;
   margin: 1em 0;
+  transition: box-shadow 0.5s;
 }
 
 .login-form-button:hover {
-  background: #007f98;
+  /*background: #007f98;*/
   text-decoration: none;
+  box-shadow: 9px 9px 30px rgba(0,0,0, .2);
 }
 
 .login-form-link {
