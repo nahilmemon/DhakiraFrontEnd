@@ -32,11 +32,35 @@
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
+  <div class="modal" id="storyModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+          <div id="story-modal-title">
+            <h2 class="modal-title text-center">At the Gate</h2>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div id="story-modal-body">
+            <p>Option 1</p>
+            <img class="story-image" src="https://static.pexels.com/photos/10678/road-travel-fence-empty-10678.jpg">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<hr>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
+  <div class="modal-dialog">
+    <div class="modal-content">
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
 </div> <!-- /.modal -->
 
 
@@ -155,6 +179,8 @@
         <h2>Member Sign Up Requests</h2>
         <p>Below is a list of people who would like to join Dhakira's Montage project. Check the names of the people you would like to give access to site. Cross the names of the people that you would not like to give access to the site. Click submit to finalize your decisions.</p>
 
+        <hr>
+
 <a data-toggle="modal" class="btn btn-info" href="remote.html" data-target="#myModal">Click me !</a>
 
 
@@ -165,6 +191,32 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#storyModal" data-whatever="@getbootstrap"  data-description="This is the...">Open modal for @getbootstrap</button>
 ...more buttons...
 <!-- Stop -->
+
+<hr>
+
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center" id="storyModalButton000001">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/10678/road-travel-fence-empty-10678.jpg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">At the Gate</h4>
+          </div>
+        </div>
+      </article>
+
+      <article class="col-sm-4 col-xs-12">
+        <div class="panel panel-default text-center" id="storyModalButton000002">
+          <div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">
+            <img class="story-image" src="https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg">
+          </div>
+          <div class="panel-heading" data-toggle="modal" data-target="#storyModal">
+            <h4 class="story-title">Row, Row, Row Your Boat</h4>
+          </div>
+        </div>
+      </article>
+
+
       </article>
     </section>
 
