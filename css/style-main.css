@@ -511,10 +511,6 @@ footer {
   margin-bottom: 10px;
 }
 
-.modal-close {
-
-}
-
 .panel {
   /*border: 1px solid #4bafc9;*/
   border-radius:0 !important;
@@ -672,4 +668,9 @@ section > section > div > a.label {
 section#stories > article > div.panel > div.panel-body > i.sound.icon {
   color: #4bafc9;
   margin: auto;
+}
+
+h3.modal-body-title,
+h4.modal-body-title {
+  font-style: italic;
 }
