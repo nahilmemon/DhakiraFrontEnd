@@ -667,3 +667,9 @@ section > section > div > div.menu > div.scrolling.menu > div.item {
 section > section > div > a.label {
   color: #818181;
 }
+
+/* Panel Sound Icon */
+section#stories > article > div.panel > div.panel-body > i.sound.icon {
+  color: #4bafc9;
+  margin: auto;
+}
