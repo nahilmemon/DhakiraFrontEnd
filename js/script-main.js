@@ -39,7 +39,6 @@ $(document).ready(function(){
     $("#story-modal-title").append('<h2 class="modal-title text-center">Row, Row, Row Your Boat</h2>');
     $("#story-modal-body").append('<p>Story 2</p><img class="story-image" src="https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg">');
   });
-
 })
 
 // Gets called whenever the window is resized
@@ -57,68 +56,3 @@ $(window).resize(function(){
   $("iframe.panel-video").height(panelHeight);
   $("iframe.panel-video").width($(".panel-body-height").width());
 });
-
-
-/*
-// For manipulating the state of the YouTube videos
-function callPlayer(func, args) {
-  var iframes = document.getElementsByTagName('iframe');
-  for (var i = 0; i < iframes.length; ++i) {
-    if (iframes[i]) {
-      var src = iframes[i].getAttribute('src');
-      if (src) {
-        if (src.indexOf('youtube.com/embed') != -1) {
-          iframes[i].contentWindow.postMessage(JSON.stringify({
-            'event': 'command',
-            'func': func,
-            'args': args || []
-          }), "*");
-        }
-      }
-    }
-  }
-}
-
-$( "#target" ).click(function() {
-  alert( "Handler for .click() called." );
-});
-
-if ()
-$(document).click(function() {
-
-});
-
-
-// To maipulate the state the YouTube iframes
-// 1. This loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
-tag.id = 'iframe-demo';
-tag.src = 'https://www.youtube.com/iframe_api';
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-// 2. This function creates an <iframe> (and YouTube player)
-// after the API code downloads.
-var player;
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('existing-iframe-example', {
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-}
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-  event.target.playVideo();
-  console.log("Ready to play. Playing.")
-}
-// 5. This functions pauses the video
-function pauseVideo() {
-  player.pauseVideo();
-}
-// 6. If the user clicks anywhere, then call the pause video function
-$(document).click(function() {
-  player.pauseVideo();
-});
-
-*/
