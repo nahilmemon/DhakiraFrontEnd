@@ -374,6 +374,22 @@ main {
   max-height: 100%;
 }
 
+li.nav-collapsible-dropdown-list-li,
+ul.dropdown-menu {
+  padding: 0;
+  border-top: none;
+}
+
+nav.navbar {
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+div.navbar-header > button {
+  height: 50px;
+  color: green;
+  padding: 15px !important;
+  margin-right: 0;
+}
 
 .logo-img {
   max-width: 50px;
@@ -381,6 +397,10 @@ main {
 }
 .navbar .navbar-brand {
   padding: 10px !important;
+}
+
+div.navbar-header {
+  height: 70px; /* height of the logo */
 }
 
 .scroll-up .glyphicon {
@@ -670,7 +690,7 @@ section > section > div.ui.multiple.dropdown.col-xs-12.col-md-4 {
 }
 
 /* Panel Sound Icon */
-section#stories > article > div.panel > div.panel-body > i.sound.icon {
+section#stories > article > div.panel > div.panel-body > i.sound-icon-size.icon {
   color: #4bafc9;
   margin: auto;
 }
@@ -720,4 +740,15 @@ h4.modal-body-title {
   padding: 18px;
   background: transparent;
   color: #4bafc9;
+}
+
+.panel-overlay {
+  /*background-color: rgba(0,0,0,0.5);*/
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.translucent-image {
+  opacity: 1;
 }
