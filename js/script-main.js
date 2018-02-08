@@ -18,10 +18,14 @@ $(document).ready(function(){
     .dropdown()
   ;
 
-  // Empty contents of the modal when it gets closed
-  // $('.modal').on('hidden.bs.modal', function(e) {
-  //   $(this).removeData();
-  // });
+  // When the clear filters button is pressed on the homepage,
+  // then reset all the filter dropdowns
+  $('#clear-filters').on('click', function() {
+    console.log("Clearing all homepage filters.")
+    $('#country-filter-dropdown').dropdown('clear');
+    $('#group-filter-dropdown').dropdown('clear');
+    $('#tag-filter-dropdown').dropdown('clear');
+  });
 
   // Stop audio and/or video when the modal closes
   $("#storyModal").on('hidden.bs.modal', function (e) {
@@ -31,16 +35,6 @@ $(document).ready(function(){
     });
     $("#storyModal iframe").attr("src", $("#storyModal iframe").attr("src"));
   });
-
-  // Stop the mini video in the story panel if the user clicks elsewhere on the page
-  $(document).click(function() {
-    console.log("Stopping mini video.");
-    $('iframe').contents().each(function () {
-      this.pause();
-    });
-  });
-
-  //<img class="story-image" src="">
 
   // Change the content inside the story modal based on which story panel is clicked:
   // Story panel 1 content

@@ -17,7 +17,8 @@
   <!-- Semantic UI Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/icon.min.css">
   <!-- Semantic UI Dropdown -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/dropdown.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/dropdown.min.css"> -->
+  <link rel="stylesheet" href="../semantic-ui/UI-Dropdown/dropdown.min.css">
   <!-- Semantic UI Transitions -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/transition.min.css">
   <!-- Semantic UI Flags -->
@@ -177,12 +178,13 @@
       <!-- Search Filters -->
       <section class="row filters-layout">
         <!-- Filter by Country -->
-        <div class="ui multiple dropdown col-xs-12 col-md-4">
+        <div class="ui multiple dropdown col-xs-12 col-md-4" id="country-filter-dropdown">
           <!-- Input -->
           <input type="hidden" name="country-filter">
           <!-- Heading -->
           <i class="marker icon"></i>
-          <span class="text">Filter Stories by Countries</span>
+          <div class="default text">Filter Stories by Countries</div>
+          <i class="dropdown icon"></i>
           <!-- Content Inside the Dropdown Menu -->
           <div class="menu">
             <!-- Search Bar -->
@@ -445,14 +447,14 @@
           </div>
         </div>
 
-
         <!-- Filter by Group -->
-        <div class="ui multiple dropdown col-xs-12 col-md-4">
+        <div class="ui multiple dropdown col-xs-12 col-md-4" id="group-filter-dropdown">
           <!-- Input -->
           <input type="hidden" name="group-filter">
           <!-- Heading -->
           <i class="users icon"></i>
-          <span class="text">Filter Stories by Groups</span>
+          <div class="default text">Filter Stories by Groups</div>
+          <i class="dropdown icon"></i>
           <!-- Content Inside the Dropdown Menu -->
           <div class="menu">
             <!-- Search Bar -->
@@ -489,12 +491,13 @@
         </div>
 
         <!-- Filter by Tag -->
-        <div class="ui multiple dropdown col-xs-12 col-md-4">
+        <div class="ui multiple dropdown col-xs-12 col-md-4" id="tag-filter-dropdown">
           <!-- Input -->
           <input type="hidden" name="tag-filter">
           <!-- Heading -->
           <i class="tags icon"></i>
-          <span class="text">Filter Stories by Tags</span>
+          <div class="default text">Filter Stories by Tags</div>
+          <i class="dropdown icon"></i>
           <!-- Content Inside the Dropdown Menu -->
           <div class="menu">
             <!-- Search Bar -->
@@ -544,6 +547,11 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- Buttons -->
+      <section class="row">
+        <button class="btn btn-default" id="clear-filters" type="clear">Clear Filters</button>
       </section>
     </section> <!-- End of Filter Section -->
 
@@ -740,7 +748,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Semantic UI Individual Components -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.js"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/dropdown.min.js"></script>
+  <!-- Semantic UI Dropdown -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/dropdown.min.js"></script> -->
+  <script src="../semantic-ui/UI-Dropdown/dropdown.min.js"></script>
   <!-- Semantic UI Transitions -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/transition.min.js"></script>
   <!-- Main Custom JS -->
