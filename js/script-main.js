@@ -2,15 +2,12 @@ $(document).ready(function(){
   // Make sure the story card tiles are always the same dimensions
   var panelHeight = $(".panel-body-height").width()*0.67;
   $(".panel-body-height").height(panelHeight);
-  var carouselImageHeight = $(".carousel-img").width()*0.67;
+  var carouselImageHeight = $("div.carousel-inner > div.item.active").width()*0.67;
   $(".carousel-img").height(carouselImageHeight);
   // Change the font-size of the sound icon in the story panel
   // according to the size of the story panel
   var soundIconFontSize = panelHeight*0.8;
   $("section#stories > article > div.panel > div.panel-body > i.sound-icon-size.icon").css("font-size", soundIconFontSize);
-  // Change the size of the YouTube iframe based on panel size
-  $("iframe.panel-video").height(panelHeight);
-  $("iframe.panel-video").width($(".panel-body-height").width());
 
   // Semantic UI Dropdown
   // This allows the filtering dropdowns on the hompage to work.
@@ -181,13 +178,10 @@ $(window).resize(function(){
   // Make sure the story card tiles are always the same dimensions
   var panelHeight = $(".panel-body-height").width()*0.67;
   $(".panel-body-height").height(panelHeight);
-  var carouselImageHeight = $(".carousel-img").width()*0.67;
+  var carouselImageHeight = $("div.carousel-inner > div.item.active").width()*0.67;
   $(".carousel-img").height(carouselImageHeight);
   // Change the font-size of the sound and film icons in the story panel
   // according to the size of the story panel
   var soundIconFontSize = panelHeight*0.8;
   $("section#stories > article > div.panel > div.panel-body > i.sound-icon-size.icon").css("font-size", soundIconFontSize);
-  // Change the size of the YouTube iframe based on panel size
-  $("iframe.panel-video").height(panelHeight);
-  $("iframe.panel-video").width($(".panel-body-height").width());
 });
