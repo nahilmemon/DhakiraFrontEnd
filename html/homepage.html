@@ -183,9 +183,8 @@
           <input type="hidden" name="country-filter">
           <!-- Heading -->
           <i class="marker icon"></i>
-          <div class="default text">Filter Stories by Countries</div>
+          <div class="default text">Filter Stories by Country</div>
           <i class="dropdown icon"></i>
-          <!-- Content Inside the Dropdown Menu -->
           <div class="menu">
             <!-- Search Bar -->
             <div class="ui icon search input">
@@ -453,7 +452,7 @@
           <input type="hidden" name="group-filter">
           <!-- Heading -->
           <i class="users icon"></i>
-          <div class="default text">Filter Stories by Groups</div>
+          <div class="default text">Filter Stories by Group</div>
           <i class="dropdown icon"></i>
           <!-- Content Inside the Dropdown Menu -->
           <div class="menu">
@@ -496,7 +495,7 @@
           <input type="hidden" name="tag-filter">
           <!-- Heading -->
           <i class="tags icon"></i>
-          <div class="default text">Filter Stories by Tags</div>
+          <div class="default text">Filter Stories by Tag</div>
           <i class="dropdown icon"></i>
           <!-- Content Inside the Dropdown Menu -->
           <div class="menu">
@@ -551,7 +550,26 @@
 
       <!-- Buttons -->
       <section class="row">
-        <button class="btn btn-default" id="clear-filters" type="clear">Clear Filters</button>
+        <!-- Search Mode -->
+        <div class="col-xs-12 search-mode-div" id="homepage-search-mode">
+          <h4 class="radio-inline-heading">Search Mode:</h4>
+          <div class="radio">
+            <label class="searchModeRadios">
+              <input type="radio" name="searchModeRadios" id="homepage-search-mode-and" value="homepage-search-option-and" checked>
+            AND mode
+            </label>
+          </div>
+          <div class="radio">
+            <label class="radio-inline searchModeRadios">
+              <input type="radio" name="searchModeRadios" id="homepage-search-mode-or" value="homepage-search-option-or">
+            OR mode
+            </label>
+          </div>
+        </div>
+        <div class="col-xs-12 text-center">
+          <button class="search-filter-button" id="submit-homepage-filters" type="clear">Submit Filters</button>
+          <button class="search-filter-button" id="clear-homepage-filters" type="clear">Clear Filters</button>
+        </div>
       </section>
     </section> <!-- End of Filter Section -->
 

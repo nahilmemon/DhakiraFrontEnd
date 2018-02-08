@@ -20,11 +20,28 @@ $(document).ready(function(){
 
   // When the clear filters button is pressed on the homepage,
   // then reset all the filter dropdowns
-  $('#clear-filters').on('click', function() {
-    console.log("Clearing all homepage filters.")
+  $('#clear-homepage-filters').on('click', function() {
+    console.log("Clearing all selected homepage filters.")
     $('#country-filter-dropdown').dropdown('clear');
     $('#group-filter-dropdown').dropdown('clear');
     $('#tag-filter-dropdown').dropdown('clear');
+  });
+
+  // When the submit filters button is pressed on the homepage,
+  // then obtain all the filters that were selected
+  // and do something with them...
+  $('#submit-homepage-filters').on('click', function() {
+    // Retrieving filters
+    console.log("Retrieving all selected homepage filters.")
+    var countryFiltersSelected = $('#country-filter-dropdown').dropdown('get value');
+    var groupFiltersSelected = $('#group-filter-dropdown').dropdown('get value');
+    var tagFiltersSelected = $('#tag-filter-dropdown').dropdown('get value');
+    console.log(countryFiltersSelected);
+    console.log(groupFiltersSelected);
+    console.log(tagFiltersSelected);
+    // Retrieving search mode
+    var searchModeHomepage = $("input[name='searchModeRadios']:checked").val();
+    console.log(searchModeHomepage);
   });
 
   // Stop audio and/or video when the modal closes

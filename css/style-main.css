@@ -664,6 +664,11 @@ section > section > div > a.label {
   color: #818181;
 }
 
+section > section > div.ui.multiple.dropdown.col-xs-12.col-md-4 {
+  border: solid 2px #4bafc9;
+  border-radius: 5px;
+}
+
 /* Panel Sound Icon */
 section#stories > article > div.panel > div.panel-body > i.sound.icon {
   color: #4bafc9;
@@ -673,4 +678,46 @@ section#stories > article > div.panel > div.panel-body > i.sound.icon {
 h3.modal-body-title,
 h4.modal-body-title {
   font-style: italic;
+}
+
+.search-mode-div {
+  padding-left: 30px;
+}
+
+.radio-inline-heading {
+  font-weight: 600;
+}
+
+@media (min-width: 576px){
+  .radio {
+  display: inline;
+  padding-left: 10px;
+  }
+  .radio-inline-heading {
+    display: inline;
+  }
+  .search-mode-div {
+    padding-top: 15px;
+  }
+}
+
+.search-filter-button {
+  color: #ffffff;
+  background: #4bafc9;
+  padding: 20px;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  margin: 1em 0;
+  transition: box-shadow 0.5s;
+  margin-top: 2px;
+}
+
+#clear-homepage-filters {
+  border-color: #4bafc9;
+  border-style: solid;
+  border-width: 2px;
+  padding: 18px;
+  background: transparent;
+  color: #4bafc9;
 }
