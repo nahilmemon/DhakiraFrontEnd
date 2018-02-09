@@ -10,26 +10,53 @@
   <!-- Tell the browser how to display the page initially when it loads on a mobile device. -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap Framework -->
+  <!-- CSS Frameworks -->
+  <!-- Bootstrap Frameworks -->
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Bootstrap Table -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
   <!-- Semantic UI Individual Components -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css"> -->
   <!-- Semantic UI Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/icon.min.css">
   <!-- Semantic UI Dropdown -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/dropdown.min.css">
+  <link rel="stylesheet" href="../semantic-ui/UI-Dropdown/dropdown.min.css">
   <!-- Semantic UI Transitions -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/transition.min.css">
-  <!-- Link to Google Fonts -->
+  <!-- Semantic UI Flags -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/flag.min.css">
+  <!-- Google Fonts -->
   <!-- Raleway -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext" rel="stylesheet">
-
-  <!-- Link to CSS files -->
-  <!-- Design Stylesheet -->
+  <!-- Custom CSS files -->
+  <!-- Main Design Stylesheet -->
   <link rel="stylesheet" href="../css/style-main.css">
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+  <!-- Alert Modal - asks user to confirm their choices and actions -->
+  <div class="modal" id="alertModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+          <div id="alert-modal-title">
+            <h2 class="modal-title text-center">Confirmation</h2>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div id="alert-modal-body">
+            <h3>Are you sure...</h3>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"  id="yes-to-alert" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-default" id= "no-to-alert" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Go Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Fixed navbar -->
   <nav class="navbar navbar-default navbar-fixed-top">
@@ -90,12 +117,50 @@
       <h1>Manage Members</h1>
     </header>
 
+    <!-- Add Members Section -->
     <section class="main-padding container-fluid">
       <article class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-        <h2>Member Sign Up Requests</h2>
-        <p>Below is a list of people who would like to join Dhakira's Montage project. Check the names of the people you would like to give access to site. Cross the names of the people that you would not like to give access to the site. Click submit to finalize your decisions.</p>
-      </article>
+        <h2>Add New Members to the Montage Database</h2>
+        <p>Below is a list of people who would like to join Dhakira's Montage project. Check the names of the people you would like to give access to this site. Click submit to finalize your decisions.</p>
+        <div class="table-responsive">
+          <table
+            class="table table-hover"
+            id="add-members-table"
+            data-search="true"
+            data-click-to-select="true"
+            data-mobile-responsive="true"
+            data-show-columns="true"
+            data-show-toggle="true"></table>
+        </div>
 
+        <div class="col-xs-12 text-center">
+          <button class="search-table-button" id="submit-add-members" type="submit" data-toggle="modal" data-target="#alertModal">Submit</button>
+          <button class="search-table-button" id="reset-add-members" type="reset">Reset</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Delete Members Section -->
+    <section class="main-padding container-fluid">
+      <article class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+        <h2>Delete Old Members from the Montage Database</h2>
+        <p>Below is a list of people currently a part of Dhakira's Montage project. Check the names of the people you would like to delete from the database and remove access to this site. Click submit to finalize your decisions.</p>
+        <div class="table-responsive">
+          <table
+            class="table table-hover"
+            id="delete-members-table"
+            data-search="true"
+            data-click-to-select="true"
+            data-mobile-responsive="true"
+            data-show-columns="true"
+            data-show-toggle="true"></table>
+        </div>
+
+        <div class="col-xs-12 text-center">
+          <button class="search-table-button" id="submit-delete-members" type="submit" data-toggle="modal" data-target="#alertModal">Submit</button>
+          <button class="search-table-button" id="reset-delete-members" type="reset">Reset</button>
+        </div>
+      </article>
     </section>
 
   </main>
@@ -111,19 +176,24 @@
    </p>
   </footer>
 
-    <!-- Links to JS files -->
+  <!-- Links to JS files -->
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!-- Bootstrap Framework -->
+  <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Bootstrap Table -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-en-US.min.js"></script>
   <!-- Semantic UI Individual Components -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.js"></script> -->
   <!-- Semantic UI Dropdown -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/dropdown.min.js"></script>
+  <script src="../semantic-ui/UI-Dropdown/dropdown.min.js"></script>
   <!-- Semantic UI Transitions -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/transition.min.js"></script>
+  <!-- Custom JS Files -->
   <!-- Main Custom JS -->
   <script src="../js/script-main.js"></script>
-
+  <!-- Manage Members Table JS -->
+  <script src="../js/manage-members-table.js"></script>
 </body>
 </html>

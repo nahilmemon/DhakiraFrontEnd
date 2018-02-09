@@ -751,7 +751,8 @@ h4.modal-body-title {
   }
 }
 
-.search-filter-button {
+.search-filter-button,
+.search-table-button {
   color: #ffffff;
   background: #4bafc9;
   padding: 20px;
@@ -763,7 +764,9 @@ h4.modal-body-title {
   margin-top: 2px;
 }
 
-#clear-homepage-filters {
+#clear-homepage-filters,
+#reset-add-members,
+#reset-delete-members {
   border-color: #4bafc9;
   border-style: solid;
   border-width: 2px;
@@ -786,4 +789,26 @@ h4.modal-body-title {
 section#stories {
   padding-top: 40px;
   padding-bottom: 40px;
+}
+
+div.radio > label.searchModeRadios > input {
+  position: relative;
+}
+
+/* Tables */
+/* To fix a firefox issue for responsive tables */
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+div.table-responsive {
+  margin-bottom: 10px;
+}
+
+.fixed-table-container tbody .selected td {
+  background-color: #e9f5f8;
+}
+
+.fixed-table-container tbody tr:hover {
+  background-color: #e9f5f8;
 }
