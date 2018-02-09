@@ -220,14 +220,15 @@ main {
   background-color: #4bafc9;
 }
 .carousel-inner {
-  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 .carousel-indicators{
   bottom: 0;
 }
-
+section#featured > div.row {
+  margin: 0;
+}
 .carousel-caption {
   width: 100%;
   margin-left: auto;
@@ -238,7 +239,7 @@ main {
   background-color: #00000099;
 }
 .item h4 {
-  font-size: 19px;
+  /*font-size: 19px;*/
   line-height: 1.375em;
   font-weight: 400;
   font-style: italic;
@@ -249,11 +250,28 @@ main {
 .item span {
   font-style: normal;
 }
+.carousel-caption > p {
+  font-size: 1em;
+}
+
+@media screen and (max-width: 540px) {
+  .carousel-caption {
+    padding-top: 0;
+  }
+}
 
 section#featured,
 section#featured > div > div {
   padding: 0;
 }
+
+/*section#featured,
+section#featured > div.row,
+section#featured > div.row > div#myCarouselContainer {
+  width: 99vw;
+  margin: 0;
+  padding: 0;
+}*/
 
 .panel {
   /*border: 1px solid #4bafc9;*/
