@@ -191,21 +191,6 @@ $(document).ready(function(){
 });
 
 // Gets called whenever the window is resized
-$(window).resize(function(){
-  // If the screen width is too small,
-  // then change the table entries to card view
-  // if (window.innerWidth < 500) {
-  //   console.log("tiny view");
-  //   $("table#add-members-table").data("card-view", true);
-  //   console.log($("table#add-members-table").data());
-  // } else { // else rest to normal table view
-  //   console.log("large view");
-  //   $("table#add-members-table").data("card-view", false);
-  //   console.log($("table#add-members-table").data());
-  // }
-});
+$(window).on('resize', function(event){
 
-  // // Enable sorting columns for the add members table
-  // $.extend($.fn.bootstrapTable.columnDefaults, {
-  //   sortable: true
-  // });
+});
