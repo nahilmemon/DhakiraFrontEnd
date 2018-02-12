@@ -870,3 +870,15 @@ div.table-responsive {
     width: calc(100vw - (100vw - 68px)/3 - 68px - 30px);
   }
 }
+
+/* Get rid of the padding on the
+page so that table info remains
+clear and not squashed */
+#create-group-form {
+  padding: 0;
+}
+
+#add-members-table-1,
+#potential-group-table-2 {
+  font-size: 0.9em;
+}

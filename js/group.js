@@ -1,7 +1,6 @@
 // --- Global Variables --- //
 // Table Breakpoint
 var tableBreakpointForCardView = 768; // bootstrap breakpoint (below 768 = extra small devices)
-var tableBreakpointForMobileHeaders = 425;
 // Table 1 Variables
 var allCheckedTable1 = true; // for the state of the select/unselect all button
 var $addMembersTable1 = $('#add-members-table-1');
@@ -98,8 +97,6 @@ $(document).ready(function(){
   // Else, hide this button, since it shows up by itself in table view
   toggleSelectAllRowsButtonOnMobile($selectButtonTable1, $addMembersTable1, allCheckedTable1, tableBreakpointForCardView);
   toggleSelectAllRowsButtonOnMobile($selectButtonTable2, $potentionalGroupTable2, allCheckedTable2, tableBreakpointForCardView);
-  turnOffTableHeaderOnMobile($addMembersTable1, tableBreakpointForMobileHeaders);
-  turnOffTableHeaderOnMobile($potentionalGroupTable2, tableBreakpointForMobileHeaders);
 
   // Placeholder function for when the user clicks the create group button to submit the form
   $('#create-group-button').on('click', function(){
@@ -113,8 +110,6 @@ $(window).on('resize', function(event){
   // Else, hide this button, since it shows up by itself in table view
   toggleSelectAllRowsButtonOnMobile($selectButtonTable1, $addMembersTable1, allCheckedTable1, tableBreakpointForCardView);
   toggleSelectAllRowsButtonOnMobile($selectButtonTable2, $potentionalGroupTable2, allCheckedTable2, tableBreakpointForCardView);
-  turnOffTableHeaderOnMobile($addMembersTable1, tableBreakpointForMobileHeaders);
-  turnOffTableHeaderOnMobile($potentionalGroupTable2, tableBreakpointForMobileHeaders);
 });
 
 // This functions transfers the rows selected in table 1 to table 2
@@ -181,31 +176,5 @@ function toggleSelectAllRowsButtonOnMobile(selectButton, table, checkButtonState
     });
   } else { // else hide the select/unselect all button on desktop view
     selectButton.css('display','none');
-  }
-}
-
-// This function toggles the display of the select/unselect all button depending on
-// whether the screen is small or large
-// For small screens, this function also switches between the select and unselect
-// state of the select all button (since this button can't show up in card view by itself)
-function turnOffTableHeaderOnMobile(table, windowThreshold) {
-  var dataAttribute = table.get();
-  // If on mobile view, show the select/unselect all button
-  if (window.innerWidth < windowThreshold) {
-    $.each(dataAttribute, function(key) {
-      var t = $(this).attr('show-header', false);
-      alert($(this).attr('show-header'));
-    });
-    table.bootstrapTable('destroy').bootstrapTable('refreshOptions', {});
-
-    // table.attr('show-header', false);
-    // table.bootstrapTable('refresh');
-  } else { // else hide the select/unselect all button on desktop view
-    table.bootstrapTable('destroy').bootstrapTable('refreshOptions', {showHeader: true});
-    // $.each(dataAttribute, function(key) {
-    //   var t = $(this).attr('show-header', true);
-    // });
-    // table.attr('show-header', true);
-    // table.bootstrapTable('refresh');
   }
 }
