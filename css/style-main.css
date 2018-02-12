@@ -851,7 +851,7 @@ div.table-responsive {
   /* equivalent to 16px */
   line-height: 1.25;
   /* equivalent to 20px */
-  width: calc(100vw - 68px - 30px - 2px - 105px - 10px);
+  width: calc(100vw - 68px - 30px - 2px - 116px - 10px);
 }
 /* For small devices */
 @media screen and (min-width: 768px) {

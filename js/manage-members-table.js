@@ -66,20 +66,14 @@ $(document).ready(function(){
     $deleteMembersTable2.bootstrapTable({data: data});
   });
 
-  // // When the user clicks the add members to montage button,
-  // // then delete those rows from the add members table 1
-  // // and add those rows to the delete members table 2
-  // $('#add-members').on('click', function() {
-  //   console.log("Transferring selected members from table 1 to table 2.");
-  //   transferSelectedRowsFromTable1ToTable2($addMembersTable1, $deleteMembersTable2);
-  // });
-
   // When the submit add members button is pressed,
   // then obtain all the choices that were selected
   // and do something with them...
   $('#add-members').on('click', function() {
-    // Empty the contents of the body div of the alert modal
+    // Empty the contents of the body and footer divs of the alert modal
     $("#alert-modal-body").empty();
+    // Replace alert modal's footer with correctly labeled button
+    $("#yes-to-alert").text("Add Members");
     // Retrieving filters
     console.log("Retrieving all selected choices from the add members table.");
     var addMembersSelected = $addMembersTable1.bootstrapTable('getSelections');
@@ -91,13 +85,6 @@ $(document).ready(function(){
     alertBodyString += "</ul>";
     // Add new desired content to the body div of the alert modal
     $("#alert-modal-body").append(alertBodyString);
-
-    // If the user says no,
-    // then reset all the choices selected in the add members table
-    $('#no-to-alert').on('click', function() {
-      console.log("Clearing all selected choices from the add members table.");
-      $addMembersTable1.bootstrapTable('uncheckAll');
-    });
 
     // If the user says yes, then delete them from the table and do something
     $(function () {
@@ -117,21 +104,6 @@ $(document).ready(function(){
         // Step 4: Unselect all choices.
         $addMembersTable1.bootstrapTable('uncheckAll');
         $deleteMembersTable2.bootstrapTable('uncheckAll');
-        // // Add the selected rows to the delete table
-        // var row = $.map($addMembersTable1.bootstrapTable('getSelections'), function (row) {
-        //   return row;
-        // });
-        // $deleteMembersTable2.bootstrapTable('append', row);
-        // // Unselect the added rows
-        // $deleteMembersTable2.bootstrapTable('uncheckAll');
-        // // Remove the selected rows from the add table
-        // var ids = $.map($addMembersTable1.bootstrapTable('getSelections'), function (row) {
-        //   return row.id;
-        // });
-        // $addMembersTable1.bootstrapTable('remove', {
-        //   field: 'id',
-        //   values: ids
-        // });
       });
     });
   });
@@ -142,6 +114,8 @@ $(document).ready(function(){
   $('#delete-members').on('click', function() {
     // Empty the contents of the body div of the alert modal
     $("#alert-modal-body").empty();
+    // Replace alert modal's footer with correctly labeled button
+    $("#yes-to-alert").text("Delete Members");
     // Retrieving filters
     console.log("Retrieving all selected choices from the delete members table.");
     var deleteMembersSelected = $deleteMembersTable2.bootstrapTable('getSelections');
@@ -153,13 +127,6 @@ $(document).ready(function(){
     alertBodyString += "</ul>";
     // Add new desired content to the body div of the alert modal
     $("#alert-modal-body").append(alertBodyString);
-
-    // If the user says no,
-    // then reset all the choices selected in the add members table
-    $('#no-to-alert').on('click', function() {
-      console.log("Clearing all selected choices from the delete members table.");
-      $deleteMembersTable2.bootstrapTable('uncheckAll');
-    });
 
     // If the user says yes, then delete them from the table and do something
     $(function () {
@@ -174,15 +141,6 @@ $(document).ready(function(){
           field: 'id',
           values: ids
         });
-        // Step 4: Unselect all choices.
-        // $deleteMembersTable2.bootstrapTable('uncheckAll');
-        // var ids = $.map($deleteMembersTable2.bootstrapTable('getSelections'), function (row) {
-        //   return row.id;
-        // });
-        // $deleteMembersTable2.bootstrapTable('remove', {
-        //   field: 'id',
-        //   values: ids
-        // });
       });
     });
   });
