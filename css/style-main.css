@@ -7,7 +7,7 @@
 
 /* Establishing font-sizes and line-heights, etc.*/
 /* Body */
-body, caption, th, td, input, textarea, select, option, legend, fieldset, h1, h2, h3, h4, h5, h6 {
+body, caption, th, td, input, textarea, select, option, legend, fieldset, h1, h2, h3, h4, h5, h6, .btn {
   font-size-adjust: 0.5;
 }
 
@@ -17,7 +17,7 @@ body {
   color: #818181;
 }
 
-nav, main, footer {
+nav, main, footer, .btn {
   font-size: 1em;
   /* equivalent to 16px */
   line-height: 1.25;
@@ -824,7 +824,7 @@ div.table-responsive {
     right: 0;
     min-width: 100%;
     min-height: 100%;
-    font-size: 100px;
+    /*font-size: 100px;*/
     text-align: right;
     filter: alpha(opacity=0);
     opacity: 0;
@@ -846,6 +846,10 @@ div.table-responsive {
 
 /* For extra small devices */
 .fixed-table-toolbar .search input {
+  font-size: 1em;
+  /* equivalent to 16px */
+  line-height: 1.25;
+  /* equivalent to 20px */
   width: calc(100vw - 68px - 30px - 2px - 105px - 10px);
 }
 /* For small devices */
