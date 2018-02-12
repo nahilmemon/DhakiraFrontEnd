@@ -876,11 +876,13 @@ div.table-responsive {
 page so that table info remains
 clear and not squashed */
 @media screen and (max-width: 425px) {
-  #create-group-form {
+  #create-group-form,
+  #manage-members-form {
     padding: 0;
   }
   #add-members-table-1,
-  #potential-group-table-2 {
+  #potential-group-table-2,
+  #delete-members-table-2 {
     font-size: 0.9em;
   }
 }

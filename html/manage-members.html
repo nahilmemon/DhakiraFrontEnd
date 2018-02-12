@@ -117,56 +117,80 @@
       <h1>Manage Members</h1>
     </header>
 
-    <!-- Add Members Section -->
-    <section class="main-padding container-fluid">
-      <article class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-        <h2>Add New Members to the Montage Database</h2>
-        <p>Below is a list of people who would like to join Dhakira's Montage project. Check the names of the people you would like to give access to this site. Click submit to finalize your decisions.</p>
-        <div class="table-responsive">
+    <section class="main-padding container-fluid" id="manage-members-form">
+      <!-- Add Members Section -->
+      <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+        <h3>Add New Members to the Montage Database</h3>
+        <p>Below is a list of people who would like to join Dhakira's Montage project. Check the names of the people you would like to give access to this site. Click "Add to Montage" to finalize your decisions.</p>
+        <!-- Table Container -->
+        <div class="table-responsive" id="add-members-table-container-1">
+          <!-- Table Toolbar -->
+          <div id="toolbar-table-1" class="btn-group">
+            <button class="btn btn-default" id="select-button-table-1" type="checkbox">Select All</button>
+          </div>
+          <!-- Table -->
           <table
-            class="table table-hover"
-            id="add-members-table"
+            class="table table-responsive"
+            id="add-members-table-1"
             data-search="true"
             data-click-to-select="true"
-            data-show-columns="true"
-            data-show-toggle="true"
             data-mobile-responsive="true"
             data-check-on-init="true"
-            data-min-width="700"
-          ></table>
+            data-min-width="767"
+            data-toolbar="#toolbar-table-1">
+              <thead>
+              <tr>
+                <th data-checkbox="true"></th>
+                <th data-field="id" data-visible="false" data-sortable="true">ID</th>
+                <th data-field="firstName" data-sortable="true">First Name</th>
+                <th data-field="lastName" data-sortable="true">Last Name</th>
+                <th data-field="email" data-sortable="true">email</th>
+              </tr>
+              </thead>
+          </table>
         </div>
 
         <div class="col-xs-12 text-center">
-          <button class="search-table-button" id="submit-add-members" type="submit" data-toggle="modal" data-target="#alertModal">Submit</button>
-          <button class="search-table-button" id="reset-add-members" type="reset">Reset</button>
+          <button class="search-table-button" id="add-members" type="add" data-toggle="modal" data-target="#alertModal">Add Members to Montage</button>
         </div>
-      </article>
-    </section>
+      </section>
 
-    <!-- Delete Members Section -->
-    <section class="main-padding container-fluid">
-      <article class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-        <h2>Delete Old Members from the Montage Database</h2>
-        <p>Below is a list of people currently a part of Dhakira's Montage project. Check the names of the people you would like to delete from the database and remove access to this site. Click submit to finalize your decisions.</p>
+      <!-- Delete Members Section -->
+      <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+        <h3>Delete Old Members from the Montage Database</h3>
+        <p>Below is a list of people currently a part of Dhakira's Montage project. Check the names of the people you would like to delete from the database and remove access to this site. Click "Delete from Montage" to finalize your decisions.</p>
+        <!-- Table Container -->
         <div class="table-responsive">
+          <!-- Table Toolbar -->
+          <div id="toolbar-table-2" class="btn-group">
+            <button class="btn btn-default" id="select-button-table-2" type="reset">Select All</button>
+          </div>
+          <!-- Table -->
           <table
-            class="table table-hover"
-            id="delete-members-table"
+            class="table table-responsive"
+            id="delete-members-table-2"
             data-search="true"
             data-click-to-select="true"
-            data-show-columns="true"
-            data-show-toggle="true"
             data-mobile-responsive="true"
             data-check-on-init="true"
-            data-min-width="700"
-            ></table>
+            data-min-width="768"
+            data-toolbar="#toolbar-table-2">
+              <thead>
+              <tr>
+                <th data-checkbox="true"></th>
+                <th data-field="id" data-visible="false" data-sortable="true">ID</th>
+                <th data-field="firstName" data-sortable="true">First Name</th>
+                <th data-field="lastName" data-sortable="true">Last Name</th>
+                <th data-field="email" data-sortable="true">email</th>
+              </tr>
+              </thead>
+          </table>
         </div>
 
         <div class="col-xs-12 text-center">
-          <button class="search-table-button" id="submit-delete-members" type="submit" data-toggle="modal" data-target="#alertModal">Submit</button>
-          <button class="search-table-button" id="reset-delete-members" type="reset">Reset</button>
+          <button class="search-table-button" id="delete-members" type="delete" data-toggle="modal" data-target="#alertModal">Delete from Montage</button>
         </div>
-      </article>
+      </section>
     </section>
 
   </main>
