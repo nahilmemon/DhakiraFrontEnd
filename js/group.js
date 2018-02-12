@@ -1,6 +1,6 @@
 // --- Global Variables --- //
 // Table Breakpoint
-var tableBreakpointForCardView = 701;
+var tableBreakpointForCardView = 768; // bootstrap breakpoint (below 768 = extra small devices)
 // Table 1 Variables
 var allCheckedTable1 = true; // for the state of the select/unselect all button
 var $addMembersTable1 = $('#add-members-table-1');

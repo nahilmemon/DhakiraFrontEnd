@@ -844,23 +844,24 @@ div.table-responsive {
     vertical-align: bottom;
 }
 
+/* For extra small devices */
 .fixed-table-toolbar .search input {
   width: calc(100vw - 68px - 30px - 2px - 105px - 10px);
 }
-
-@media screen and (min-width: 701px) {
-  .fixed-table-toolbar .search input {
-    width: calc(100vw - 68px - 30px - 2px);
-  }
-}
-
+/* For small devices */
 @media screen and (min-width: 768px) {
   .fixed-table-toolbar .search input {
     width: calc(100vw - (100vw - 68px)/6 - 68px - 30px);
   }
 }
-
+/* For medium devices*/
 @media screen and (min-width: 992px) {
+  .fixed-table-toolbar .search input {
+    width: calc(100vw - (100vw - 68px)/6 - 68px - 30px);
+  }
+}
+/* For large devices*/
+@media screen and (min-width: 1200px) {
   .fixed-table-toolbar .search input {
     width: calc(100vw - (100vw - 68px)/3 - 68px - 30px);
   }
