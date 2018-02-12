@@ -865,3 +865,9 @@ div.table-responsive {
     width: calc(100vw - (100vw - 68px)/3 - 68px - 30px);
   }
 }
+
+/* Hide group forms by default */
+#create-group-form,
+#edit-group-form {
+  display: none;
+}
