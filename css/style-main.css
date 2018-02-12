@@ -623,7 +623,6 @@ footer {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   outline: none;
-  color: #474747;
   border-radius: 4px;
 }
 
@@ -766,7 +765,8 @@ h4.modal-body-title {
 
 #clear-homepage-filters,
 #reset-add-members,
-#reset-delete-members {
+#reset-delete-members,
+.inverted-button {
   border-color: #4bafc9;
   border-style: solid;
   border-width: 2px;
@@ -811,4 +811,57 @@ div.table-responsive {
 
 .fixed-table-container tbody tr:hover {
   background-color: #e9f5f8;
+}
+
+/* Upload a photo */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#img-upload{
+    width: 100%;
+}
+
+
+#toolbar-table-1,
+#toolbar-table-2 {
+    vertical-align: bottom;
+}
+
+.fixed-table-toolbar .search input {
+  width: calc(100vw - 68px - 30px - 2px - 105px - 10px);
+}
+
+@media screen and (min-width: 701px) {
+  .fixed-table-toolbar .search input {
+    width: calc(100vw - 68px - 30px - 2px);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .fixed-table-toolbar .search input {
+    width: calc(100vw - (100vw - 68px)/6 - 68px - 30px);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .fixed-table-toolbar .search input {
+    width: calc(100vw - (100vw - 68px)/3 - 68px - 30px);
+  }
 }
