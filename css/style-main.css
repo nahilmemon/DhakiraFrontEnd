@@ -712,7 +712,8 @@ section > section > div > a.label {
   color: #818181;
 }
 
-section > section > div.ui.multiple.dropdown.col-xs-12.col-md-4 {
+section > section > div.ui.dropdown,
+div.ui.search.input > input {
   border: solid 2px #4bafc9;
   border-radius: 5px;
 }
@@ -883,3 +884,19 @@ clear and not squashed */
     font-size: 0.9em;
   }
 }
+
+#existing-groups-dropdown {
+  padding: 12px;
+}
+
+.ui.dropdown > .dropdown.icon {
+  position: absolute;
+  bottom: 35%;
+  right: 10px;
+}
+
+div.menu,
+div.ui.search.input > input {
+  width: 100%;
+}
+
