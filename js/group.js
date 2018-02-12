@@ -12,23 +12,6 @@ var $selectButtonTable2 = $('div > #select-button-table-2');
 
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
-  // Part A: Selecting which form to display
-  // When the user clicks the create new group form button,
-  // then display the create new group form section
-  $('#show-create-group-form-button').on('click', function() {
-    console.log("Displaying create new group form.");
-    $('#create-group-form').css('display', 'block');
-    $('#select-group-form').css('display', 'none');
-  });
-  // When the user clicks the edit group form button,
-  // then display the edit group form section
-  $('#show-edit-group-form-button').on('click', function() {
-    console.log("Displaying create new group form.");
-    $('#edit-group-form').css('display', 'block');
-    $('#select-group-form').css('display', 'none');
-  });
-
-
   // Populate the add members to group table
   $(function () {
     var data = [
