@@ -9,9 +9,99 @@ var $selectButtonTable1 = $('div > #select-button-table-1');
 var allCheckedTable2 = true;
 var $potentionalGroupTable2 = $('#potential-group-table-2');
 var $selectButtonTable2 = $('div > #select-button-table-2');
+// Dropdown Step 1
+var groupDropdown = $('#existing-groups-dropdown');
+// id: #
+// group name
+// cover photo source
+// list of members in group
+// list of posts...
+var groupMasterData = [
+      {
+        'id': 1,
+        'groupName': 'Ice Cream in the Tropics',
+        'coverPhotoSource': 'https://static.pexels.com/photos/162917/ice-fruit-ice-mixed-ice-cream-sundae-162917.jpeg',
+        'memberIds': [1, 2, 3]
+      }, {
+        'id': 2,
+        'groupName': 'Grenouilles dans les Déserts',
+        'coverPhotoSource': 'https://static.pexels.com/photos/8453/nature-night-frog.jpg',
+        'memberIds': [2, 3, 4, 5]
+      }, {
+        'id': 3,
+        'groupName': 'Edredones',
+        'coverPhotoSource': 'http://handeyemagazine.com/sites/default/files/small_QA006-1.jpg',
+        'memberIds': [3, 4, 5, 6, 7]
+      }, {
+        'id': 4,
+        'groupName': 'Cooking with Grandparents',
+        'coverPhotoSource': 'https://static.pexels.com/photos/6981/food-kitchen-dessert-pie.jpg',
+        'memberIds': [2, 4, 6]
+      }, {
+        'id': 5,
+        'groupName': 'Playing with Wild Animals',
+        'coverPhotoSource': 'https://static.pexels.com/photos/63650/frog-toad-eyes-animal-63650.jpeg',
+        'memberIds': [1, 3, 5, 7]
+      }
+    ];
+
+function showProps(obj, objName) {
+  var result = '';
+  for (var i in obj) {
+    // obj.hasOwnProperty() is used to filter out properties from the object's prototype chain
+    if (obj.hasOwnProperty(i)) {
+      result += objName + '.' + i + ' = ' + obj[i] + '\n';
+    }
+  }
+  return result;
+}
+
+function findById(source, id) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i].id == id) {
+      return source[i];
+    }
+  }
+  throw "Couldn't find object with id: " + id;
+}
 
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
+  $(document).keypress(function(e) {
+      if(e.which == 13) {
+          alert('You pressed enter!');
+      }
+  });
+  // Step 1: Connect dropdown answer to step 2
+  $('#existing-groups-dropdown').on('click', function () {
+    var groupMasterId = groupDropdown.dropdown('get value');
+    if (groupMasterId != "Select Group") {
+      console.log(groupMasterId);
+      var desiredGroupData = findById(groupMasterData, groupMasterId);
+      console.log(desiredGroupData);
+      // var desiredGroupData = $.grep(groupMasterData, function(e){
+      //   return e.id == id;
+      // });
+      // console.log(groupMasterData[groupMasterId].groupName);
+      // Update the name in the input in step 2
+      $("#edit-group-name-input").attr('placeholder', desiredGroupData.groupName);
+      // Update the photo preview in step 3
+      // var imageSource = "";
+      // if (groupNameToEdit == "Ice Cream in the Tropics") {
+      //   imageSource = "https://static.pexels.com/photos/162917/ice-fruit-ice-mixed-ice-cream-sundae-162917.jpeg";
+      // } else if (groupNameToEdit == "Grenouilles dans les Déserts") {
+      //   imageSource = "https://static.pexels.com/photos/8453/nature-night-frog.jpg";
+      // } else if (groupNameToEdit == "Edredones") {
+      //   imageSource = "http://handeyemagazine.com/sites/default/files/small_QA006-1.jpg";
+      // } else if (groupNameToEdit == "Cooking with Grandparents") {
+      //   imageSource = "https://static.pexels.com/photos/6981/food-kitchen-dessert-pie.jpg";
+      // } else if (groupNameToEdit == "Playing with Wild Animals") {
+      //   imageSource = "https://static.pexels.com/photos/63650/frog-toad-eyes-animal-63650.jpeg";
+      // }
+      $("#edit-photo-preview-image").attr('src', desiredGroupData.coverPhotoSource);
+    }
+  });
+
   // Populate the add members to group table
   $(function () {
     var data = [
@@ -30,7 +120,14 @@ $(document).ready(function(){
         'firstName': 'Essa',
         'lastName': 'Mentoryte',
         'email': 'em5632@live.com'
-      },
+      }
+    ];
+    $addMembersTable1.bootstrapTable({data: data});
+  });
+
+  // Populate the delete members from montage table
+  $(function () {
+    var data = [
       {
         'id': 4,
         'firstName': 'Sana',
@@ -56,17 +153,7 @@ $(document).ready(function(){
         'email': 'daryn.i.am@gmail.com'
       }
     ];
-    $addMembersTable1.bootstrapTable({data: data});
-  });
-
-  // Populate the selected group members table
-  $(function () {
-    // Note: this step is necessary for the table to initialize properly
-    // but this creates a row of '-' (undefined strings)
-    var data = [{}];
     $potentionalGroupTable2.bootstrapTable({data: data});
-    // Delete the row of undefined strings
-    $potentionalGroupTable2.bootstrapTable('removeAll');
   });
 
   // When the user clicks the add members to group button,

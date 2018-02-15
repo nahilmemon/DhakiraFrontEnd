@@ -141,19 +141,19 @@
             </div>
             <!-- Actual Selectable Content in the Dropdown Menu -->
             <div class="scrolling menu filter-content-dropdown">
-              <div class="item" data-value="ice-cream-in-the-tropics">
+              <div class="item" data-value="1">
                 Ice Cream in the Tropics
               </div>
-              <div class="item" data-value="grenouilles-dans-les-déserts">
+              <div class="item" data-value="2">
                 Grenouilles dans les Déserts
               </div>
-              <div class="item" data-value="edredones">
+              <div class="item" data-value="3">
                 Edredones
               </div>
-              <div class="item" data-value="cooking-with-grandparents">
+              <div class="item" data-value="4">
                 Cooking with Grandparents
               </div>
-              <div class="item" data-value="playing-with-wild-animals">
+              <div class="item" data-value="5">
                 Playing with Wild Animals
               </div>
             </div>
@@ -162,73 +162,35 @@
 
       </section>
 
-      <!-- Step 1: Input Name -->
+      <!-- Step 2: Input Name -->
       <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-        <h3>Step 1: Create a Name</h3>
-        <p>Please enter a name for your group which is helpfully descriptive of the sort of content that you would like to display.</p>
-        <p><em>Example: Ice Cream in the Tropics</em></p>
+        <h3>Step 2: Edit Group Name</h3>
         <form action="#" class="form-style form-headings">
-          <input type="text" name="group-name" class="input-spacing">
+          <input type="text" name="group-name" class="input-spacing" id="edit-group-name-input">
         </form>
       </section>
 
-      <!-- Step 2: Upload Photo -->
+      <!-- Step 3: Upload Photo -->
       <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-        <h3>Step 2: Upload a Cover Photo</h3>
-        <p>Upload a cover photo for your group. Please try to keep the aspect ratio of the photo 3:2.</p>
+        <h3>Step 3: Edit Group Cover Photo</h3>
         <!-- Upload a photo with a preview using Jasny Bootstrap -->
-        <div class="fileinput fileinput-new" data-provides="fileinput">
+        <div class="fileinput fileinput-new" data-provides="fileinput" id="edit-photo-container">
           <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-            <img src="http://via.placeholder.com/190x140" alt="...">
+            <img src="http://via.placeholder.com/190x140" alt="..." id="edit-photo-preview-image">
           </div>
           <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
           <div>
-            <button class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..." accept="image/*"></button>
+            <button class="btn btn-default btn-file" id="edit-photo-button"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..." accept="image/*"></button>
             <button href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</button>
           </div>
         </div>
       </section>
 
-      <!-- Step 3: Add Members -->
+      <!-- Step 4: Add Members -->
       <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-        <h3>Step 3: Please select new members to add to this group</h3>
-        <p>Below is a list of all the users that are a part of Dhakira's Montage project. Please select people from this list that you would like to add to this group.</p>
-        <div class="table-responsive" id="add-members-table-container-1">
-          <!-- Table Toolbar -->
-          <div id="toolbar-table-1" class="btn-group">
-            <button class="btn btn-default" id="select-button-table-1" type="checkbox">Select All</button>
-          </div>
-          <!-- Table -->
-          <table
-            class="table table-responsive"
-            id="add-members-table-1"
-            data-search="true"
-            data-click-to-select="true"
-            data-mobile-responsive="true"
-            data-check-on-init="true"
-            data-min-width="767"
-            data-toolbar="#toolbar-table-1">
-              <thead>
-              <tr>
-                <th data-checkbox="true"></th>
-                <th data-field="id" data-visible="false" data-sortable="true">ID</th>
-                <th data-field="firstName" data-sortable="true">First Name</th>
-                <th data-field="lastName" data-sortable="true">Last Name</th>
-                <th data-field="email" data-sortable="true">email</th>
-              </tr>
-              </thead>
-          </table>
-        </div>
-        <!-- Buttons -->
-        <div class="col-xs-12 text-center">
-          <button class="search-table-button" id="add-group-members" type="add">Add to Group</button>
-        </div>
-      </section>
-
-      <!-- Step 4: Display Members Selected -->
-      <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-        <h3>Step 4: Review Members Selected</h3>
-        <p>Below is a list of all the users that you have chosen to add to your group. If you would like to add more members, then please go back to step 3. If you are unhappy with some of your choices, then delete the undesired users from the list below.</p>
+        <h3>Step 4: Edit List of Group Members</h3>
+        <p>Below is a list of all the current members of this group. If you would like to remove anyone from the group, select their name and click "Delete from Group". Else, if you would like to add anyone, go to the second table below and select anyone you would like to add and click "Add to Group".</p>
+        <h4>Currently Existing Group Members</h4>
         <!-- Table Container -->
         <div class="table-responsive">
           <!-- Table Toolbar -->
@@ -263,12 +225,47 @@
         </div>
       </section>
 
+      <!-- Step 4: Display Members Selected -->
+      <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+        <h4>Other Members in Montage</h4>
+        <div class="table-responsive" id="add-members-table-container-1">
+          <!-- Table Toolbar -->
+          <div id="toolbar-table-1" class="btn-group">
+            <button class="btn btn-default" id="select-button-table-1" type="checkbox">Select All</button>
+          </div>
+          <!-- Table -->
+          <table
+            class="table table-responsive"
+            id="add-members-table-1"
+            data-search="true"
+            data-click-to-select="true"
+            data-mobile-responsive="true"
+            data-check-on-init="true"
+            data-min-width="767"
+            data-toolbar="#toolbar-table-1">
+              <thead>
+              <tr>
+                <th data-checkbox="true"></th>
+                <th data-field="id" data-visible="false" data-sortable="true">ID</th>
+                <th data-field="firstName" data-sortable="true">First Name</th>
+                <th data-field="lastName" data-sortable="true">Last Name</th>
+                <th data-field="email" data-sortable="true">email</th>
+              </tr>
+              </thead>
+          </table>
+        </div>
+        <!-- Buttons -->
+        <div class="col-xs-12 text-center">
+          <button class="search-table-button" id="add-group-members" type="add">Add to Group</button>
+        </div>
+      </section>
+
       <!-- Step 5: Submit Create Group Form-->
       <section class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-        <h3>Create Your Group</h3>
-        <p>Please review all the choices that you have made above. Once you are satisfied, click the "Create Group" button to continue.</p>
+        <h3>Step 5: Review and Confirm Edit</h3>
+        <p>Please review all the choices that you have made above. Once you are satisfied, click the "Submit Group Edits" button to continue.</p>
         <div class="col-xs-12 text-center">
-          <button class="search-table-button" id="create-group-button" type="submit">Create Group</button>
+          <button class="search-table-button" id="create-group-button" type="submit">Submit Group Edits</button>
         </div>
       </section>
     </section>
