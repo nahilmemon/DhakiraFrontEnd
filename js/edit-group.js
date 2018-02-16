@@ -11,11 +11,6 @@ var $potentionalGroupTable2 = $('#potential-group-table-2');
 var $selectButtonTable2 = $('div > #select-button-table-2');
 // Dropdown Step 1
 var groupDropdown = $('#existing-groups-dropdown');
-// id: #
-// group name
-// cover photo source
-// list of members in group
-// list of posts...
 var groupMasterData = [
       {
         'id': 1,
@@ -45,18 +40,7 @@ var groupMasterData = [
       }
     ];
 
-function showProps(obj, objName) {
-  var result = '';
-  for (var i in obj) {
-    // obj.hasOwnProperty() is used to filter out properties from the object's prototype chain
-    if (obj.hasOwnProperty(i)) {
-      result += objName + '.' + i + ' = ' + obj[i] + '\n';
-    }
-  }
-  return result;
-}
-
-function findById(source, id) {
+function findByIdReturnObject(source, id) {
   for (var i = 0; i < source.length; i++) {
     if (source[i].id == id) {
       return source[i];
@@ -65,69 +49,70 @@ function findById(source, id) {
   throw "Couldn't find object with id: " + id;
 }
 
-// --- When the document is fully loaded --- //
-$(document).ready(function(){
-  $(document).keypress(function(e) {
-      if(e.which == 13) {
-          alert('You pressed enter!');
-      }
-  });
-  // Step 1: Connect dropdown answer to step 2
-  $('#existing-groups-dropdown').on('click', function () {
-    var groupMasterId = groupDropdown.dropdown('get value');
-    if (groupMasterId != "Select Group") {
-      console.log(groupMasterId);
-      var desiredGroupData = findById(groupMasterData, groupMasterId);
-      console.log(desiredGroupData);
-      // var desiredGroupData = $.grep(groupMasterData, function(e){
-      //   return e.id == id;
-      // });
-      // console.log(groupMasterData[groupMasterId].groupName);
-      // Update the name in the input in step 2
-      $("#edit-group-name-input").attr('placeholder', desiredGroupData.groupName);
-      // Update the photo preview in step 3
-      // var imageSource = "";
-      // if (groupNameToEdit == "Ice Cream in the Tropics") {
-      //   imageSource = "https://static.pexels.com/photos/162917/ice-fruit-ice-mixed-ice-cream-sundae-162917.jpeg";
-      // } else if (groupNameToEdit == "Grenouilles dans les Déserts") {
-      //   imageSource = "https://static.pexels.com/photos/8453/nature-night-frog.jpg";
-      // } else if (groupNameToEdit == "Edredones") {
-      //   imageSource = "http://handeyemagazine.com/sites/default/files/small_QA006-1.jpg";
-      // } else if (groupNameToEdit == "Cooking with Grandparents") {
-      //   imageSource = "https://static.pexels.com/photos/6981/food-kitchen-dessert-pie.jpg";
-      // } else if (groupNameToEdit == "Playing with Wild Animals") {
-      //   imageSource = "https://static.pexels.com/photos/63650/frog-toad-eyes-animal-63650.jpeg";
-      // }
-      $("#edit-photo-preview-image").attr('src', desiredGroupData.coverPhotoSource);
+function findByIdReturnIndex(source, id) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i].id == id) {
+      return i;
     }
-  });
+  }
+  throw "Couldn't find object with id: " + id;
+}
 
-  // Populate the add members to group table
-  $(function () {
-    var data = [
+function findByValueReturnIndex(source, value) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i] == value) {
+      return i;
+    }
+  }
+  throw "Couldn't find object with value: " + value;
+}
+
+function deepCopyArray(o) {
+  var output, v, key;
+  output = Array.isArray(o) ? [] : {};
+  for (key in o) {
+    v = o[key];
+    output[key] = (typeof v === "object" && v !== null) ? deepCopyArray(v) : v;
+  }
+  return output;
+}
+
+// function removeOneElementFromArray(array, element) {
+//   const index = array.indexOf(element);
+//   if (index !== -1) {
+//     array.splice(index, 1);
+//   }
+// }
+
+// Create empty table
+function createEmptyTable(table) {
+  // Note: this step is necessary for the table to initialize properly
+  // but this creates a row of '-' (undefined strings)
+  var data = [{}];
+  table.bootstrapTable({data: data});
+  // Delete the row of undefined strings
+  table.bootstrapTable('removeAll');
+}
+
+var data1 = [
       {
         'id': 1,
         'firstName': 'Misa',
         'lastName': 'Kaison',
         'email': 'misakaison@gmail.com'
-      }, {
+      },
+      {
         'id': 2,
         'firstName': 'Elrik',
         'lastName': 'Parker',
         'email': 'elrik.parker@yahoo.com'
-      }, {
+      },
+      {
         'id': 3,
         'firstName': 'Essa',
         'lastName': 'Mentoryte',
         'email': 'em5632@live.com'
-      }
-    ];
-    $addMembersTable1.bootstrapTable({data: data});
-  });
-
-  // Populate the delete members from montage table
-  $(function () {
-    var data = [
+      },
       {
         'id': 4,
         'firstName': 'Sana',
@@ -153,15 +138,131 @@ $(document).ready(function(){
         'email': 'daryn.i.am@gmail.com'
       }
     ];
-    $potentionalGroupTable2.bootstrapTable({data: data});
+
+var data2 = [
+      {
+        'id': 1,
+        'firstName': 'Misa',
+        'lastName': 'Kaison',
+        'email': 'misakaison@gmail.com'
+      },
+      {
+        'id': 2,
+        'firstName': 'Elrik',
+        'lastName': 'Parker',
+        'email': 'elrik.parker@yahoo.com'
+      },
+      {
+        'id': 3,
+        'firstName': 'Essa',
+        'lastName': 'Mentoryte',
+        'email': 'em5632@live.com'
+      }
+    ];
+
+// --- When the document is fully loaded --- //
+$(document).ready(function(){
+  $(document).keypress(function(e) {
+      if(e.which == 13) {
+          //alert('You pressed enter!');
+      }
   });
+  // Step 1: Connect dropdown answer to steps 2-3
+  $('.ui.dropdown').dropdown({
+    onChange: function (value, text, $selectedItem) {
+      console.log(value);
+      // figure out what was selected in the dropdown
+      var groupMasterId = value;
+      console.log("group id: "+groupMasterId);
+      if (groupMasterId != "Select Group") {
+        // console.log(groupMasterId);
+        // look up this selection in the group master data list
+        var desiredGroupData = findByIdReturnObject(groupMasterData, groupMasterId);
+        //console.log(desiredGroupData);
+        // update the group name in step 2 accordingly
+        $("#edit-group-name-input").attr('placeholder', desiredGroupData.groupName);
+        // Update the photo preview in step 3 accordingly
+        $("#edit-photo-preview-image").attr('src', desiredGroupData.coverPhotoSource);
+        // Update the data in table 1 in step 4 accordingly
+        $potentionalGroupTable2.bootstrapTable('destroy');
+        var tempData = [];
+        var arrayLength = desiredGroupData.memberIds.length;
+        for (var i = 0; i < arrayLength; i++) {
+            var ithMemberInfo = findByIdReturnObject(data1, desiredGroupData.memberIds[i]);
+            tempData.push(ithMemberInfo);
+        }
+        $potentionalGroupTable2.bootstrapTable({data: tempData});
+        // Update the data in table 2 in step 4 accordingly
+        $addMembersTable1.bootstrapTable('destroy');
+        // var tempData = data1;
+        var tempData = deepCopyArray(data1);
+        //console.log(tempData);
+        var arrayLength = desiredGroupData.memberIds.length;;
+        for (var i = 0; i < arrayLength; i++) {
+            var ithMemberIndex = findByIdReturnIndex(tempData, desiredGroupData.memberIds[i]);
+            // removeOneElementFromArray(tempData, ithMemberIndex);
+            tempData.splice(ithMemberIndex, 1);
+            //console.log(tempData);
+        }
+        $addMembersTable1.bootstrapTable({data: tempData});
+      }
+    },
+    forceSelection: false,
+    selectOnKeydown: false,
+    showOnFocus: false,
+    on: "hover",
+    fullTextSearch: true
+  });
+  /*$('#existing-groups-dropdown > div > div > .item').on('click', function () {
+    // figure out what was selected in the dropdown
+    var groupMasterId = groupDropdown.dropdown('get value');
+    console.log(groupMasterId);
+    if (groupMasterId != "Select Group") {
+      console.log(groupMasterId);
+      // look up this selection in the group master data list
+      var desiredGroupData = findByIdReturnObject(groupMasterData, groupMasterId);
+      //console.log(desiredGroupData);
+      // update the group name in step 2 accordingly
+      $("#edit-group-name-input").attr('placeholder', desiredGroupData.groupName);
+      // Update the photo preview in step 3 accordingly
+      $("#edit-photo-preview-image").attr('src', desiredGroupData.coverPhotoSource);
+      // Update the data in table 1 in step 4 accordingly
+      $potentionalGroupTable2.bootstrapTable('destroy');
+      var tempData = [];
+      var arrayLength = desiredGroupData.memberIds.length;
+      for (var i = 0; i < arrayLength; i++) {
+          var ithMemberInfo = findByIdReturnObject(data1, desiredGroupData.memberIds[i]);
+          tempData.push(ithMemberInfo);
+      }
+      $potentionalGroupTable2.bootstrapTable({data: tempData});
+      // Update the data in table 2 in step 4 accordingly
+      $addMembersTable1.bootstrapTable('destroy');
+      // var tempData = data1;
+      var tempData = deepCopyArray(data1);
+      //console.log(tempData);
+      var arrayLength = desiredGroupData.memberIds.length;;
+      for (var i = 0; i < arrayLength; i++) {
+          var ithMemberIndex = findByIdReturnIndex(tempData, desiredGroupData.memberIds[i]);
+          // removeOneElementFromArray(tempData, ithMemberIndex);
+          tempData.splice(ithMemberIndex, 1);
+          //console.log(tempData);
+      }
+      $addMembersTable1.bootstrapTable({data: tempData});
+    }
+  });*/
+
+  // Populate the add members to group table
+  createEmptyTable($addMembersTable1);
+
+  // Populate the delete members from montage table
+  createEmptyTable($potentionalGroupTable2);
 
   // When the user clicks the add members to group button,
   // then delete those rows from the add table 1
   // and add those rows to the group table 2
   $('#add-group-members').on('click', function() {
     console.log("Transferring selected members from table 1 to group members table 2.");
-    transferSelectedRowsFromTable1ToTable2($addMembersTable1, $potentionalGroupTable2);
+    transferSelectedRowsFromTable1ToTable2AndAddData($addMembersTable1, $potentionalGroupTable2);
   });
 
   // When the user clicks the delete group members button,
@@ -169,7 +270,7 @@ $(document).ready(function(){
   // and add those rows to the add table 1
   $('#delete-group-members').on('click', function(){
     console.log("Removing selected members from the potential group table 2 and putting them back in the add table 1.");
-    transferSelectedRowsFromTable1ToTable2($potentionalGroupTable2, $addMembersTable1);
+    transferSelectedRowsFromTable1ToTable2AndData($potentionalGroupTable2, $addMembersTable1);
   });
 
   // When the user clicks the empty group button,
@@ -177,7 +278,7 @@ $(document).ready(function(){
   // and add those rows to the add table 1
   $('#empty-group').on('click', function(){
     console.log("Removing all members from the potential group table 2 and putting them back in the add table 1.");
-    transferAllRowsFromTable1ToTable2($potentionalGroupTable2, $addMembersTable1);
+    transferAllRowsFromTable1ToTable2AndData($potentionalGroupTable2, $addMembersTable1);
   });
 
   // When the table is in card view, display a select/unselect all button
@@ -187,7 +288,7 @@ $(document).ready(function(){
 
   // Placeholder function for when the user clicks the create group button to submit the form
   $('#create-group-button').on('click', function(){
-    console.log("Submitting form. Creating group...");
+    console.log("Submitting form. Editing group...");
   });
 });
 
@@ -206,6 +307,57 @@ function transferSelectedRowsFromTable1ToTable2(table1, table2) {
   // Step 1: get the ids and row data of the selected rows from table 1
   var ids = $.map(table1.bootstrapTable('getSelections'), function (row) {
     // Step 2: Add the selected rows to table 2
+    console.log("ids: ");
+    console.log(ids);
+    console.log("rows:");
+    console.log(row);
+    console.log("row.id:");
+    console.log(row.id);
+    table2.bootstrapTable('append', row);
+    return row.id;
+  });
+  // Step 3: for each row selected in table 1, remove the rows from the first table, using their ids
+  table1.bootstrapTable('remove', {
+    field: 'id',
+    values: ids
+  });
+  // Step 4: Unselect all choices.
+  table1.bootstrapTable('uncheckAll');
+  table2.bootstrapTable('uncheckAll');
+}
+
+function transferSelectedRowsFromTable1ToTable2AndData(table1, table2, dataList) {
+  // Step 1: get the ids and row data of the selected rows from table 1
+  var ids = $.map(table1.bootstrapTable('getSelections'), function (row) {
+    // Step 2: Add the selected rows to table 2
+    var groupMasterId = groupDropdown.dropdown('get value'); // global var used!
+    var groupMasterIndex = findByIdReturnIndex(groupMasterData, groupMasterId);
+    var ithMemberId = row.id;
+    var ithMemberIndex = findByValueReturnIndex(groupMasterData[groupMasterIndex].memberIds, ithMemberId);
+    groupMasterData[groupMasterIndex].memberIds.splice(ithMemberIndex, 1);
+    table2.bootstrapTable('append', row);
+    return row.id;
+  });
+  // Step 3: for each row selected in table 1, remove the rows from the first table, using their ids
+  table1.bootstrapTable('remove', {
+    field: 'id',
+    values: ids
+  });
+  // Step 4: Unselect all choices.
+  table1.bootstrapTable('uncheckAll');
+  table2.bootstrapTable('uncheckAll');
+}
+
+function transferSelectedRowsFromTable1ToTable2AndAddData(table1, table2) {
+  // Step 1: get the ids and row data of the selected rows from table 1
+  var ids = $.map(table1.bootstrapTable('getSelections'), function (row) {
+    // Step 2: Add the selected rows to table 2
+    var groupMasterId = groupDropdown.dropdown('get value'); // global var used!
+    var groupMasterIndex = findByIdReturnIndex(groupMasterData, groupMasterId);
+    var ithMemberId = row.id;
+    // var ithMemberIndex = findByValueReturnIndex(groupMasterData[groupMasterIndex].memberIds, ithMemberId);
+    groupMasterData[groupMasterIndex].memberIds.push(ithMemberId);
+    console.log(groupMasterData[groupMasterIndex].memberIds);
     table2.bootstrapTable('append', row);
     return row.id;
   });
@@ -222,12 +374,17 @@ function transferSelectedRowsFromTable1ToTable2(table1, table2) {
 // This functions transfers all the rows in table 1 to table 2
 // by deleting all the rows in table 1
 // and adding all of these rows to table 2
-function transferAllRowsFromTable1ToTable2(table1, table2) {
+function transferAllRowsFromTable1ToTable2AndData(table1, table2) {
   // Step 1: select all rows in table 1
   table1.bootstrapTable('checkAll');
   // Step 2: get the ids and row data of the selected rows from table 1
   var ids = $.map(table1.bootstrapTable('getSelections'), function (row) {
     // Step 3: Add the selected rows to table 2
+    var groupMasterId = groupDropdown.dropdown('get value'); // global var used!
+    var groupMasterIndex = findByIdReturnIndex(groupMasterData, groupMasterId);
+    var ithMemberId = row.id;
+    var ithMemberIndex = findByValueReturnIndex(groupMasterData[groupMasterIndex].memberIds, ithMemberId);
+    groupMasterData[groupMasterIndex].memberIds.splice(ithMemberIndex, 1);
     table2.bootstrapTable('append', row);
     return row.id;
   });
