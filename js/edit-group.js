@@ -329,17 +329,43 @@ function toggleSelectAllRowsButtonOnMobile(selectButton, table, checkButtonState
   }
 }
 
+// Populates the content of the dropdown menu with the info in the
+// original group master data list
+function populateExistingGroupDropdownMenu(){
+  // figure out where to place the content for the dropdown menu
+  var $menu =  $('#existing-groups-dropdown').find('.scrolling');
+  // populate the content of the dropdown menu with the info in the
+  // original group master data list
+  $.each(originalGroupMasterData, function (i, item) {
+    $menu.append($('<div>', {
+      "data-value": item.id,
+      text : item.groupName,
+      class: 'item'
+    }));
+  });
+}
+
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
-  // Step 1: Connect dropdown answer to steps 2-3
+
+  // Initialize the dropdown menu
+  $('.ui.dropdown').dropdown();
+
+  // Populate the dropdown menu
+  populateExistingGroupDropdownMenu();
+
+  // Re-initialize the dropdown, but with particular settings
   $('.ui.dropdown').dropdown({
+    // if an item in the dropdown was selected, populate and display the rest
+    // of the group edit form accordingly
     onChange: function (value, text, $selectedItem) {
+      console.log(value);
       populateFormUponGroupSelection(value);
     },
     forceSelection: false,
     selectOnKeydown: false,
     showOnFocus: false,
-    on: "hover",
+    // on: "hover",
     fullTextSearch: true
   });
 
@@ -394,6 +420,11 @@ $(document).ready(function(){
   // Placeholder function for when the user clicks the create group button to submit the form
   $('#create-group-button').on('click', function(){
     console.log("Submitting form. Editing group...");
+    // Update the group name in the dropdown menu to the new group name
+    $('.ui.dropdown').find("[data-value='" + desiredGroupDataCopy.id + "']").html(desiredGroupDataCopy.groupName);
+    // Update the selected group name in the dropdown menu to the new group name
+    $('.ui.dropdown').dropdown('set selected', desiredGroupDataCopy.id);
+    // update the original group master data
     updateOriginalGroupMasterData();
   });
 
