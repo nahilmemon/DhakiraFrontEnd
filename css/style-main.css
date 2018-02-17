@@ -901,3 +901,7 @@ div.menu,
 div.ui.search.input > input {
   width: 100%;
 }
+
+#group-edit-form {
+  display: none;
+}
