@@ -114,6 +114,117 @@
       <h1>View Your Posts</h1>
     </header>
 
+    <!-- Search Section -->
+    <section id="search" class="container-fluid">
+      <h3>Search Posts</h3>
+      <!-- Search Box Row -->
+      <div class="row">
+        <input class="col-xs-4" type="text" id="searchBox" onChange="searchForTitleOrPostContent()" placeholder="Search posts">
+
+        <!-- Exisiting Groups Dropdown -->
+        <div class="ui multiple dropdown col-xs-4" id="existing-groups-dropdown">
+          <!-- Input -->
+          <input type="hidden" name="group-dropdown">
+          <!-- Heading -->
+          <div class="default text">Select Group</div>
+          <i class="dropdown icon"></i>
+          <!-- Content Inside the Dropdown Menu -->
+          <div class="menu">
+            <!-- Search Bar -->
+            <div class="ui icon search input">
+              <i class="search icon"></i>
+              <input type="text" placeholder="Search groups...">
+            </div>
+            <!-- Actual Selectable Content in the Dropdown Menu -->
+            <div class="scrolling menu filter-content-dropdown">
+              <div class="item" data-search-by="title">
+                title
+              </div>
+              <div class="item" data-search-by="postContents">
+                post contents
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons Row -->
+      <div class="row">
+        <div class="col-xs-12 text-center">
+            <button class="search-table-button" id="search-posts-button">Search</button>
+            <button class="search-table-button inverted-button" id="reset-search-options-button">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtering Section -->
+    <section id="filters" class="container-fluid bg-grey">
+      <!-- Search Filters -->
+      <section class="row filters-layout">
+        <!-- Search Box -->
+        <input class="col-xs-4" type="text" id="searchBox" onChange="searchForTitleOrPostContent()" placeholder="Search posts">
+
+        <!-- Filter by Group -->
+        <div class="ui multiple dropdown col-xs-12 col-md-4" id="group-filter-dropdown">
+          <!-- Input -->
+          <input type="hidden" name="group-filter">
+          <!-- Heading -->
+          <div class="default text">Filter Stories by Group</div>
+          <i class="dropdown icon"></i>
+          <!-- Content Inside the Dropdown Menu -->
+          <div class="menu">
+            <!-- Search Bar -->
+            <div class="ui icon search input">
+              <i class="search icon"></i>
+              <input type="text" placeholder="Search groups...">
+            </div>
+            <!-- Divider -->
+            <div class="divider"></div>
+            <!-- Header -->
+            <div class="header">
+              <span>Select desired groups</span>
+            </div>
+            <!-- Actual Selectable Content in the Dropdown Menu -->
+            <div class="scrolling menu filter-content-dropdown">
+              <div class="item" data-value="title">
+                title
+              </div>
+              <div class="item" data-value="post-contents">
+                post contents
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </section>
+
+      <!-- Buttons -->
+      <section class="row">
+        <!-- Search Mode -->
+        <div class="col-xs-12 search-mode-div" id="homepage-search-mode">
+          <h4 class="radio-inline-heading">Search Mode:</h4>
+          <div class="radio">
+            <label class="searchModeRadios">
+              <input type="radio" name="searchModeRadios" id="homepage-search-mode-and" value="homepage-search-option-and" checked>
+            AND mode
+            </label>
+          </div>
+          <div class="radio">
+            <label class="radio-inline searchModeRadios">
+              <input type="radio" name="searchModeRadios" id="homepage-search-mode-or" value="homepage-search-option-or">
+            OR mode
+            </label>
+          </div>
+        </div>
+        <div class="col-xs-12 text-center">
+          <button class="search-filter-button" id="submit-homepage-filters" type="submit">Submit Filters</button>
+          <button class="search-filter-button" id="clear-homepage-filters" type="reset">Clear Filters</button>
+        </div>
+      </section>
+    </section> <!-- End of Filter Section -->
+
     <!-- Filtering Section -->
     <section id="filters" class="container-fluid bg-grey">
       <!-- Search Filters -->
@@ -519,7 +630,7 @@
     </section>
 
       <!-- Video Story -->
-      <article class="row panel view-post-container" data-id="1">
+      <article class="row panel view-post-container">
         <div class="col-xs-12 col-sm-4 view-post-video-container">
           <img class="img-responsive story-image translucent-image" src="../media/images/video-screenshots/waterfall.PNG">
           <div class="thumbnail-overlay">
@@ -545,7 +656,7 @@
       </article>
 
       <!-- Image Story without Divider -->
-      <article class="row panel view-post-container" data-id="2">
+      <article class="row panel view-post-container">
         <div class="col-xs-12 col-sm-4 view-post-image-container">
           <img class="img-responsive" src="https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg">
         </div>
@@ -567,7 +678,7 @@
       </article>
 
       <!-- Audio Story -->
-      <article class="row panel view-post-container" data-id="3">
+      <article class="row panel view-post-container">
         <div class="col-xs-12 col-sm-4 view-post-audio-container text-center">
           <i class="sound icon sound-icon-size"></i>
         </div>

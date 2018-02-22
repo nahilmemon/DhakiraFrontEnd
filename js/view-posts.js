@@ -312,6 +312,19 @@ function adjustSizesOfThumbnailIcons() {
   });
 }
 
+function searchForTitleOrPostContent() {
+  var searchInput = $("#searchBox").val().toUpperCase();
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < postData.length; i++) {
+    var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
+    if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
+      thisPostArticle.show();
+    } else {
+      thisPostArticle.hide();
+    }
+  }
+}
+
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
   // populate the page with posts and their relevant info
