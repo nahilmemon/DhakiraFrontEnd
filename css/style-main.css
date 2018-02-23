@@ -944,6 +944,17 @@ section#your-stories > article > div > div > i.video-icon-size.icon {
   right: 0;
   margin: auto;
 }
-section#your-stories > article > div > div > i.video-icon-size.icon {
-    /*font-size: 5em;*/
-  }
+
+#searchBox {
+  height: 44px;
+  border: solid 2px #4bafc9;
+  border-radius: 5px;
+}
+
+.view-post-tag {
+  color: #fff;
+  background-color: #4bafc9;
+  border: solid 1px #4bafc9;
+  border-radius: 5px;
+  padding: 1px 3px;
+}

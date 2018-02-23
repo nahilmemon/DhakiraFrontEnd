@@ -28,6 +28,13 @@ var originalGroupMasterData = [
   }
 ];
 
+// List of tags
+var tagData = ['boat', 'water', 'nature', 'origami', 'paper', 'stones', 'painting',
+  'creativity', 'meditation', 'dams', 'actions', 'righteousness', 'ethics', 'ice cream',
+  'cooking', 'recipe', 'food', 'fruits', 'grandma', 'chocolate', 'history', 'dandelions',
+  'wishes', 'childhood', 'snow', 'quilts', 'animals', 'storytelling', 'reading', 'bedtime',
+  'scary', 'fire'];
+
 var postData = [
   {
     'id': 1,
@@ -35,6 +42,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'public',
     'groupIds': [],
+    'tags': ['boat', 'water', 'nature', 'origami', 'paper'],
     'contentType': ['image(s)'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg',
@@ -46,6 +54,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'public',
     'groupIds': [],
+    'tags': ['stones', 'water', 'nature'],
     'contentType': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -57,6 +66,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'individual',
     'groupIds': [],
+    'tags': ['painting', 'creativity', 'meditation'],
     'contentType': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'Paint anything you want on the canvas. Create your own world.',
@@ -68,6 +78,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'group',
     'groupIds': [2, 5],
+    'tags': ['water', 'nature', 'dams'],
     'contentType': ['video(s)'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/waterfall.PNG',
@@ -79,6 +90,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'public',
     'groupIds': [],
+    'tags': ['actions', 'righteousness', 'ethics',],
     'contentType': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
@@ -90,6 +102,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'group',
     'groupIds': [1, 4],
+    'tags': ['ice cream', 'cooking', 'recipe', 'food', 'fruits',],
     'contentType': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/461189/pexels-photo-461189.jpeg',
@@ -101,6 +114,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'group',
     'groupIds': [4],
+    'tags': ['cooking', 'grandma', 'recipe', 'food'],
     'contentType': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -112,6 +126,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'group',
     'groupIds': [4],
+    'tags': ['chocolate', 'history', 'food'],
     'contentType': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'If I were a headmaster I would get rid of the history teacher and get a chocolate teacher instead.',
@@ -123,6 +138,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'individual',
     'groupIds': [],
+    'tags': ['dandelions', 'wishes', 'childhood',],
     'contentType': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/dandelion.PNG',
@@ -134,6 +150,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'group',
     'groupIds': [1, 3, 4, 5],
+    'tags': ['snow', 'quilts', 'animals', 'nature', 'food'],
     'contentType': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/snow.PNG',
@@ -145,6 +162,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'public',
     'groupIds': [],
+    'tags': ['storytelling', 'reading', 'bedtime', 'childhood'],
     'contentType': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/33196/still-life-teddy-white-read.jpg',
@@ -156,6 +174,7 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'group',
     'groupIds': [5],
+    'tags': ['storytelling', 'scary', 'nature', 'fire'],
     'contentType': ['audio', 'text'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -198,7 +217,7 @@ function createHTMLStringForOnePost(postIndex) {
   // Text
   else if (postData[postIndex].thumbnailType == 'text') {
     htmlStringToAppend += '<div class="col-xs-12 col-sm-4 view-post-text-container">';
-    htmlStringToAppend += '<blockquote class="quote">';
+    htmlStringToAppend += '<blockquote class="quote text-center">';
     htmlStringToAppend += '<p>';
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '</p>';
@@ -276,7 +295,19 @@ function createHTMLStringForOnePost(postIndex) {
       }
     }
   }
-  htmlStringToAppend += '.</p></div></article>';
+  htmlStringToAppend += '.</p>';
+  // Tags
+  htmlStringToAppend += '<p class="tags">Tags: ';
+  for (var i = 0; i < postData[postIndex].tags.length; i++) {
+    htmlStringToAppend += '<span class="view-post-tag">';
+    htmlStringToAppend += postData[postIndex].tags[i];
+    htmlStringToAppend += '</span> ';
+  }
+  htmlStringToAppend += '</p>';
+  // End of post data container
+  htmlStringToAppend += '</div>';
+  // End of post article
+  htmlStringToAppend += '</article>';
   return htmlStringToAppend;
 }
 
@@ -325,8 +356,46 @@ function searchForTitleOrPostContent() {
   }
 }
 
+// Populates the content of the dropdown menu with the info in the
+// original group master data list
+function populateExistingGroupDropdownMenu(){
+  // figure out where to place the content for the dropdown menu
+  var $menu =  $('#search-groups-dropdown').find('.scrolling');
+  // populate the content of the dropdown menu with the info in the
+  // original group master data list
+  $.each(originalGroupMasterData, function (i, item) {
+    $menu.append($('<div>', {
+      "data-value": item.id,
+      text : item.groupName,
+      class: 'item'
+    }));
+  });
+}
+
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
+
+  // Initialize the dropdown menu
+  $('.ui.dropdown').dropdown();
+
+  // Populate the dropdown menu
+  populateExistingGroupDropdownMenu();
+
+  // Re-initialize the dropdown, but with particular settings
+  $('.ui.dropdown').dropdown({
+    // if an item in the dropdown was selected, populate and display the rest
+    // of the group edit form accordingly
+    onChange: function (value, text, $selectedItem) {
+      console.log(value);
+      // populateFormUponGroupSelection(value);
+    },
+    forceSelection: false,
+    selectOnKeydown: false,
+    showOnFocus: false,
+    // on: "hover",
+    fullTextSearch: true
+  });
+
   // populate the page with posts and their relevant info
   addPostHTMLStringToYourStoriesSection();
   adjustSizesOfThumbnailIcons();
