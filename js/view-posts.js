@@ -1,3 +1,7 @@
+// Global Variables
+var advancedSearchMode = true;
+var searchResultsReturned = [];
+
 // List of information regarding each group
 var originalGroupMasterData = [
   {
@@ -39,10 +43,11 @@ var postData = [
   {
     'id': 1,
     'title': 'Row, Row, Row Your Boat',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("September 29, 2016 21:33:43"),
     'privacy': 'public',
     'groupIds': [],
     'tags': ['boat', 'water', 'nature', 'origami', 'paper'],
+    'location': [],
     'contentType': ['image(s)'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg',
@@ -51,10 +56,11 @@ var postData = [
   {
     'id': 2,
     'title': 'Skipping Stones',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("January 27, 2018 16:23:45"),
     'privacy': 'public',
     'groupIds': [],
     'tags': ['stones', 'water', 'nature'],
+    'location': [],
     'contentType': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -63,10 +69,11 @@ var postData = [
   {
     'id': 3,
     'title': 'My World',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("August 31, 2016 19:11:20"),
     'privacy': 'individual',
     'groupIds': [],
     'tags': ['painting', 'creativity', 'meditation'],
+    'location': [],
     'contentType': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'Paint anything you want on the canvas. Create your own world.',
@@ -75,10 +82,11 @@ var postData = [
   {
     'id': 4,
     'title': 'When the Dams Opened',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("July 04, 2017 23:33:54"),
     'privacy': 'group',
     'groupIds': [2, 5],
     'tags': ['water', 'nature', 'dams'],
+    'location': [],
     'contentType': ['video(s)'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/waterfall.PNG',
@@ -87,10 +95,11 @@ var postData = [
   {
     'id': 5,
     'title': 'Doing the Right Thing',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("February 13, 2017 06:45:50"),
     'privacy': 'public',
     'groupIds': [],
-    'tags': ['actions', 'righteousness', 'ethics',],
+    'tags': ['actions', 'righteousness', 'ethics'],
+    'location': [],
     'contentType': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
@@ -102,7 +111,8 @@ var postData = [
     'date': new Date("October 13, 2014 11:13:00"),
     'privacy': 'group',
     'groupIds': [1, 4],
-    'tags': ['ice cream', 'cooking', 'recipe', 'food', 'fruits',],
+    'tags': ['ice cream', 'cooking', 'recipe', 'food', 'fruits'],
+    'location': [],
     'contentType': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/461189/pexels-photo-461189.jpeg',
@@ -111,10 +121,11 @@ var postData = [
   {
     'id': 7,
     'title': 'Cooking with Grandma',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("December 25, 2016 14:13:35"),
     'privacy': 'group',
     'groupIds': [4],
     'tags': ['cooking', 'grandma', 'recipe', 'food'],
+    'location': [],
     'contentType': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -123,10 +134,11 @@ var postData = [
   {
     'id': 8,
     'title': 'History of Chocolate',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("March 01, 2016 17:16:14"),
     'privacy': 'group',
     'groupIds': [4],
     'tags': ['chocolate', 'history', 'food'],
+    'location': [],
     'contentType': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'If I were a headmaster I would get rid of the history teacher and get a chocolate teacher instead.',
@@ -135,10 +147,11 @@ var postData = [
   {
     'id': 9,
     'title': 'Making a Wish',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("November 18, 2017 12:23:12"),
     'privacy': 'individual',
     'groupIds': [],
-    'tags': ['dandelions', 'wishes', 'childhood',],
+    'tags': ['dandelions', 'wishes', 'childhood'],
+    'location': [],
     'contentType': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/dandelion.PNG',
@@ -147,10 +160,11 @@ var postData = [
   {
     'id': 10,
     'title': 'Unexpected Snow Day',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("April 22, 2017 12:45:12"),
     'privacy': 'group',
     'groupIds': [1, 3, 4, 5],
     'tags': ['snow', 'quilts', 'animals', 'nature', 'food'],
+    'location': [],
     'contentType': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/snow.PNG',
@@ -159,10 +173,11 @@ var postData = [
   {
     'id': 11,
     'title': 'Bedtime Stories',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("June 23, 2016 22:53:48"),
     'privacy': 'public',
     'groupIds': [],
     'tags': ['storytelling', 'reading', 'bedtime', 'childhood'],
+    'location': [],
     'contentType': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/33196/still-life-teddy-white-read.jpg',
@@ -171,10 +186,11 @@ var postData = [
   {
     'id': 12,
     'title': 'Tales by the Camp Fire',
-    'date': new Date("October 13, 2014 11:13:00"),
+    'date': new Date("May 06, 2017 01:54:23"),
     'privacy': 'group',
     'groupIds': [5],
     'tags': ['storytelling', 'scary', 'nature', 'fire'],
+    'location': [],
     'contentType': ['audio', 'text'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -322,6 +338,15 @@ function createHTMLStringForAllPosts() {
 function addPostHTMLStringToYourStoriesSection() {
   var completeString = createHTMLStringForAllPosts();
   $("#your-stories").append(completeString);
+  // sort the stories according to the sorting parameters given by default
+  // Step 2: Sort the search results
+  sortPosts(postData);
+  // Step 3: Hide all the posts
+  hideAllPosts();
+  // Step 4: Only show the posts that were narrowed down by the search
+  reorderAndDisplayPosts(postData);
+  // in case the user wants to sort the original data before making a search
+  searchResultsReturned = postData;
 }
 
 function adjustSizesOfThumbnailIcons() {
@@ -343,17 +368,150 @@ function adjustSizesOfThumbnailIcons() {
   });
 }
 
-function searchForTitleOrPostContent() {
-  var searchInput = $("#searchBox").val().toUpperCase();
-  // Loop through all list items, and hide those who don't match the search query
-  for (i = 0; i < postData.length; i++) {
-    var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
-    if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
-      thisPostArticle.show();
-    } else {
-      thisPostArticle.hide();
+function searchPosts(advancedMode) {
+  if (advancedMode == false) {
+    console.log("Performing basic search...");
+    var searchInput = $("#searchBox").val().toUpperCase();
+    var resultsCounter = 0; // to store how many results were found
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < postData.length; i++) {
+      var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
+      if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
+        thisPostArticle.show();
+        resultsCounter += 1;
+      } else {
+        thisPostArticle.hide();
+      }
     }
+  } else {
+    console.log("Performing advanced search...");
   }
+  // update the p element showing how many results were found
+  var resultsString = resultsCounter;
+  if (resultsCounter == 1) {
+    resultsString += " post found.";
+  } else {
+    resultsString += " posts found.";
+  }
+  $("#number-of-results").text(resultsString);
+}
+
+function resetSearchFilters(advancedMode) {
+  if (advancedMode == false) {
+    console.log("Resetting basic search...");
+    // empty contents of search box
+    $("#searchBox").val('');
+    // show all posts
+    // Reset the sorting preferences
+    $("#category-dropdown").attr("data-value", 'title');
+    $("#category-dropdown").text("title");
+    $("#order-dropdown").text("ascending");
+    $("#order-dropdown").attr("data-value", 'ascending');
+    // Step 2: Sort the search results
+    sortPosts(postData);
+    // Step 3: Hide all the posts
+    hideAllPosts();
+    // Step 4: Only show the posts that were narrowed down by the search
+    reorderAndDisplayPosts(postData);
+  } else {
+    console.log("Resetting advanced search...");
+  }
+  // clear the p element showing how many results were found
+  $("#number-of-results").text("");
+}
+
+function hideAllPosts() {
+  $(".view-post-container").each(function(index) {
+    $(this).hide();
+  });
+}
+
+function showAllPosts() {
+  $(".view-post-container").each(function(index) {
+    $(this).show();
+  });
+}
+
+function searchAndSortPosts(advancedMode) {
+  // Step 1: Search
+  // Search according to the filters given
+  // Save the results in a new array
+  searchResultsReturned = [];
+  if (advancedMode == false) {
+    console.log("Performing basic search...");
+    var searchInput = $("#searchBox").val().toUpperCase();
+    var resultsCounter = 0; // to store how many results were found
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < postData.length; i++) {
+      var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
+      if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
+        // thisPostArticle.show();
+        searchResultsReturned.push(postData[i]);
+        resultsCounter += 1;
+      } else {
+        thisPostArticle.hide();
+      }
+    }
+  } else {
+    console.log("Performing advanced search...");
+    searchResultsReturned = postData;
+  }
+  console.log("Search Results:");
+  console.log(searchResultsReturned);
+
+  // Step 2: Sort the search results
+  // Sort the search results according to the parameters selected.
+  sortPosts(searchResultsReturned);
+  console.log("Sorted Search Results:");
+  console.log(searchResultsReturned);
+
+  // Step 3: Hide all the posts
+  hideAllPosts();
+
+  // Step 4: Only show the posts that were narrowed down by the search
+  // for (i = 0; i < searchResultsReturned.length; i++) {
+  //   var thisPostArticle = $('article[data-id="' + searchResultsReturned[i].id + '"]');
+  //   var detachedPost = thisPostArticle.detach();
+  //   detachedPost.appendTo($("#your-stories")).show();
+  // }
+  reorderAndDisplayPosts(searchResultsReturned);
+
+
+  // Step 5: Write down how many search results were found
+  // update the p element showing how many results were found
+  var resultsString = resultsCounter;
+  if (resultsCounter == 1) {
+    resultsString += " post found.";
+  } else {
+    resultsString += " posts found.";
+  }
+  $("#number-of-results").text(resultsString);
+}
+
+function reorderAndDisplayPosts(arrayOfPostsToSort) {
+  for (i = 0; i < arrayOfPostsToSort.length; i++) {
+    var thisPostArticle = $('article[data-id="' + arrayOfPostsToSort[i].id + '"]');
+    var detachedPost = thisPostArticle.detach();
+    detachedPost.appendTo($("#your-stories")).show();
+  }
+}
+
+function toggleAdvancedSearchMode(advancedMode) {
+  // if it's currently in the basic search mode,
+  // then change the text of the advanced search mode button
+  // and display the advanced search mode filters
+  if (advancedMode == false) {
+    $("#advanced-search-button").text("Basic Search");
+    $("#advanced-search-filters-section").show();
+  } else {
+    // if it's currently in the basic search mode,
+    // then change the text of the advanced search mode button
+    // and display the advanced search mode filters
+    $("#advanced-search-button").text("Advanced Search");
+    $("#advanced-search-filters-section").hide();
+  }
+  advancedMode = !advancedMode;
+  return advancedMode;
 }
 
 // Populates the content of the dropdown menu with the info in the
@@ -372,8 +530,74 @@ function populateExistingGroupDropdownMenu(){
   });
 }
 
+function resizeSearchBarWidth() {
+  var searchBarWidth;
+  if (window.innerWidth > 500) {
+    searchBarWidth = window.innerWidth - 100 - 90 - $("#submit-filters-button").width() - $("#reset-filters-button").width() - $("#advanced-search-button").width();
+    $("#searchBox").css("width", searchBarWidth);
+  } else {
+    $("#searchBox").css("width", "100%");
+  }
+  $("#searchBox").show();
+}
+
+// Sort posts according to parameters selected in the dropdown
+function sortPosts(arrayOfPostsToSort) {
+  var sortCategory = $("#category-dropdown").attr("data-value");
+  var sortOrder = $("#order-dropdown").attr("data-value");
+  console.log("category: " + sortCategory);
+  console.log("order: " + sortOrder);
+  if (sortCategory == "title") {
+    if (sortOrder == "ascending") {
+      console.log('sorting by title in ascending order');
+      arrayOfPostsToSort.sort(function(a, b) {
+        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
+        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (titleA < titleB) {
+          return -1;
+        }
+        if (titleA > titleB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      });
+    } else {
+      console.log('sorting by title in descending order');
+      arrayOfPostsToSort.sort(function(a, b) {
+        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
+        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (titleA > titleB) {
+          return -1;
+        }
+        if (titleA < titleB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      });
+    }
+  } else {
+    if (sortOrder == "ascending") {
+      console.log('sorting by date in ascending order');
+      arrayOfPostsToSort.sort(function (a, b) {
+        return a.date - b.date;
+      });
+    } else {
+      console.log('sorting by date in descending order');
+      arrayOfPostsToSort.sort(function (a, b) {
+        return b.date - a.date;
+      });
+    }
+  }
+}
+
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
+  // Set search bar size to correct width
+  resizeSearchBarWidth();
 
   // Initialize the dropdown menu
   $('.ui.dropdown').dropdown();
@@ -423,6 +647,54 @@ $(document).ready(function(){
     $("#story-modal-title").append(storyModalHeaderString);
     $("#story-modal-body").append(thisPostInfo.postContent);
   });
+
+  // When the user clicks the "Advanced Search" button,
+  // toggle advanced search mode (hide/show the advanced filters and change button text)
+  $("#advanced-search-button").on("click", function() {
+    advancedSearchMode = toggleAdvancedSearchMode(advancedSearchMode);
+  });
+
+  // When the user clicks the "Go" button,
+  // change which posts are visible and hidden based on search parameters
+  $("#submit-filters-button").on('click', function() {
+    // searchPosts(advancedSearchMode);
+    searchAndSortPosts(advancedSearchMode);
+  });
+
+  // When the user clicks the "Reset" button,
+  // reset all the search filters
+  // and show all the posts.
+  $("#reset-filters-button").on('click', function() {
+    resetSearchFilters(advancedSearchMode);
+  });
+
+  // When the user clicks a sorting category option,
+  // then change the text in the dropdown button according to the option chosen
+  // and sort the posts accordingly
+  $(".sorting-category").on("click", function() {
+    $("#category-dropdown").attr("data-value", $(this).attr("data-value"));
+    $("#category-dropdown").text($(this).attr("data-value"));
+    // Step 2: Sort the search results
+    sortPosts(searchResultsReturned);
+    // Step 3: Hide all the posts
+    hideAllPosts();
+    // Step 4: Only show the posts that were narrowed down by the search
+    reorderAndDisplayPosts(searchResultsReturned);
+  });
+
+  // When the user clicks a sorting order option,
+  // then change the text in the dropdown button according to the option chosen
+  // and sort the posts accordingly
+  $(".sorting-order").on("click", function() {
+    $("#order-dropdown").attr("data-value", $(this).attr("data-value"));
+    $("#order-dropdown").text($(this).attr("data-value"));
+    // Step 2: Sort the search results
+    sortPosts(searchResultsReturned);
+    // Step 3: Hide all the posts
+    hideAllPosts();
+    // Step 4: Only show the posts that were narrowed down by the search
+    reorderAndDisplayPosts(searchResultsReturned);
+  });
 });
 
 // --- When the window is resized --- //
@@ -430,4 +702,6 @@ $(window).on('resize', function(event){
   // Change the font-size of the sound icon in the story panel
   // according to the size of the story panel
   adjustSizesOfThumbnailIcons();
+  // Set search bar size to correct width
+  resizeSearchBarWidth();
 });

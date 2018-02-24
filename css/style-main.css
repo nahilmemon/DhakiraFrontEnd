@@ -7,7 +7,11 @@
 
 /* Establishing font-sizes and line-heights, etc.*/
 /* Body */
-body, caption, th, td, input, textarea, select, option, legend, fieldset, h1, h2, h3, h4, h5, h6, .btn {
+body, caption, th, td, input, textarea,
+select, option, legend, fieldset, h1,
+h2, h3, h4, h5, h6, .btn,
+.sorting-dropdown-menu,
+.sorting-dropdown-header {
   font-size-adjust: 0.5;
 }
 
@@ -17,7 +21,10 @@ body {
   color: #818181;
 }
 
-nav, main, footer, .btn {
+nav, main, footer, .btn,
+.sorting-dropdown-menu,
+.sorting-dropdown-header,
+#searchBox {
   font-size: 1em;
   /* equivalent to 16px */
   line-height: 1.25;
@@ -755,31 +762,6 @@ h4.modal-body-title {
   }
 }
 
-.search-filter-button,
-.search-table-button {
-  color: #ffffff;
-  background: #4bafc9;
-  padding: 20px;
-  text-decoration: none;
-  border: none;
-  border-radius: 5px;
-  margin: 1em 0;
-  transition: box-shadow 0.5s;
-  margin-top: 2px;
-}
-
-#clear-homepage-filters,
-#reset-add-members,
-#reset-delete-members,
-.inverted-button {
-  border-color: #4bafc9;
-  border-style: solid;
-  border-width: 2px;
-  padding: 18px;
-  background: transparent;
-  color: #4bafc9;
-}
-
 .panel-overlay {
   /*background-color: rgba(0,0,0,0.5);*/
   position: absolute;
@@ -910,6 +892,8 @@ div.ui.search.input > input {
   display: none;
 }
 
+/* View Posts Page */
+
 .view-post-container {
   border: 1px solid #ddd;
   padding: 15px 0;
@@ -945,16 +929,100 @@ section#your-stories > article > div > div > i.video-icon-size.icon {
   margin: auto;
 }
 
-#searchBox {
-  height: 44px;
-  border: solid 2px #4bafc9;
-  border-radius: 5px;
-}
-
 .view-post-tag {
   color: #fff;
   background-color: #4bafc9;
   border: solid 1px #4bafc9;
   border-radius: 5px;
   padding: 1px 3px;
+}
+
+/* Buttons */
+.search-filter-button,
+.search-table-button {
+  color: #ffffff;
+  background: #4bafc9;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  margin: 1em 0;
+  transition: box-shadow 0.5s;
+  /*margin-top: 2px;*/
+  height: 34px;
+  margin: 0 0 5px 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+#clear-homepage-filters,
+#reset-add-members,
+#reset-delete-members,
+.inverted-button {
+  border-color: #4bafc9;
+  border-style: solid;
+  border-width: 2px;
+  background: transparent;
+  color: #4bafc9;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Make bigger buttons for mobile and
+tablet since fingers are not as accurate
+as mice. */
+@media screen and (max-width: 768px) {
+  .search-filter-button,
+  .search-table-button {
+    padding: 10px;
+    height: auto;
+  }
+  #clear-homepage-filters,
+  #reset-add-members,
+  #reset-delete-members,
+  .inverted-button {
+    padding: 8px;
+  }
+}
+
+#searchBox {
+  display: none;
+  border: solid 2px #4bafc9;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+@media screen and (max-width: 768px) {
+  #searchBox {
+    height: 40px;
+  }
+}
+
+.sorting-dropdown {
+  display: inline;
+}
+
+.sorting-div {
+  margin-bottom: 10px;
+}
+
+/* Advanced Search Filters */
+#advanced-search-filters-section {
+  /*display: none;*/
+}
+
+#advanced-filter-menu {
+  background-color: #4bafc9;
+  color: #fff;
+  font-weight: 500;
+  padding: 0;
+}
+
+.advanced-filter-tab {
+  border: solid 1px #fff;
+}
+
+.advanced-filter-icon,
+i.icon.advanced-filter-icon {
+  padding-top: 10px;
+  font-size: 2em;
 }

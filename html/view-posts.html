@@ -23,6 +23,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/transition.min.css">
   <!-- Semantic UI Flags -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/flag.min.css">
+  <!-- Icons -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Google Fonts -->
   <!-- Raleway -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext" rel="stylesheet">
@@ -115,290 +118,96 @@
     </header>
 
     <!-- Filtering Section -->
-    <section id="filters" class="container-fluid bg-grey">
-      <!-- Search Filters -->
-      <section class="row filters-layout">
-        <!-- Search Box -->
-        <input class="col-xs-4" type="text" id="searchBox" onChange="searchForTitleOrPostContent()" placeholder="Search posts">
-
-        <!-- Search What Dropdown -->
-        <div class="ui multiple dropdown col-xs-4" id="search-what-dropdown">
-          <!-- Input -->
-          <input type="hidden" name="group-filter">
-          <!-- Heading -->
-          <div class="default text">Search What</div>
-          <i class="dropdown icon"></i>
-          <!-- Content Inside the Dropdown Menu -->
-          <div class="menu">
-            <!-- Actual Selectable Content in the Dropdown Menu -->
-            <div class="scrolling menu filter-content-dropdown">
-              <div class="item" data-value="title">
-                title
-              </div>
-              <div class="item" data-value="post-contents">
-                post contents
-              </div>
-            </div>
+    <section id="search-filters" class="container-fluid bg-grey">
+      <!-- Advanced Filters -->
+      <section class="row" id="advanced-search-filters-section">
+        <p>Advanced search filters to appear here!</p>
+        <!-- Advanced Filter Menu -->
+        <div class="col-xs-12 text-center" id="advanced-filter-menu">
+          <div class="col-xs-4 col-sm-2 advanced-filter-tab" id="where-tab">
+            <i class="map signs icon advanced-filter-icon"></i>
+            <p>Where</p>
+          </div>
+          <div class="col-xs-4 col-sm-2 advanced-filter-tab" id="when-tab">
+            <i class="calendar alternate icon advanced-filter-icon"></i>
+            <p>When</p>
+          </div>
+          <div class="col-xs-4 col-sm-2 advanced-filter-tab" id="privacy-tab">
+            <i class="lock icon advanced-filter-icon"></i>
+            <p>Privacy</p>
+          </div>
+          <div class="col-xs-4 col-sm-2 advanced-filter-tab" id="groups-tab">
+            <i class="users icon advanced-filter-icon"></i>
+            <p>Groups</p>
+          </div>
+          <div class="col-xs-4 col-sm-2 advanced-filter-tab" id="tags-tab">
+            <i class="tags icon advanced-filter-icon"></i>
+            <p>Tags</p>
+          </div>
+          <div class="col-xs-4 col-sm-2 advanced-filter-tab" id="media-tab">
+            <i class="file icon advanced-filter-icon"></i>
+            <p>Media</p>
           </div>
         </div>
-
-        <!-- Search When - Date Range Picker -->
-
-        <!-- Search Privacy Settings - Dropdown -->
-        <div class="ui multiple dropdown col-xs-4" id="search-privacy-dropdown">
-          <!-- Input -->
-          <input type="hidden" name="group-filter">
-          <!-- Heading -->
-          <div class="default text">Filter Privacy Settings</div>
-          <i class="dropdown icon"></i>
-          <!-- Content Inside the Dropdown Menu -->
-          <div class="menu">
-            <!-- Actual Selectable Content in the Dropdown Menu -->
-            <div class="scrolling menu filter-content-dropdown">
-              <div class="item" data-value="private">
-                private
-              </div>
-              <div class="item" data-value="group">
-                group
-              </div>
-              <div class="item" data-value="public">
-                public
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Search Groups Dropdown -->
-        <div class="ui multiple dropdown col-xs-4" id="search-groups-dropdown">
-          <!-- Input -->
-          <input type="hidden" name="group-dropdown">
-          <!-- Heading -->
-          <div class="default text">Filter Group</div>
-          <i class="dropdown icon"></i>
-          <!-- Content Inside the Dropdown Menu -->
-          <div class="menu">
-            <!-- Search Bar -->
-            <div class="ui icon search input">
-              <i class="search icon"></i>
-              <input type="text" placeholder="Search groups...">
-            </div>
-            <!-- Actual Selectable Content in the Dropdown Menu -->
-            <div class="scrolling menu filter-content-dropdown">
-            </div>
-          </div>
-        </div>
-
-        <!-- Search Content Types - Dropdown -->
-        <div class="ui multiple dropdown col-xs-4" id="search-privacy-dropdown">
-          <!-- Input -->
-          <input type="hidden" name="group-filter">
-          <!-- Heading -->
-          <div class="default text">Filter Content Types</div>
-          <i class="dropdown icon"></i>
-          <!-- Content Inside the Dropdown Menu -->
-          <div class="menu">
-            <!-- Actual Selectable Content in the Dropdown Menu -->
-            <div class="scrolling menu filter-content-dropdown">
-              <div class="item" data-value="video">
-                video
-              </div>
-              <div class="item" data-value="image">
-                image
-              </div>
-              <div class="item" data-value="audio">
-                audio
-              </div>
-              <div class="item" data-value="text">
-                text
-              </div>
-            </div>
-          </div>
-        </div>
-
       </section>
 
-      <!-- Buttons -->
+      <!-- Basic Search -->
       <section class="row">
-        <!-- Search Mode -->
-        <div class="col-xs-12 search-mode-div" id="homepage-search-mode">
-          <h4 class="radio-inline-heading">Search Mode:</h4>
-          <div class="radio">
-            <label class="searchModeRadios">
-              <input type="radio" name="searchModeRadios" id="homepage-search-mode-and" value="homepage-search-option-and" checked>
-            AND mode
-            </label>
-          </div>
-          <div class="radio">
-            <label class="radio-inline searchModeRadios">
-              <input type="radio" name="searchModeRadios" id="homepage-search-mode-or" value="homepage-search-option-or">
-            OR mode
-            </label>
-          </div>
+        <!-- Search Box with Buttons -->
+        <div class="col-xs-12 sorting-div">
+          <!-- Search Box -->
+          <input type="text" class="form-control" id="searchBox" placeholder="Search posts">
+
+          <!-- Buttons -->
+          <button class="btn btn-default search-filter-button" id="submit-filters-button">Go</button>
+          <button class="btn btn-default search-filter-button inverted-button" id="reset-filters-button">Reset</button>
+          <button class="btn btn-default search-filter-button" id="advanced-search-button">Advanced Search</button>
         </div>
-        <div class="col-xs-12 text-center">
-          <button class="search-filter-button" id="submit-homepage-filters" type="submit">Submit Filters</button>
-          <button class="search-filter-button" id="clear-homepage-filters" type="reset">Clear Filters</button>
+
+        <!-- Sorting Options -->
+        <div class='col-xs-12 sorting-div'>
+          Sort by
+          <!-- Dropdown #1: Category -->
+          <div class="dropdown sorting-dropdown">
+            <button class="btn btn-default dropdown-button dropdown-toggle" type="button" data-toggle="dropdown">
+              <span id="category-dropdown" data-value="title">title</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu sorting-dropdown-menu">
+              <li class="dropdown-header sorting-dropdown-header">Select Category</li>
+              <li><a class="sorting-category" data-value="title">title</a></li>
+              <li><a class="sorting-category" data-value="date">date</a></li>
+            </ul>
+          </div>
+          in
+          <!-- Dropdown #2: Order -->
+          <!-- Dropdown #1: Category -->
+          <div class="dropdown sorting-dropdown">
+            <button class="btn btn-default dropdown-button dropdown-toggle" type="button" data-toggle="dropdown">
+              <span id="order-dropdown" data-value="ascending">ascending</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu sorting-dropdown-menu">
+              <li class="dropdown-header sorting-dropdown-header">Select Order</li>
+              <li><a class="sorting-order" data-value="ascending">ascending</a></li>
+              <li><a class="sorting-order" data-value="descending">descending</a></li>
+            </ul>
+          </div>
+          order.
+        </div>
+
+        <!-- Results Found Description -->
+        <div class='col-xs-12'>
+          <p id="number-of-results"></p>
         </div>
       </section>
 
 
-      <section class="row filters-layout">
-        <!-- Filter by Group -->
-        <div class="ui multiple dropdown col-xs-12 col-md-4" id="group-filter-dropdown">
-          <!-- Input -->
-          <input type="hidden" name="group-filter">
-          <!-- Heading -->
-          <div class="default text">Filter Stories by Group</div>
-          <i class="dropdown icon"></i>
-          <!-- Content Inside the Dropdown Menu -->
-          <div class="menu">
-            <!-- Search Bar -->
-            <div class="ui icon search input">
-              <i class="search icon"></i>
-              <input type="text" placeholder="Search groups...">
-            </div>
-            <!-- Divider -->
-            <div class="divider"></div>
-            <!-- Header -->
-            <div class="header">
-              <span>Select desired groups</span>
-            </div>
-            <!-- Actual Selectable Content in the Dropdown Menu -->
-            <div class="scrolling menu filter-content-dropdown">
-              <div class="item" data-value="title">
-                title
-              </div>
-              <div class="item" data-value="post-contents">
-                post contents
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </section> <!-- End of Filter Section -->
 
     <!-- Stories Section - List View -->
-    <section id="your-stories" class="container-fluid bg-grey">
+    <section id="your-stories" class="container-fluid">
     </section>
-
-      <!-- Video Story -->
-      <article class="row panel view-post-container">
-        <div class="col-xs-12 col-sm-4 view-post-video-container">
-          <img class="img-responsive story-image translucent-image" src="../media/images/video-screenshots/waterfall.PNG">
-          <div class="thumbnail-overlay">
-            <i class="video play icon video-icon-size" style="font-size:36px;"></i>
-          </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-8 view-post-info-text-container">
-          <h4><b>Post Title</b></h4>
-          <p class="date">
-            <i>
-              <script>
-                var d = new Date("October 13, 2014 11:13:00");
-                document.write(d.toDateString());
-              </script>
-            </i>
-          </p>
-          <!-- <p class="privacy">Only you can see this post.</p> -->
-          <p class="privacy">Only members of ____, ___, and ___ can see this post.</p>
-          <!-- <p class="privacy">Anyone can see this post.</p> -->
-          <p class="content-type">This post contains: video(s), photo(s), text, and audio.</p>
-        </div>
-      </article>
-
-      <!-- Image Story without Divider -->
-      <article class="row panel view-post-container">
-        <div class="col-xs-12 col-sm-4 view-post-image-container">
-          <img class="img-responsive" src="https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg">
-        </div>
-        <div class="col-xs-12 col-sm-8 view-post-info-text-container">
-          <h4><b>Post Title</b></h4>
-          <p class="date">
-            <i>
-              <script>
-                var d = new Date("October 13, 2014 11:13:00");
-                document.write(d.toDateString());
-              </script>
-            </i>
-          </p>
-          <!-- <p class="privacy">Only you can see this post.</p> -->
-          <p class="privacy">Only members of ____, ___, and ___ can see this post.</p>
-          <!-- <p class="privacy">Anyone can see this post.</p> -->
-          <p class="content-type">This post contains: video(s), photo(s), text, and audio.</p>
-        </div>
-      </article>
-
-      <!-- Audio Story -->
-      <article class="row panel view-post-container">
-        <div class="col-xs-12 col-sm-4 view-post-audio-container text-center">
-          <i class="sound icon sound-icon-size"></i>
-        </div>
-        <div class="col-xs-12 col-sm-8 view-post-info-text-container">
-          <h4><b>Post Title</b></h4>
-          <p class="date">
-            <i>
-              <script>
-                var d = new Date("October 13, 2014 11:13:00");
-                document.write(d.toDateString());
-              </script>
-            </i>
-          </p>
-          <!-- <p class="privacy">Only you can see this post.</p> -->
-          <p class="privacy">Only members of ____, ___, and ___ can see this post.</p>
-          <!-- <p class="privacy">Anyone can see this post.</p> -->
-          <p class="content-type">This post contains: video(s), photo(s), text, and audio.</p>
-          <p class="tags">Tags: <span class="view-post-tag">childhood</span> <span class="view-post-tag">dandelions</span> <span class="view-post-tag">wishes</span></p>
-        </div>
-      </article>
-
-      <!-- Text Story -->
-      <article class="row panel view-post-container">
-        <div class="col-xs-12 col-sm-4 view-post-text-container">
-          <blockquote class="quote">
-            <p>Paint anything you want on the canvas. Create your own world.</p>
-          </blockquote>
-        </div>
-        <div class="col-xs-12 col-sm-8 view-post-info-text-container">
-          <h4><b>Post Title</b></h4>
-          <p class="date">
-            <i>
-              <script>
-                var d = new Date("October 13, 2014 11:13:00");
-                document.write(d.toDateString());
-              </script>
-            </i>
-          </p>
-          <!-- <p class="privacy">Only you can see this post.</p> -->
-          <p class="privacy">Only members of ____, ___, and ___ can see this post.</p>
-          <!-- <p class="privacy">Anyone can see this post.</p> -->
-          <p class="content-type">This post contains: video(s), photo(s), text, and audio.</p>
-        </div>
-      </article>
-
-      <!-- Image Story with Divider -->
-      <article class="row panel view-post-container">
-        <div class="col-xs-12 col-sm-4 view-post-image-container">
-          <img class="img-responsive" src="https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg">
-        </div>
-        <div class="thumbnail-height col-xs-1"></div>
-        <div class="col-xs-12 col-sm-7 view-post-info-text-container">
-          <h4><b>Post Title</b></h4>
-          <p class="date">
-            <i>
-              <script>
-                var d = new Date("October 13, 2014 11:13:00");
-                document.write(d.toDateString());
-              </script>
-            </i>
-          </p>
-          <!-- <p class="privacy">Only you can see this post.</p> -->
-          <p class="privacy">Only members of ____, ___, and ___ can see this post.</p>
-          <!-- <p class="privacy">Anyone can see this post.</p> -->
-          <p class="content-type">This post contains: video(s), photo(s), text, and audio.</p>
-        </div>
-      </article>
-
   </main>
 
   <footer class="container-fluid text-center footer-padding">
