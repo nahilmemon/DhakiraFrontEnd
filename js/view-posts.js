@@ -518,6 +518,14 @@ function toggleAdvancedSearchMode(advancedMode) {
     // then change the text of the advanced search mode button
     // and display the advanced search mode filters
     $("#advanced-search-button").text("Advanced Search");
+    // reset the filters chosen section and the search mode dropdown section
+    // clear the filters chosen section in the html
+    deleteAllHTMLFiltersFromFiltersChosenSection();
+    // delete all data from the filters chosen data object
+    deleteAllFiltersFromFilterData(filtersAppliedData);
+    // reset search mode preference
+    $("#search-mode-dropdown").attr("data-value", 'all');
+    $("#search-mode-dropdown").text("all");
     $("#advanced-search-filters-section").hide();
   }
   advancedMode = !advancedMode;
