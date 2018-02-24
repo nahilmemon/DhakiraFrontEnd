@@ -894,11 +894,6 @@ div.ui.search.input > input {
   border: 1px solid #ddd;
   padding: 15px 0;
 }
-@media screen and (max-width: 767px) {
-  .view-post-container {
-    padding-top: 0;
-  }
-}
 
 @media screen and (min-width: 768px) {
   .view-post-info-text-container {
@@ -1065,6 +1060,7 @@ i.icon.advanced-filter-icon {
 /* Filter Tags */
 .filter-chosen {
   padding: 3px 6px;
+  margin-right: 2px;
   margin-bottom: 2px;
   font-weight: 500;
   border: solid 1px;

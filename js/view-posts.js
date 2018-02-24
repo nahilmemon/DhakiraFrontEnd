@@ -2,6 +2,15 @@
 var advancedSearchMode = true;
 var searchResultsReturned = [];
 
+var filtersAppliedData = {
+  'where': ['kentucky', 'ohio'],
+  'when': ['29/02/2016', '13/01/2018'],
+  'privacy': ['private', 'group'],
+  'groups': ['Ice Cream in the Tropics'],
+  'tags': ['nature', 'water', 'food'],
+  'media': ['video', 'text']
+};
+
 // List of information regarding each group
 var originalGroupMasterData = [
   {
@@ -361,20 +370,6 @@ function adjustSizesOfThumbnailIcons() {
     var soundIconFontSize = thumbnailWidth*0.4;
     $(this).css("font-size", soundIconFontSize);
   });
-
-  // $(".view-post-container").each(function(index) {
-  //   if (window.innerWidth >= 768 ) {
-  //     // var thumbnailHeight = jQuery(this).find(".view-post-info-text-container").height();
-  //     // var soundIconFontSize = thumbnailHeight*0.8;
-  //     var thumbnailWidth = jQuery(this).find(".view-post-audio-container").width();
-  //     console.log(thumbnailWidth);
-  //     // var soundIconFontSize = thumbnailWidth*0.8;
-  //   } else {
-  //     var thumbnailHeight = jQuery(this).find(".view-post-info-text-container").width();
-  //     var soundIconFontSize = thumbnailHeight*0.4;
-  //   }
-  //   jQuery(this).find(".view-post-audio-container").css("font-size", soundIconFontSize);
-  // });
 }
 
 function searchPosts(advancedMode) {
@@ -406,25 +401,31 @@ function searchPosts(advancedMode) {
 }
 
 function resetSearchFilters(advancedMode) {
-  if (advancedMode == false) {
-    console.log("Resetting basic search...");
-    // empty contents of search box
-    $("#searchBox").val('');
-    // show all posts
-    // Reset the sorting preferences
-    $("#category-dropdown").attr("data-value", 'title');
-    $("#category-dropdown").text("title");
-    $("#order-dropdown").text("ascending");
-    $("#order-dropdown").attr("data-value", 'ascending');
-    // Step 2: Sort the search results
-    sortPosts(postData);
-    // Step 3: Hide all the posts
-    hideAllPosts();
-    // Step 4: Only show the posts that were narrowed down by the search
-    reorderAndDisplayPosts(postData);
-  } else {
+  if (advancedMode == true) {
     console.log("Resetting advanced search...");
+    // clear the filters chosen section in the html
+    deleteAllHTMLFiltersFromFiltersChosenSection();
+    // delete all data from the filters chosen data object
+    deleteAllFiltersFromFilterData(filtersAppliedData);
+    // reset search mode preference
+    $("#search-mode-dropdown").attr("data-value", 'all');
+    $("#search-mode-dropdown").text("all");
   }
+  console.log("Resetting basic search...");
+  // empty contents of search box
+  $("#searchBox").val('');
+  // show all posts
+  // Reset the sorting preferences
+  $("#category-dropdown").attr("data-value", 'title');
+  $("#category-dropdown").text("title");
+  $("#order-dropdown").text("ascending");
+  $("#order-dropdown").attr("data-value", 'ascending');
+  // Step 2: Sort the search results
+  sortPosts(postData);
+  // Step 3: Hide all the posts
+  hideAllPosts();
+  // Step 4: Only show the posts that were narrowed down by the search
+  reorderAndDisplayPosts(postData);
   // clear the p element showing how many results were found
   $("#number-of-results").text("");
 }
@@ -603,8 +604,88 @@ function sortPosts(arrayOfPostsToSort) {
   }
 }
 
+// Add a filter to the applied filters data object
+function addAFilterToFilterData(filterObject, parameter, filterInfo) {
+  if (parameter == "where") {
+    // figure out how to format the filter info
+  } else if (parameter == "when") {
+    // figure out how to format the filter info
+  }
+  filterObject[parameter].push(filterInfo);
+}
+
+function deleteAFilterFromFilterData(filterObject, parameter, filterInfo) {
+  // find the index of the filter
+  var index = -1;
+  for (var i = 0; i < filterObject[parameter].length; i++) {
+    if (filterObject[parameter][i] == filterInfo) {
+      index = i;
+    }
+  }
+  if (index == -1) {
+    throw "Couldn't find object with id: " + id;
+  } else {
+    // delete that filter from the parameter's list
+    filterObject[parameter].splice(index, 1);
+  }
+}
+
+function deleteAllFiltersFromFilterData(filterObject) {
+  Object.keys(filterObject).forEach(function(key,index) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    filterObject[key] = [];
+  });
+}
+
+function createHTMLStringForOneFilter(filterObject, parameter, filterIndex) {
+  var htmlStringToAppend = '<span class="btn btn-default filter-chosen filter-';
+  htmlStringToAppend += parameter;
+  htmlStringToAppend += '-color-inverted" data-filter-parameter="';
+  htmlStringToAppend += parameter;
+  htmlStringToAppend += '" data-filter-value="';
+  htmlStringToAppend += filterObject[parameter][filterIndex];
+  htmlStringToAppend += '">';
+  htmlStringToAppend += '<span class="filter-chosen-text">';
+  htmlStringToAppend += filterObject[parameter][filterIndex];
+  htmlStringToAppend += '</span>'
+  htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
+  htmlStringToAppend += '</span>';
+  return htmlStringToAppend;
+}
+
+// note to self: do I really need this function ever?
+function createHTMLStringForAllFilters(filterObject) {
+  var htmlString = "";
+  Object.keys(filterObject).forEach(function(key,index) {
+    for (var i = 0; i < filterObject[key].length; i++) {
+      htmlString += createHTMLStringForOneFilter(filterObject, key, i);
+    }
+  });
+  return htmlString;
+}
+
+function addOneFilterHTMLStringToFiltersChosenSection(filterObject, parameter, filterIndex) {
+  var completeString = createHTMLStringForOneFilter(filterObject, parameter, filterIndex);
+  $("#display-filters-chosen-section").append(completeString);
+}
+
+function deleteAllHTMLFiltersFromFiltersChosenSection() {
+  $("#display-filters-chosen-section").html('');
+}
+
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
+
+  $("#display-filters-chosen-section").on("click", ".filter-chosen", function() {
+    // remove this element from the html
+    console.log($(this));
+    var filterParameter = $(this).attr("data-filter-parameter");
+    var filterText = $(this).attr("data-filter-value");
+    deleteAFilterFromFilterData(filtersAppliedData, filterParameter, filterText);
+    $(this).remove();
+  });
+
   // Set search bar size to correct width
   resizeSearchBarWidth();
 
