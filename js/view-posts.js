@@ -218,13 +218,13 @@ function returnGroupNameString(postID, postGroupIndex) {
 }
 
 function createHTMLStringForOnePost(postIndex) {
-  var htmlStringToAppend = '<article class="row panel view-post-container" data-id="';
+  var htmlStringToAppend = '<article class="row panel flex-row view-post-container" data-id="';
   htmlStringToAppend += postData[postIndex].id;
   htmlStringToAppend += '" data-toggle="modal" data-target="#storyModal">';
   // Thumbnail Div
   // Image
   if (postData[postIndex].thumbnailType == 'image') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 view-post-image-container">';
+    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-image-container">';
     htmlStringToAppend += '<img class="img-responsive" src="';
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '">';
@@ -232,7 +232,7 @@ function createHTMLStringForOnePost(postIndex) {
   }
   // Text
   else if (postData[postIndex].thumbnailType == 'text') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 view-post-text-container">';
+    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-text-container">';
     htmlStringToAppend += '<blockquote class="quote text-center">';
     htmlStringToAppend += '<p>';
     htmlStringToAppend += postData[postIndex].thumbnailContent;
@@ -242,23 +242,23 @@ function createHTMLStringForOnePost(postIndex) {
   }
   // Audio
   else if (postData[postIndex].thumbnailType == 'audio') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 view-post-audio-container text-center">';
+    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item flex-item-align-center view-post-audio-container text-center">';
     htmlStringToAppend += '<i class="sound icon sound-icon-size"></i>';
     htmlStringToAppend += '</div>';
   }
   // Video
   else if (postData[postIndex].thumbnailType == 'video') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 view-post-video-container">';
+    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-video-container">';
     htmlStringToAppend += '<img class="img-responsive story-image translucent-image" src="';
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '">';
-    htmlStringToAppend += '<div class="thumbnail-overlay">';
+    htmlStringToAppend += '<div class="thumbnail-overlay flex-item flex-item-align-center">';
     htmlStringToAppend += '<i class="video play icon video-icon-size"></i>';
     htmlStringToAppend += '</div>';
     htmlStringToAppend += '</div>';
   }
   // Post Info Div
-  htmlStringToAppend += '<div class="col-xs-12 col-sm-8 view-post-info-text-container">';
+  htmlStringToAppend += '<div class="col-xs-12 col-sm-8 flex-item view-post-info-text-container">';
   // Title
   htmlStringToAppend += '<h4><b>';
   htmlStringToAppend += postData[postIndex].title;
@@ -351,21 +351,30 @@ function addPostHTMLStringToYourStoriesSection() {
 
 function adjustSizesOfThumbnailIcons() {
   $(".view-post-video-container").each(function(index) {
-    var thumbnailHeight = $(this).height();
-    var videoIconFontSize = thumbnailHeight*0.8;
+    var thumbnailWidth = $(this).width();
+    var videoIconFontSize = thumbnailWidth*0.4;
     $(this).css("font-size", videoIconFontSize);
   });
 
-  $(".view-post-container").each(function(index) {
-    if (window.innerWidth >= 768 ) {
-      var thumbnailHeight = jQuery(this).find(".view-post-info-text-container").height();
-      var soundIconFontSize = thumbnailHeight*0.8;
-    } else {
-      var thumbnailHeight = jQuery(this).find(".view-post-info-text-container").width();
-      var soundIconFontSize = thumbnailHeight*0.4;
-    }
-    jQuery(this).find(".view-post-audio-container").css("font-size", soundIconFontSize);
+  $(".view-post-audio-container").each(function(index) {
+    var thumbnailWidth = $(this).width();
+    var soundIconFontSize = thumbnailWidth*0.4;
+    $(this).css("font-size", soundIconFontSize);
   });
+
+  // $(".view-post-container").each(function(index) {
+  //   if (window.innerWidth >= 768 ) {
+  //     // var thumbnailHeight = jQuery(this).find(".view-post-info-text-container").height();
+  //     // var soundIconFontSize = thumbnailHeight*0.8;
+  //     var thumbnailWidth = jQuery(this).find(".view-post-audio-container").width();
+  //     console.log(thumbnailWidth);
+  //     // var soundIconFontSize = thumbnailWidth*0.8;
+  //   } else {
+  //     var thumbnailHeight = jQuery(this).find(".view-post-info-text-container").width();
+  //     var soundIconFontSize = thumbnailHeight*0.4;
+  //   }
+  //   jQuery(this).find(".view-post-audio-container").css("font-size", soundIconFontSize);
+  // });
 }
 
 function searchPosts(advancedMode) {
@@ -661,6 +670,18 @@ $(document).ready(function(){
     searchAndSortPosts(advancedSearchMode);
   });
 
+  // When the user presses the "ENTER" key,
+  // change which posts are visible and hidden based on search parameters
+  $('#searchBox').on('keypress', function (e) {
+     if(e.which === 13){ // if the key pressed was the enter key
+        // Disable textbox to prevent multiple submit
+        $(this).attr("disabled", "disabled");
+        searchAndSortPosts(advancedSearchMode);
+        //Enable the textbox again.
+        $(this).removeAttr("disabled");
+     }
+   });
+
   // When the user clicks the "Reset" button,
   // reset all the search filters
   // and show all the posts.
@@ -694,6 +715,14 @@ $(document).ready(function(){
     hideAllPosts();
     // Step 4: Only show the posts that were narrowed down by the search
     reorderAndDisplayPosts(searchResultsReturned);
+  });
+
+  // When the user clicks on the option,
+  // then change the text in the dropdown button according to the option chosen
+  // and sort the posts accordingly
+  $(".search-mode-option").on("click", function() {
+    $("#search-mode-dropdown").attr("data-value", $(this).attr("data-value"));
+    $("#search-mode-dropdown").text($(this).attr("data-value"));
   });
 });
 

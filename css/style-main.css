@@ -436,50 +436,13 @@ div.navbar-header {
   margin-bottom: 20px;
   color: #4bafc9;
 }
-/*.slideanim {visibility:hidden;}*/
+
 .slide {
   animation-name: slide;
   -webkit-animation-name: slide;
   animation-duration: 1s;
   -webkit-animation-duration: 1s;
   visibility: visible;
-}
-/*@keyframes slide {
-  0% {
-    opacity: 0;
-    transform: translateY(70%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
-@-webkit-keyframes slide {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateY(70%);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: translateY(0%);
-  }
-}*/
-
-
-@media screen and (max-width: 768px) {
-  .col-sm-4 {
-    text-align: center;
-    margin: 25px 0;
-  }
-  .btn-lg {
-      width: 100%;
-      margin-bottom: 35px;
-  }
-}
-@media screen and (max-width: 480px) {
-  .logo {
-      font-size: 150px;
-  }
 }
 
 footer {
@@ -892,33 +855,65 @@ div.ui.search.input > input {
   display: none;
 }
 
-/* View Posts Page */
+/* ---- View Posts Page ----  */
+/* Making columns have equal heights */
+/* Container */
+.flex-row {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  -ms-align-items: stretch;
+  align-items: stretch;
+}
+/* Children */
+.flex-item {
+  -webkit-flex: 1 0 auto;
+  -moz-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+.flex-item-align-center {
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+}
+
+/* Post Articles */
 .view-post-container {
   border: 1px solid #ddd;
   padding: 15px 0;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .view-post-container {
     padding-top: 0;
   }
 }
 
-.view-post-text-container,
-.view-post-image-container,
-.view-post-audio-container {
-  /*border-right: 1px solid #ddd;*/
+@media screen and (min-width: 768px) {
+  .view-post-info-text-container {
+    border-left: 1px solid #ddd;
+  }
 }
 
-.view-post-info-text-container {
-  /*border-left: 1px solid #ddd;*/
-}
-
+/* Thumbnails for the post articles */
 .thumbnail-height {
   border-left: 2px solid #4bafc9;
   padding: 0 5px;
 }
 
+/* To place the video icon on top of
+the video screenshots */
 .thumbnail-overlay,
 section#your-stories > article > div > div > i.video-icon-size.icon {
   color: #4bafc9;
@@ -926,9 +921,11 @@ section#your-stories > article > div > div > i.video-icon-size.icon {
   top: 0;
   left: 0;
   right: 0;
+  bottom: 10px;
   margin: auto;
 }
 
+/* Tags */
 .view-post-tag {
   color: #fff;
   background-color: #4bafc9;
@@ -953,7 +950,6 @@ section#your-stories > article > div > div > i.video-icon-size.icon {
   padding-left: 10px;
   padding-right: 10px;
 }
-
 
 #clear-homepage-filters,
 #reset-add-members,
@@ -985,6 +981,11 @@ as mice. */
   }
 }
 
+/* Search Filters Section */
+#search-filters {
+  padding: 30px 50px 15px 50px;
+}
+/* Basic Search Section */
 #searchBox {
   display: none;
   border: solid 2px #4bafc9;
@@ -997,32 +998,150 @@ as mice. */
   }
 }
 
-.sorting-dropdown {
+.sorting-dropdown,
+.search-mode-dropdown {
   display: inline;
 }
 
-.sorting-div {
-  margin-bottom: 10px;
+.basic-search-row {
+  margin: 5px 0;
+  padding: 0;
 }
 
-/* Advanced Search Filters */
+/* Advanced Search Filters Section */
 #advanced-search-filters-section {
   /*display: none;*/
+  margin-bottom: 5px;
 }
 
+/* Advanced Filter Menu */
 #advanced-filter-menu {
   background-color: #4bafc9;
   color: #fff;
   font-weight: 500;
-  padding: 0;
+  margin-bottom: 2px;
+  /*border: solid 1px #fff;*/
 }
 
-.advanced-filter-tab {
-  border: solid 1px #fff;
+/* Make a border around the inners
+sides of each tab. */
+.advanced-filter-tab:nth-child(n+2){
+  border-left: 2px solid #fff;
+}
+@media (max-width: 767px){
+  .advanced-filter-tab:nth-child(3n+1){
+    border-left: none;
+  }
+  .advanced-filter-tab:nth-child(n+4){
+    border-top: 2px solid #fff;
+  }
 }
 
 .advanced-filter-icon,
 i.icon.advanced-filter-icon {
   padding-top: 10px;
   font-size: 2em;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+#filters-and-search-mode-chosen-section {
+  border: solid 1px #4bafc9;
+}
+
+#filter-search-mode-chosen-section,
+#filters-chosen-section {
+  border: solid 1px #4bafc9;
+  padding: 5px;
+}
+
+/* Filter Chosen Section */
+.filters-chosen-heading {
+  margin-bottom: 2px;
+}
+
+/* Filter Tags */
+.filter-chosen {
+  padding: 3px 6px;
+  margin-bottom: 2px;
+  font-weight: 500;
+  border: solid 1px;
+}
+
+.filter-chosen-close-button {
+  padding-left: 5px;
+}
+
+.filter-where-color {
+  background-color: #4bafc9;
+  color: #fff;
+  border-color: #fff;
+}
+
+.filter-where-color-inverted {
+  background-color: #fff;
+  color: #4bafc9;
+  border-color: #4bafc9;
+}
+
+.filter-when-color {
+  background-color: #c94b70;
+  color: #fff;
+  border-color: #fff;
+}
+
+.filter-when-color-inverted {
+  background-color: #fff;
+  color: #c94b70;
+  border-color: #c94b70;
+}
+
+.filter-privacy-color {
+  background-color: #c9a44b;
+  color: #fff;
+  border-color: #fff;
+}
+
+.filter-privacy-color-inverted {
+  background-color: #fff;
+  color: #c9a44b;
+  border-color: #c9a44b;
+}
+
+.filter-groups-color {
+  background-color: #4bc9a4;
+  color: #fff;
+  border-color: #fff;
+}
+
+.filter-groups-color-inverted {
+  background-color: #fff;
+  color: #4bc9a4;
+  border-color: #4bc9a4;
+}
+
+.filter-tags-color {
+  background-color: #765fcf ;
+  color: #fff;
+  border-color: #fff;
+}
+
+.filter-tags-color-inverted {
+  background-color: #fff;
+  color: #765fcf ;
+  border-color: #765fcf ;
+}
+
+.filter-media-color {
+  background-color: #c9654b ;
+  color: #fff;
+  border-color: #fff;
+}
+
+.filter-media-color-inverted {
+  background-color: #fff;
+  color: #c9654b ;
+  border-color: #c9654b ;
 }
