@@ -8,9 +8,9 @@ var filtersAppliedData = {
   'where': ['kentucky', 'ohio'],
   'when': ['29/02/2016', '13/01/2018'],
   'privacy': [],
-  'groups': ['Ice Cream in the Tropics'],
-  'tags': ['nature', 'water', 'food'],
-  'media': ['video', 'text']
+  'groups': [],
+  'tags': [],
+  'media': []
 };
 
 // contains all the possible options for each advanced filter
@@ -18,9 +18,14 @@ var possibleFiltersData = {
   'where': ['kentucky', 'ohio'],
   'when': ['29/02/2016', '13/01/2018'],
   'privacy': ['private', 'group', 'public'],
-  'groups': ['Ice Cream in the Tropics'],
-  'tags': ['nature', 'water', 'food'],
-  'media': ['video', 'text']
+  'groups': ['Ice Cream in the Tropics', 'Grenouilles dans les Déserts', 'Edredones',
+    'Cooking with Grandparents', 'Playing with Wild Animals'],
+  'tags': ['boat', 'water', 'nature', 'origami', 'paper', 'stones', 'painting', 'creativity',
+    'meditation', 'dams', 'actions', 'righteousness', 'ethics', 'ice cream', 'cooking',
+    'recipe', 'food', 'fruits', 'grandma', 'chocolate', 'history', 'dandelions', 'wishes',
+    'childhood', 'snow', 'quilts', 'animals', 'storytelling', 'reading', 'bedtime', 'scary',
+    'fire'],
+  'media': ['video(s)', 'image(s)', 'audio', 'text']
 };
 
 // contains the state of the select all button for each filter
@@ -447,6 +452,29 @@ function resizeSearchBarWidth() {
     $("#search-box").css("width", "100%");
   }
   $("#search-box").show();
+}
+
+// Change the size the advanced filter selection div based on the height of the dropdown
+// button and dropdown menu
+function resizeAdvancedSearchOptionsDivs() {
+  // just in case the height depends on the filter type (e.g. map and data take more
+  // or less space)
+  // find all the advanced filter selection option divs
+  var listOfAdvancedSelectionDivs = $(".select-filter-options-section");
+  // iterate through all the advanced filter selection option divs
+  for (var i=0; i<listOfAdvancedSelectionDivs.length; i++) {
+    var filterParameter = $(listOfAdvancedSelectionDivs[i]).attr("data-filter-parameter");
+    if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
+      var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
+      var dropdownButtonHeight = dropdownButton.outerHeight(false);
+      var divHeight = 0.2*window.innerHeight + 2*2 + 2*5 + dropdownButtonHeight + 3;
+      // 0.2*window.innerHeight: dropdown menu is 20vh in height
+      // 2*2: top and bottom border width
+      // 2*5: top and bottom padding
+      // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
+    }
+    $(listOfAdvancedSelectionDivs[i]).css("height", divHeight);
+  }
 }
 
 // Search, sort, and hide/display the posts based on the inputs given by the user.
@@ -1183,6 +1211,9 @@ $(document).ready(function(){
   });
 
   // ------ ADVANCED SEARCH RELATED FUNCTIONS ------ //
+  // resize the height of the advanced filter selection sections
+  resizeAdvancedSearchOptionsDivs();
+
   // When the user clicks the "Advanced Search" button,
   // toggle advanced search mode (hide/show the advanced filters and change button text)
   $("#advanced-search-button").on("click", function() {
@@ -1323,4 +1354,6 @@ $(window).on('resize', function(event){
   adjustSizesOfThumbnailIcons();
   // Set search bar size to correct width
   resizeSearchBarWidth();
+  // resize the height of the advanced filter selection sections
+  resizeAdvancedSearchOptionsDivs();
 });

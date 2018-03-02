@@ -1162,7 +1162,7 @@ i.icon.advanced-filter-icon {
   border: solid 2px;
   padding: 5px;
   margin-bottom: 2px;
-  height: 250px;
+  display: none;
 }
 
 /* Dropdown again */
@@ -1184,8 +1184,8 @@ the dropdown main bar button */
   /*equivalent to 20px*/
 }
 @media (min-width: 43.75em) {
-  .multiselect-container.dropdown-menu,
-  .multiselect-container.dropdown-menu>li>a {
+  .advanced-filter-dropdown > .dropdown-menu,
+  .advanced-filter-dropdown > .dropdown-menu>li>a {
     font-size: 1em;
     /* equivalent to 16px */
     line-height: 1.375;
@@ -1199,6 +1199,7 @@ the dropdown main bar button */
 }
 .clear-search-button {
   font-weight: 600;
+  height: 34px;
 }
 /* Full width for the dropdown button */
 .advanced-filter-dropdown > button.dropdown-toggle{
@@ -1209,4 +1210,10 @@ the dropdown main bar button */
   position: absolute;
   right: 2%;
   top: 45%;
+}
+/* Set a max height for dropdown menus */
+.advanced-filter-dropdown > .dropdown-menu {
+  max-height: 20vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
