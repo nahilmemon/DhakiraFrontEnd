@@ -9,9 +9,7 @@
 /* Body */
 body, caption, th, td, input, textarea,
 select, option, legend, fieldset, h1,
-h2, h3, h4, h5, h6, .btn,
-.sorting-dropdown-menu,
-.sorting-dropdown-header {
+h2, h3, h4, h5, h6 {
   font-size-adjust: 0.5;
 }
 
@@ -24,7 +22,7 @@ body {
 nav, main, footer, .btn,
 .sorting-dropdown-menu,
 .sorting-dropdown-header,
-#searchBox {
+#searchBox, .form-control {
   font-size: 1em;
   /* equivalent to 16px */
   line-height: 1.25;
@@ -32,7 +30,10 @@ nav, main, footer, .btn,
 }
 
 @media (min-width: 43.75em) {
-  nav, main, footer {
+  nav, main, footer, .btn,
+  .sorting-dropdown-menu,
+  .sorting-dropdown-header,
+  #searchBox, .form-control {
     font-size: 1em;
     /* equivalent to 16px */
     line-height: 1.375;
@@ -271,14 +272,6 @@ section#featured,
 section#featured > div > div {
   padding: 0;
 }
-
-/*section#featured,
-section#featured > div.row,
-section#featured > div.row > div#myCarouselContainer {
-  width: 99vw;
-  margin: 0;
-  padding: 0;
-}*/
 
 .panel {
   /*border: 1px solid #4bafc9;*/
@@ -591,7 +584,7 @@ footer {
   padding: 12px 20px;
   margin: 8px 0;
   /*font-size: 20px;*/
-  border: 3px solid #ccc;
+  border: 2px solid #ccc;
   -webkit-transition: 0.5s;
   transition: 0.5s;
   outline: none;
@@ -602,16 +595,9 @@ footer {
   font-weight: 600;
 }
 
-input[type=text]:focus {
-  border: 3px solid #4bafc9;
-}
-
+input[type=text]:focus,
 input[type=password]:focus {
-  border: 3px solid #4bafc9;
-}
-
-.form-style {
-  /*font-size: 20px;*/
+  border: 2px solid #4bafc9;
 }
 
 .text-note {
@@ -620,23 +606,6 @@ input[type=password]:focus {
 
 .login-form {
   padding: 30px;
-}
-
-.login-form-button {
-  color: #ffffff;
-  background: #4bafc9;
-  padding: 20px;
-  text-decoration: none;
-  border: none;
-  border-radius: 5px;
-  margin: 1em 0;
-  transition: box-shadow 0.5s;
-}
-
-.login-form-button:hover {
-  /*background: #007f98;*/
-  text-decoration: none;
-  box-shadow: 9px 9px 30px rgba(0,0,0, .2);
 }
 
 .login-form-link {
@@ -653,12 +622,12 @@ input[type=password]:focus {
   color: #4bafc9;
 }
 
+/* Search Filters */
 .filters-layout {
   padding-left: 30px;
   padding-right: 30px;
 }
 
-/* Search Filters */
 section#filters {
   padding-top: 40px;
   padding-bottom: 24px;
@@ -930,49 +899,55 @@ section#your-stories > article > div > div > i.video-icon-size.icon {
 }
 
 /* Buttons */
-.search-filter-button,
-.search-table-button {
-  color: #ffffff;
-  background: #4bafc9;
-  text-decoration: none;
-  border: none;
+button,
+.button {
+  border: solid 2px #4bafc9;
   border-radius: 5px;
-  margin: 1em 0;
-  transition: box-shadow 0.5s;
-  /*margin-top: 2px;*/
+  color: #fff;
+  background-color: #4bafc9;
+  text-decoration: none;
   height: 34px;
   margin: 0 0 5px 0;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-#clear-homepage-filters,
-#reset-add-members,
-#reset-delete-members,
-.inverted-button {
-  border-color: #4bafc9;
-  border-style: solid;
-  border-width: 2px;
-  background: transparent;
-  color: #4bafc9;
   padding-left: 8px;
   padding-right: 8px;
+  font-weight: 500;
+  transition: box-shadow 0.5s;
+}
+
+button:hover,
+.button:hover {
+/*  color: #4bafc9;
+  background-color: #fff;
+  border-color: #4bafc9;*/
+  box-shadow: 3px 3px 20px rgba(0,0,0, .2);
+}
+
+button:focus,
+.button:focus,
+button:active,
+.button:active {
+  outline:0;
+}
+
+.inverted-button {
+  background-color: #fff;
+  color: #4bafc9;
+}
+
+.inverted-button:hover {
+/*  color: #fff;
+  background-color: #4bafc9;*/
+  box-shadow: 3px 3px 20px rgba(0,0,0, .2);
 }
 
 /* Make bigger buttons for mobile and
 tablet since fingers are not as accurate
 as mice. */
 @media screen and (max-width: 768px) {
-  .search-filter-button,
-  .search-table-button {
-    padding: 10px;
-    height: auto;
-  }
-  #clear-homepage-filters,
-  #reset-add-members,
-  #reset-delete-members,
-  .inverted-button {
+  button,
+  .button {
     padding: 8px;
+    height: auto;
   }
 }
 
@@ -981,23 +956,36 @@ as mice. */
   padding: 30px 50px 15px 50px;
 }
 /* Basic Search Section */
-#searchBox {
+#search-box {
   display: none;
+  width: 10%;
   border: solid 2px #4bafc9;
   border-radius: 5px;
   margin-bottom: 5px;
 }
 @media screen and (max-width: 768px) {
-  #searchBox {
+  #search-box {
     height: 40px;
   }
 }
 
-.sorting-dropdown,
-.search-mode-dropdown {
+/* Sorting Dropdown Stuff */
+/* Sorting dropdown container */
+.sorting-dropdown {
   display: inline;
 }
+/* sorting dropdown label */
+.sorting-dropdown>button {
+  font-weight: 500;
+  color: #818181;
+}
+/* sorting dropdown list */
+.sorting-dropdown-menu {
+  position: absolute;
+  top: 150%;
+}
 
+/* Basic search stuff */
 .basic-search-row {
   margin: 5px 0;
   padding: 0;
@@ -1020,14 +1008,17 @@ as mice. */
 
 /* Make a border around the inners
 sides of each tab. */
-.advanced-filter-tab:nth-child(n+2){
+.advanced-filter-tab:nth-child(n+2),
+.advanced-filter-tab:nth-child(n+2):hover{
   border-left: 2px solid #fff;
 }
 @media (max-width: 767px){
-  .advanced-filter-tab:nth-child(3n+1){
+  .advanced-filter-tab:nth-child(3n+1),
+  .advanced-filter-tab:nth-child(3n+1):hover{
     border-left: none;
   }
-  .advanced-filter-tab:nth-child(n+4){
+  .advanced-filter-tab:nth-child(n+4),
+  .advanced-filter-tab:nth-child(n+4):hover{
     border-top: 2px solid #fff;
   }
 }
@@ -1060,84 +1051,162 @@ i.icon.advanced-filter-icon {
 /* Filter Tags */
 .filter-chosen {
   padding: 3px 6px;
+  height: auto;
   margin-right: 2px;
   margin-bottom: 2px;
   font-weight: 500;
   border: solid 1px;
 }
 
+.filter-chosen:hover {
+  box-shadow: none;
+}
+
 .filter-chosen-close-button {
   padding-left: 5px;
 }
 
-.filter-where-color {
+.filter-where-color,
+.filter-where-color-inverted:hover {
   background-color: #4bafc9;
   color: #fff;
-  border-color: #fff;
+  border-color: #4bafc9;
 }
 
-.filter-where-color-inverted {
+.filter-where-color-inverted,
+.filter-where-color:hover,
+.filter-where-color-inverted-static {
   background-color: #fff;
   color: #4bafc9;
   border-color: #4bafc9;
 }
 
-.filter-when-color {
+.filter-when-color,
+.filter-when-color-inverted:hover {
   background-color: #c94b70;
   color: #fff;
-  border-color: #fff;
+  border-color: #c94b70;
 }
 
-.filter-when-color-inverted {
+.filter-when-color-inverted,
+.filter-when-color:hover,
+.filter-when-color-inverted-static {
   background-color: #fff;
   color: #c94b70;
   border-color: #c94b70;
 }
 
-.filter-privacy-color {
+.filter-privacy-color,
+.filter-privacy-color-inverted:hover {
   background-color: #c9a44b;
   color: #fff;
-  border-color: #fff;
+  border-color: #c9a44b;
 }
 
-.filter-privacy-color-inverted {
+.filter-privacy-color-inverted,
+.filter-privacy-color:hover,
+.filter-privacy-color-inverted-static {
   background-color: #fff;
   color: #c9a44b;
   border-color: #c9a44b;
 }
 
-.filter-groups-color {
+.filter-groups-color,
+.filter-groups-color-inverted:hover {
   background-color: #4bc9a4;
   color: #fff;
-  border-color: #fff;
+  border-color: #4bc9a4;
 }
 
-.filter-groups-color-inverted {
+.filter-groups-color-inverted,
+.filter-groups-color:hover,
+.filter-groups-color-inverted-static {
   background-color: #fff;
   color: #4bc9a4;
   border-color: #4bc9a4;
 }
 
-.filter-tags-color {
+.filter-tags-color,
+.filter-tags-color-inverted:hover {
   background-color: #765fcf ;
   color: #fff;
-  border-color: #fff;
+  border-color: #765fcf;
 }
 
-.filter-tags-color-inverted {
+.filter-tags-color-inverted,
+.filter-tags-color:hover,
+.filter-tags-color-inverted-static {
   background-color: #fff;
   color: #765fcf ;
   border-color: #765fcf ;
 }
 
-.filter-media-color {
+.filter-media-color,
+.filter-media-color-inverted:hover {
   background-color: #c9654b ;
   color: #fff;
-  border-color: #fff;
+  border-color: #c9654b;
 }
 
-.filter-media-color-inverted {
+.filter-media-color-inverted,
+.filter-media-color:hover,
+.filter-media-color-inverted-static {
   background-color: #fff;
   color: #c9654b ;
   border-color: #c9654b ;
+}
+
+/* Individual Filter Options Section */
+/* Filter Menu Box */
+.select-filter-options-section {
+  border: solid 2px;
+  padding: 5px;
+  margin-bottom: 2px;
+  height: 250px;
+}
+
+/* Dropdown again */
+/* remove the bottom margin underneath
+the dropdown main bar button */
+.dropdown > .button {
+  margin-bottom: 0;
+}
+/* Dropdown menu list items */
+.dropdown-menu,
+.dropdown-menu>li>a,
+.dropdown-menu>li>a:hover {
+  font: 400 16px Raleway, sans-serif;
+  line-height: 1.8;
+  color: #555;
+  font-size: 1em;
+  /* equivalent to 16px */
+  line-height: 1.25;
+  /*equivalent to 20px*/
+}
+@media (min-width: 43.75em) {
+  .multiselect-container.dropdown-menu,
+  .multiselect-container.dropdown-menu>li>a {
+    font-size: 1em;
+    /* equivalent to 16px */
+    line-height: 1.375;
+    /* equivalent to 22px */
+  }
+}
+/* Dropdown search bar close button */
+.input-group-btn {
+  font-size: 1em;
+  line-height: 1.42857143em;
+}
+.clear-search-button {
+  font-weight: 600;
+}
+/* Full width for the dropdown button */
+.advanced-filter-dropdown > button.dropdown-toggle{
+  width: 100%;
+}
+/* Caret */
+.advanced-filter-dropdown > button.dropdown-toggle > .caret {
+  position: absolute;
+  right: 2%;
+  top: 45%;
 }

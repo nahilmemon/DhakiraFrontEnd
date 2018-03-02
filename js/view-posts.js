@@ -1,14 +1,36 @@
-// Global Variables
-var advancedSearchMode = true;
-var searchResultsReturned = [];
+// ------ GLOBAL VARIABLES ------ //
+var advancedSearchMode = true; // toggles advanced search mode
+var searchResultsReturned = []; // contains which posts result from the basic/advanced search
+// var allItemsSelected = false; // toggles select all mode //--- make list per filter
 
+// contains which advanced filters are currently selected
 var filtersAppliedData = {
   'where': ['kentucky', 'ohio'],
   'when': ['29/02/2016', '13/01/2018'],
-  'privacy': ['private', 'group'],
+  'privacy': [],
   'groups': ['Ice Cream in the Tropics'],
   'tags': ['nature', 'water', 'food'],
   'media': ['video', 'text']
+};
+
+// contains all the possible options for each advanced filter
+var possibleFiltersData = {
+  'where': ['kentucky', 'ohio'],
+  'when': ['29/02/2016', '13/01/2018'],
+  'privacy': ['private', 'group', 'public'],
+  'groups': ['Ice Cream in the Tropics'],
+  'tags': ['nature', 'water', 'food'],
+  'media': ['video', 'text']
+};
+
+// contains the state of the select all button for each filter
+var allItemsSelectedStateForEachFilterData = {
+  'where': false,
+  'when': false,
+  'privacy': false,
+  'groups': false,
+  'tags': false,
+  'media': false
 };
 
 // List of information regarding each group
@@ -41,13 +63,14 @@ var originalGroupMasterData = [
   }
 ];
 
-// List of tags
+// List of possible tags used in all posts so far
 var tagData = ['boat', 'water', 'nature', 'origami', 'paper', 'stones', 'painting',
   'creativity', 'meditation', 'dams', 'actions', 'righteousness', 'ethics', 'ice cream',
   'cooking', 'recipe', 'food', 'fruits', 'grandma', 'chocolate', 'history', 'dandelions',
   'wishes', 'childhood', 'snow', 'quilts', 'animals', 'storytelling', 'reading', 'bedtime',
   'scary', 'fire'];
 
+// contains list of information regarding each post
 var postData = [
   {
     'id': 1,
@@ -79,7 +102,7 @@ var postData = [
     'id': 3,
     'title': 'My World',
     'date': new Date("August 31, 2016 19:11:20"),
-    'privacy': 'individual',
+    'privacy': 'private',
     'groupIds': [],
     'tags': ['painting', 'creativity', 'meditation'],
     'location': [],
@@ -157,7 +180,7 @@ var postData = [
     'id': 9,
     'title': 'Making a Wish',
     'date': new Date("November 18, 2017 12:23:12"),
-    'privacy': 'individual',
+    'privacy': 'private',
     'groupIds': [],
     'tags': ['dandelions', 'wishes', 'childhood'],
     'location': [],
@@ -207,6 +230,7 @@ var postData = [
   }
 ];
 
+// ------ LIST RELATED HELPER FUNCTIONS ------ //
 // Looks up an id in a list of arrays with id keys.
 // Returns the array that has the input id value.
 function findByIdReturnObject(source, id) {
@@ -218,6 +242,31 @@ function findByIdReturnObject(source, id) {
   throw "Couldn't find object with id: " + id;
 }
 
+// Looks up a specific value in a list.
+// Returns the index of the input value in the list.
+function findByValueReturnIndex(source, value) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i] == value) {
+      return i;
+    }
+  }
+  // throw "Couldn't find object with value: " + value;
+}
+
+// Makes a deep copy of an input array
+function deepCopyArray(originalArray) {
+  var output, v, key;
+  output = Array.isArray(originalArray) ? [] : {};
+  for (key in originalArray) {
+    v = originalArray[key];
+    output[key] = (typeof v === "object" && v !== null) ? deepCopyArray(v) : v;
+  }
+  return output;
+}
+
+// ------ SETUP POSTS RELATED FUNCTIONS ------ //
+// Given the ID of the post and the index of the group that this post belongs to,
+// return the name of the group from the originalGroupMasterData list
 function returnGroupNameString(postID, postGroupIndex) {
   var individualGroupData = findByIdReturnObject(originalGroupMasterData, postData[postID].groupIds[postGroupIndex]);
   var htmlString = '<u>';
@@ -226,6 +275,8 @@ function returnGroupNameString(postID, postGroupIndex) {
   return htmlString;
 }
 
+// Given the post index, return an html string which contains the html for how to display
+// this post on the page by looking ip relevant information from the postData list
 function createHTMLStringForOnePost(postIndex) {
   var htmlStringToAppend = '<article class="row panel flex-row view-post-container" data-id="';
   htmlStringToAppend += postData[postIndex].id;
@@ -279,7 +330,7 @@ function createHTMLStringForOnePost(postIndex) {
   htmlStringToAppend += '</i></p>';
   // Privacy
   htmlStringToAppend += '<p class="privacy">';
-  if (postData[postIndex].privacy == 'individual') {
+  if (postData[postIndex].privacy == 'private') {
     htmlStringToAppend += 'Only you can see this post.';
   } else if (postData[postIndex].privacy == 'public') {
     htmlStringToAppend += 'Anyone can see this post.';
@@ -336,6 +387,7 @@ function createHTMLStringForOnePost(postIndex) {
   return htmlStringToAppend;
 }
 
+// Return the html string for how to display all the posts in the postData list
 function createHTMLStringForAllPosts() {
   var htmlString = "";
   for (var i = 0; i < postData.length; i++) {
@@ -344,27 +396,32 @@ function createHTMLStringForAllPosts() {
   return htmlString;
 }
 
+// Add the relevant html string to the correct section of the DOM on the view posts page
 function addPostHTMLStringToYourStoriesSection() {
+  // Step 1: Generate the html and add this to the your-stories section
   var completeString = createHTMLStringForAllPosts();
-  $("#your-stories").append(completeString);
-  // sort the stories according to the sorting parameters given by default
+  $("#your-stories").append(completeString); // --- make this a variable?
   // Step 2: Sort the search results
+  // sort the stories according to the sorting parameters given by default
   sortPosts(postData);
   // Step 3: Hide all the posts
   hideAllPosts();
-  // Step 4: Only show the posts that were narrowed down by the search
+  // Step 4: Only show the posts that were narrowed down by the search (in this case, everything)
   reorderAndDisplayPosts(postData);
   // in case the user wants to sort the original data before making a search
   searchResultsReturned = postData;
 }
 
+// Adjust the sizes of the sound and video thumbnail icons based on the thumbnail's width
 function adjustSizesOfThumbnailIcons() {
+  // adjust the size of the video thumbnail icon to 40% of the thumbnail's width
   $(".view-post-video-container").each(function(index) {
     var thumbnailWidth = $(this).width();
     var videoIconFontSize = thumbnailWidth*0.4;
     $(this).css("font-size", videoIconFontSize);
   });
 
+  // adjust the size of the sound thumbnail icon to 40% of the thumbnail's width
   $(".view-post-audio-container").each(function(index) {
     var thumbnailWidth = $(this).width();
     var soundIconFontSize = thumbnailWidth*0.4;
@@ -372,10 +429,36 @@ function adjustSizesOfThumbnailIcons() {
   });
 }
 
+// ------ BASIC SEARCH RELATED FUNCTIONS ------ //
+// Change the size of the basic search's search input box according to the width of the page
+function resizeSearchBarWidth() {
+  var searchBarWidth;
+  // if the page width is large,
+  // then make sure all the buttons can fit next to the search box input,
+  // which should take up the remaining space
+  if (window.innerWidth > 500) {
+    searchBarWidth = window.innerWidth - 100 - 90 - $("#submit-filters-button").width() - $("#reset-filters-button").width() - $("#advanced-search-button").width();
+    $("#search-box").css("width", searchBarWidth);
+  }
+  // otherwise, if the page width is small,
+  // then let the search box take up the whole width of the page
+  // and let the buttons flow together onto the next line
+  else {
+    $("#search-box").css("width", "100%");
+  }
+  $("#search-box").show();
+}
+
+// Search, sort, and hide/display the posts based on the inputs given by the user.
+// --- Note to self: delete later
 function searchPosts(advancedMode) {
+  // if the search mode is currently basic search mode,
+  // then search whether the text in the search box matches the text in any of the post
+  // titles and post contents (note: this includes looking at the html in post content...)
   if (advancedMode == false) {
     console.log("Performing basic search...");
-    var searchInput = $("#searchBox").val().toUpperCase();
+    // obtain what was written in the main basic search input box
+    var searchInput = $("#search-box").val().toUpperCase();
     var resultsCounter = 0; // to store how many results were found
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < postData.length; i++) {
@@ -387,7 +470,10 @@ function searchPosts(advancedMode) {
         thisPostArticle.hide();
       }
     }
-  } else {
+  }
+  // otherwise, perform an advanced search by taking into consideration the filters
+  // chosen from the advanced filter menu tabs
+  else {
     console.log("Performing advanced search...");
   }
   // update the p element showing how many results were found
@@ -400,42 +486,80 @@ function searchPosts(advancedMode) {
   $("#number-of-results").text(resultsString);
 }
 
+// Reset the contents of the basic main search input box,
+// delete all the filters chosen from the advanced search,
+// and display all the posts based on the default sorting options.
 function resetSearchFilters(advancedMode) {
+  // if the search mode was set to advanced search mode,
+  // then delete all the filters chosen from the filtersAppliedData list
+  // and from the html in the filters chosen section
   if (advancedMode == true) {
     console.log("Resetting advanced search...");
     // clear the filters chosen section in the html
     deleteAllHTMLFiltersFromFiltersChosenSection();
+
+    // deselect all options and reset all advanced search filter dropdowns
+    // list of all options and select all options from every advanced filter dropdown
+    var listItems = $(".advanced-filter-dropdown").find("a");
+    // iterate through the list of options and deselect them
+    for (var i = 0; i < listItems.length; i++) {
+      var $input = $(listItems[i]).find('input'); // the input checkbox of the selected option
+      // set the selected option's checkbox as deselected mode
+      $input.prop('checked', false);
+    }
+    // change the text in the select all span to deselect all
+    $(".advanced-filter-dropdown").find('.select-all-text').text('Select All');
+
+    // change the text in the dropdown menu button to the default
+    // list of all advanced filter dropdown buttons
+    var dropdownButtonListItems = $(".advanced-filter-dropdown").find(".dropdown-button-text");
+    // iterate through the list of all advanced filter dropdown buttons
+    for (var i = 0; i < dropdownButtonListItems.length; i++) {
+      // find the relevant filter parameter for this dropdown button
+      var parameter = $(dropdownButtonListItems[i]).parent().parent().attr("data-filter-parameter");
+      // reset the text for this button to its default, unselected state
+      $(dropdownButtonListItems[i]).text("Select "+parameter+" filter(s).");
+      // reset the select all mode state
+      allItemsSelectedStateForEachFilterData[parameter] = false;
+    }
+
+
     // delete all data from the filters chosen data object
     deleteAllFiltersFromFilterData(filtersAppliedData);
+
     // reset search mode preference
     $("#search-mode-dropdown").attr("data-value", 'all');
     $("#search-mode-dropdown").text("all");
   }
+
   console.log("Resetting basic search...");
   // empty contents of search box
-  $("#searchBox").val('');
+  $("#search-box").val('');
+
   // show all posts
-  // Reset the sorting preferences
+  // Reset the sorting preferences to the default options
   $("#category-dropdown").attr("data-value", 'title');
   $("#category-dropdown").text("title");
   $("#order-dropdown").text("ascending");
   $("#order-dropdown").attr("data-value", 'ascending');
-  // Step 2: Sort the search results
+  // Sort the search results
   sortPosts(postData);
-  // Step 3: Hide all the posts
+  // Hide all the posts
   hideAllPosts();
-  // Step 4: Only show the posts that were narrowed down by the search
+  // Only show the posts that were narrowed down by the search (in this case, everything)
   reorderAndDisplayPosts(postData);
-  // clear the p element showing how many results were found
+  // clear the p element showing how many results were found (in this case, nothing)
   $("#number-of-results").text("");
 }
 
+// Hide all the posts on the page.
 function hideAllPosts() {
   $(".view-post-container").each(function(index) {
     $(this).hide();
   });
 }
 
+// Show all the posts on the page.
 function showAllPosts() {
   $(".view-post-container").each(function(index) {
     $(this).show();
@@ -447,26 +571,124 @@ function searchAndSortPosts(advancedMode) {
   // Search according to the filters given
   // Save the results in a new array
   searchResultsReturned = [];
-  if (advancedMode == false) {
-    console.log("Performing basic search...");
-    var searchInput = $("#searchBox").val().toUpperCase();
-    var resultsCounter = 0; // to store how many results were found
-    // Loop through all list items, and hide those who don't match the search query
-    for (i = 0; i < postData.length; i++) {
-      var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
-      if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
-        // thisPostArticle.show();
-        searchResultsReturned.push(postData[i]);
-        resultsCounter += 1;
-      } else {
-        thisPostArticle.hide();
+  // Step 1a: Perform the basic search,
+  // search whether the text in the search box matches the text in any of the post
+  // titles and post contents (note: this includes looking at the html in post content...)
+  console.log("Performing basic search...");
+  var searchInput = $("#search-box").val().toUpperCase();
+  var resultsCounter = 0; // to store how many results were found
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < postData.length; i++) {
+    var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
+    if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
+      // thisPostArticle.show();
+      searchResultsReturned.push(postData[i]);
+    } else {
+      thisPostArticle.hide();
+    }
+  }
+  // Step 1b: perform the advanced search by taking into consideration the filters
+  // chosen from the advanced filter menu tabs
+  if (advancedMode == true) {
+    console.log("Performing advanced search...");
+    // If the search mode is include "all" filters chosen,
+    // then use a subtractive process to refine the search results.
+    if ($("#search-mode-dropdown").attr("data-value") == "all") {
+      console.log("ALL MODE!!!");
+      // find the list of chosen filters
+      var filterListItems = $("#filters-chosen-section").find('.filter-chosen');
+      // iterate through the list of chosen filters
+      for (var i=0; i<filterListItems.length; i++) {
+        // make a temporary list of search results to store the results of the next
+        // part of the search
+        var advancedSearchResultsReturned = [];
+        // find the parameter and the filter info
+        var filterParameter = $(filterListItems[i]).attr("data-filter-parameter");
+        var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
+        // perform the search with the following method if it is one of simple dropdown filters
+        // (basically check if the filter value is present in the list of that filter's parameter
+        // present in that post's filter's parameter's list)
+        if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media" ) {
+          // iterate through each post in the current search results
+          // to check if it has the desired filter
+          for (var j=0; j<searchResultsReturned.length; j++) {
+            // if the post does have the desired filter,
+            // then add it to the advanced search results
+            if (searchResultsReturned[j][filterParameter].toLowerCase().indexOf(filterText) > -1) {
+              // add this post to the returned advanced search results list
+              console.log(searchResultsReturned[j]);
+              advancedSearchResultsReturned.push(searchResultsReturned[j]);
+            }
+          }
+        }
+        // update searchResultsReturned list according to the findings of the search refinement
+        // with this particular filter
+        searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
       }
     }
-  } else {
-    console.log("Performing advanced search...");
-    searchResultsReturned = postData;
-  }
+
+    // Otherwise, if the search mode is include "any" filter chosen,
+    // then use an additive process to refine the search results.
+    else {
+      // if there was no text in the search box from the basic search,
+      // then make sure that the search results list is still empty
+      if (searchInput == "") {
+        searchResultsReturned = [];
+      }
+      console.log("ANY MODE!!!");
+      console.log("Current search results");
+      console.log(searchResultsReturned);
+      // find the list of chosen filters
+      var filterListItems = $("#filters-chosen-section").find('.filter-chosen');
+      // iterate through the list of chosen filters
+      for (var i=0; i<filterListItems.length; i++) {
+        // find the parameter and the filter info
+        var filterParameter = $(filterListItems[i]).attr("data-filter-parameter");
+        var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
+        // perform the search with the following method if it is one of simple dropdown filters
+        // (basically check if the filter value is present in the list of that filter's parameter
+        // present in that post's filter's parameter's list)
+        if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media" ) {
+          // iterate through each post to check if it has the desired filter
+          for (var j=0; j<postData.length; j++) {
+            // if the post does have the desired filter,
+            // then add it to the search results if not already in the search results
+            if (postData[j][filterParameter].toLowerCase().indexOf(filterText) > -1) {
+              console.log("The following post has the desired filter.");
+              // add this post from the returned advanced search results list
+              console.log(postData[j]);
+              var postAlreadyPresentInSearchResults = false;
+              console.log("Checking to see if this post is in the below search results.");
+              console.log("Search length: "+searchResultsReturned.length);
+              console.log(searchResultsReturned);
+              // check if this post is already present in the search results
+              for (var k=0; k<searchResultsReturned.length; k++) {
+                // if this post is already present in the search results,
+                // then break the for loop and take note of this
+                if (searchResultsReturned[k].id == postData[j].id) {
+                  console.log("search id: "+searchResultsReturned[k].id+" "+searchResultsReturned[k][filterParameter]);
+                  console.log("post id: "+postData[j].id+" "+postData[j][filterParameter]);
+                  postAlreadyPresentInSearchResults = true;
+                  break;
+                }
+              } // end of for loop to iterate over current search results
+              // if this post was not already in the search results,
+              // then add this post to the search results
+              if (postAlreadyPresentInSearchResults == false) {
+                console.log("Pushing post into search results.");
+                searchResultsReturned.push(postData[j]);
+                console.log("Search length: "+searchResultsReturned.length);
+                console.log(searchResultsReturned);
+              }
+            } // end of if statement to see if the post has the desired filter
+          } // end of for loop to iterate over all the posts
+        } // end of if statement for if the filters are part of the simple dropdown options
+      } // end of for loop to iterate over all the filters chosens
+    } // any mode end
+  } // advanced search mode end
+
   console.log("Search Results:");
+  console.log("!!!Search length: "+searchResultsReturned.length);
   console.log(searchResultsReturned);
 
   // Step 2: Sort the search results
@@ -486,9 +708,9 @@ function searchAndSortPosts(advancedMode) {
   // }
   reorderAndDisplayPosts(searchResultsReturned);
 
-
   // Step 5: Write down how many search results were found
   // update the p element showing how many results were found
+  resultsCounter = searchResultsReturned.length;
   var resultsString = resultsCounter;
   if (resultsCounter == 1) {
     resultsString += " post found.";
@@ -498,6 +720,9 @@ function searchAndSortPosts(advancedMode) {
   $("#number-of-results").text(resultsString);
 }
 
+// Detach all the posts from the html,
+// then reattach them to the relevant section in the html
+// in the order of the arrayOfPostsToSort input.
 function reorderAndDisplayPosts(arrayOfPostsToSort) {
   for (i = 0; i < arrayOfPostsToSort.length; i++) {
     var thisPostArticle = $('article[data-id="' + arrayOfPostsToSort[i].id + '"]');
@@ -506,6 +731,158 @@ function reorderAndDisplayPosts(arrayOfPostsToSort) {
   }
 }
 
+// Sort posts according to parameters selected in the two sorting dropdowns
+// (category and order)
+function sortPosts(arrayOfPostsToSort) {
+  // Determine the options selected from the sorting dropdowns
+  var sortCategory = $("#category-dropdown").attr("data-value");
+  var sortOrder = $("#order-dropdown").attr("data-value");
+  // Sort by post title
+  if (sortCategory == "title") {
+    // sort by post title in ascending order
+    if (sortOrder == "ascending") {
+      console.log('sorting by title in ascending order');
+      arrayOfPostsToSort.sort(function(a, b) {
+        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
+        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (titleA < titleB) {
+          return -1;
+        }
+        if (titleA > titleB) {
+          return 1;
+        }
+        return 0; // this happens if the names are equal
+      });
+    }
+    // sort by title in descending order
+    else {
+      console.log('sorting by title in descending order');
+      arrayOfPostsToSort.sort(function(a, b) {
+        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
+        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (titleA > titleB) {
+          return -1;
+        }
+        if (titleA < titleB) {
+          return 1;
+        }
+        return 0; // this happens if the names are equal
+      });
+    }
+  }
+  // Sort by date
+  else {
+    // sort by date in ascending order
+    if (sortOrder == "ascending") {
+      console.log('sorting by date in ascending order');
+      arrayOfPostsToSort.sort(function (a, b) {
+        return a.date - b.date;
+      });
+    }
+    // sort by date in descending order
+    else {
+      console.log('sorting by date in descending order');
+      arrayOfPostsToSort.sort(function (a, b) {
+        return b.date - a.date;
+      });
+    }
+  }
+}
+
+// ------ ADVANCED FILTERS SELECTED RELATED FUNCTIONS ------- //
+// Add a filter to the applied filters data object
+function addAFilterToFilterData(filterObject, parameter, filterInfo) {
+  if (parameter == "where") {
+    // figure out how to format the filter info
+  } else if (parameter == "when") {
+    // figure out how to format the filter info
+  }
+  filterObject[parameter].push(filterInfo);
+}
+
+// Delete a filter from the applied filters data object
+function deleteAFilterFromFilterData(filterObject, parameter, filterInfo) {
+  // find the index of the filter
+  var index = -1;
+  for (var i = 0; i < filterObject[parameter].length; i++) {
+    if (filterObject[parameter][i] == filterInfo) {
+      index = i;
+    }
+  }
+  if (index == -1) {
+    throw "Couldn't find object with id: " + id;
+  } else {
+    // delete that filter from the parameter's list
+    filterObject[parameter].splice(index, 1);
+  }
+}
+
+// Delete all filters from the applied filters data object
+function deleteAllFiltersFromFilterData(filterObject) {
+  Object.keys(filterObject).forEach(function(key,index) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    filterObject[key] = [];
+  });
+}
+
+// Create the html string for one of the selected filters in the applied filters data object
+function createHTMLStringForOneFilter(filterObject, parameter, filterIndex) {
+  var htmlStringToAppend = '<button class="filter-chosen filter-';
+  htmlStringToAppend += parameter;
+  htmlStringToAppend += '-color-inverted" data-filter-parameter="';
+  htmlStringToAppend += parameter;
+  htmlStringToAppend += '" data-filter-value="';
+  htmlStringToAppend += filterObject[parameter][filterIndex];
+  htmlStringToAppend += '">';
+  htmlStringToAppend += '<span class="filter-chosen-text">';
+  htmlStringToAppend += filterObject[parameter][filterIndex];
+  htmlStringToAppend += '</span>'
+  htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
+  htmlStringToAppend += '</button>';
+  return htmlStringToAppend;
+}
+
+// note to self: do I really need this function ever?
+// Create the html string for all of the selected filters in the applied filters data object
+function createHTMLStringForAllFilters(filterObject) {
+  var htmlString = "";
+  Object.keys(filterObject).forEach(function(key,index) {
+    for (var i = 0; i < filterObject[key].length; i++) {
+      htmlString += createHTMLStringForOneFilter(filterObject, key, i);
+    }
+  });
+  return htmlString;
+}
+
+// Add one filter html string to the display filters chosen section in the DOM
+function addOneFilterHTMLStringToFiltersChosenSection(filterObject, parameter, filterIndex) {
+  var completeString = createHTMLStringForOneFilter(filterObject, parameter, filterIndex);
+  $("#display-filters-chosen-section").append(completeString);
+}
+
+// Delete a specific filter from the html display filter section based on its data-filter-value
+function deleteAFilterFromFiltersChosenSection(filterInfo) {
+  // find the html element with the data-filter-value equivalent to the filterInfo input
+  var filterHTMLElementSelectorString = '#display-filters-chosen-section button[data-filter-value="';
+  filterHTMLElementSelectorString += filterInfo;
+  filterHTMLElementSelectorString += '"]';
+  var filterHTMLElement = $(filterHTMLElementSelectorString);
+  // remove this element from the html
+  filterHTMLElement.remove();
+}
+
+// Delete all filter html from the display filters chosen section in the DOM
+function deleteAllHTMLFiltersFromFiltersChosenSection() {
+  $("#display-filters-chosen-section").html('');
+}
+
+// ------ ADVANCED SEARCH RELATED FUNCTIONS ------ //
+// Toggle the advanced/basic search mode by
+// updating the advanced search mode boolean,
+// updating the label of the advanced search mode button,
+// and deleting all the filters chosen from the filtersAppliedData list,
+// and from the html in the filters chosen section.
 function toggleAdvancedSearchMode(advancedMode) {
   // if it's currently in the basic search mode,
   // then change the text of the advanced search mode button
@@ -532,192 +909,185 @@ function toggleAdvancedSearchMode(advancedMode) {
   return advancedMode;
 }
 
-// Populates the content of the dropdown menu with the info in the
-// original group master data list
-function populateExistingGroupDropdownMenu(){
-  // figure out where to place the content for the dropdown menu
-  var $menu =  $('#search-groups-dropdown').find('.scrolling');
-  // populate the content of the dropdown menu with the info in the
-  // original group master data list
-  $.each(originalGroupMasterData, function (i, item) {
-    $menu.append($('<div>', {
-      "data-value": item.id,
-      text : item.groupName,
-      class: 'item'
-    }));
-  });
-}
-
-function resizeSearchBarWidth() {
-  var searchBarWidth;
-  if (window.innerWidth > 500) {
-    searchBarWidth = window.innerWidth - 100 - 90 - $("#submit-filters-button").width() - $("#reset-filters-button").width() - $("#advanced-search-button").width();
-    $("#searchBox").css("width", searchBarWidth);
-  } else {
-    $("#searchBox").css("width", "100%");
+// Populates a dropdown menu list with the given data
+function populateDropdownList(dropdownMenu, filterDataList) {
+  var htmlString = '';
+  for (var i = 0; i < filterDataList.length; i++) {
+    htmlString += '<li><a href="#" data-value="';
+    htmlString += filterDataList[i];
+    htmlString += '" tabIndex="-1" class="option"><input type="checkbox"/>&nbsp;';
+    htmlString += filterDataList[i];
+    htmlString += '</a></li>';
   }
-  $("#searchBox").show();
+  dropdownMenu.append(htmlString);
 }
 
-// Sort posts according to parameters selected in the dropdown
-function sortPosts(arrayOfPostsToSort) {
-  var sortCategory = $("#category-dropdown").attr("data-value");
-  var sortOrder = $("#order-dropdown").attr("data-value");
-  console.log("category: " + sortCategory);
-  console.log("order: " + sortOrder);
-  if (sortCategory == "title") {
-    if (sortOrder == "ascending") {
-      console.log('sorting by title in ascending order');
-      arrayOfPostsToSort.sort(function(a, b) {
-        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
-        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
-        if (titleA < titleB) {
-          return -1;
-        }
-        if (titleA > titleB) {
-          return 1;
-        }
+// When the user clicks on an advanced filter dropdown's de/select all checkbox,
+// then toggle the select all mode (allItemsSelected boolean),
+// update the text label accordingly,
+// and select or deselect all the options chosen based on the mode.
+function selectOrDeselectAllOptions(appliedFiltersObject, parameter) {
+  // Get the list of options in the relevant advanced filter dropdown menu
+  var options = appliedFiltersObject[parameter], // list of options that have been applied
+    listItems = $(event.currentTarget).parent().parent().find('.option');
 
-        // names must be equal
-        return 0;
-      });
-    } else {
-      console.log('sorting by title in descending order');
-      arrayOfPostsToSort.sort(function(a, b) {
-        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
-        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
-        if (titleA > titleB) {
-          return -1;
-        }
-        if (titleA < titleB) {
-          return 1;
-        }
-
-        // names must be equal
-        return 0;
-      });
+  // if not everything is selected, then select everything
+  if (allItemsSelectedStateForEachFilterData[parameter] == false) {
+    for (var i = 0; i < listItems.length; i++) {
+      var val = $(listItems[i]).attr('data-value'), // the data-value of the option
+        $input = $(listItems[i]).find('input'), // the input checkbox of the selected option
+        idx = options.indexOf(val); // the index of the selected option in the list of options
+      // if the current option is not already in the list of selected options,
+      // then add this item to the current list of selected options
+      if (idx == -1) {
+        // add the selected option into the selected options list
+        options.push(val);
+        // add the selected option (filter) into the filters chosen section in the html
+        var filterIndex = findByValueReturnIndex(options, val);
+        addOneFilterHTMLStringToFiltersChosenSection(appliedFiltersObject, parameter, filterIndex);
+        // set the selected option's checkbox as selected mode
+        $input.prop('checked', true);
+      }
     }
-  } else {
-    if (sortOrder == "ascending") {
-      console.log('sorting by date in ascending order');
-      arrayOfPostsToSort.sort(function (a, b) {
-        return a.date - b.date;
-      });
-    } else {
-      console.log('sorting by date in descending order');
-      arrayOfPostsToSort.sort(function (a, b) {
-        return b.date - a.date;
-      });
+    // toggle the select all mode
+    allItemsSelectedStateForEachFilterData[parameter] = true;
+    // change the text in the select all span to deselect all
+    $(event.currentTarget).find('.select-all-text').text('Deselect All');
+  } else { // otherwise, deselect everything
+    for (var i = 0; i < listItems.length; i++) {
+      var val = $(listItems[i]).attr('data-value'), // the data-value of the option
+        $input = $(listItems[i]).find('input'), // the input checkbox of the selected option
+        idx = options.indexOf(val); // the index of the selected option in the list of options
+      // if the current option is already in the list of selected options,
+      // then delete this item from the current list of selected options
+      // remove the selected option from the selected options list
+      options.splice(idx, 1);
+      // delete the selected option (filter) from the filters chosen section in the html
+      deleteAFilterFromFiltersChosenSection(val);
+      // set the selected option's checkbox as deselected mode
+      $input.prop('checked', false);
     }
+    // toggle the select all mode
+    allItemsSelectedStateForEachFilterData[parameter] = false;
+    // change the text in the select all span to deselect all
+    $(event.currentTarget).find('.select-all-text').text('Select All');
   }
 }
 
-// Add a filter to the applied filters data object
-function addAFilterToFilterData(filterObject, parameter, filterInfo) {
-  if (parameter == "where") {
-    // figure out how to format the filter info
-  } else if (parameter == "when") {
-    // figure out how to format the filter info
-  }
-  filterObject[parameter].push(filterInfo);
-}
+// When the user clicks on an advanced filter dropdown's list item or checkbox,
+// then add/remove this to/from the list of options selected.
+// Also update the text in the dropdown toggle button based on what was selected.
+function updateOptionsSelectedAndDropdownButtonText (appliedFiltersObject, optionsMaxLength, parameter, targetMode, filterText) {
+  var options = appliedFiltersObject[parameter]; // list of options that have been applied
 
-function deleteAFilterFromFilterData(filterObject, parameter, filterInfo) {
-  // find the index of the filter
-  var index = -1;
-  for (var i = 0; i < filterObject[parameter].length; i++) {
-    if (filterObject[parameter][i] == filterInfo) {
-      index = i;
+  // if targetMode is true, then the target is the a tag that was just clicked
+  if (targetMode == true) {
+    var $target = $(event.currentTarget); // the a tag that was clicked
+  }
+  // otherwise the target is the a tag of the filter that was clicked on in the filters chosen section
+  else {
+    var $target = $('#advanced-search-filters-options-section').find('div[data-filter-parameter="' + parameter + '"]').find('a[data-value="'+filterText+'"]');
+  }
+  var val = $target.attr('data-value'), // the data-value of the selected option
+    $input = $target.find('input'), // the input checkbox of the selected option
+    idx = options.indexOf(val); // the index of the selected option in the list of options
+
+  // if the selected option is already in the list of selected options,
+  // then remove this item from the list of selected options
+  if (idx > -1) {
+    // remove the selected option from the selected options list
+    options.splice(idx, 1);
+    // delete the selected option (filter) from the filters chosen section in the html
+    deleteAFilterFromFiltersChosenSection(val);
+    // set the selected option's checkbox as deselected mode
+    setTimeout(function() {
+      $input.prop('checked', false)
+    }, 0);
+  } else { // otherwise, add this option to the list of selected options
+    // add the selected option into the selected options list
+    options.push(val);
+    if (val != "selectAll") {
+      // add the selected option (filter) into the filters chosen section in the html
+      var filterIndex = findByValueReturnIndex(options, val);
+      console.log(filterIndex);
+      addOneFilterHTMLStringToFiltersChosenSection(appliedFiltersObject, parameter, filterIndex);
     }
+    // set the selected option's checkbox as selected mode
+    setTimeout(function() {
+      $input.prop('checked', true)
+    }, 0);
   }
-  if (index == -1) {
-    throw "Couldn't find object with id: " + id;
-  } else {
-    // delete that filter from the parameter's list
-    filterObject[parameter].splice(index, 1);
+
+  // if the user manually deselects all the items,
+  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
+  if (options.length == 1 && allItemsSelectedStateForEachFilterData[parameter] == true) {
+    allItemsSelectedStateForEachFilterData[parameter] = false;
+    var $selectAllTarget = $target.parent().parent().find('.select-all'),
+      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
+      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
+      idx = options.indexOf(val); // the index of the select all option in the list of options
+    options.splice(idx, 1);
+    setTimeout(function() {
+      $selectAllInput.prop('checked', false)
+    }, 0);
+    $($selectAllTarget).find('.select-all-text').text('Select All');
   }
-}
+  // else if the user manually selects all the items,
+  // then revert to deselect all mode (allItemsSelected = true, checkbox shows "Deselect All")
+  else if (options.length >= optionsMaxLength && allItemsSelectedStateForEachFilterData[parameter] == false) {
+    allItemsSelectedStateForEachFilterData[parameter] = true;
+    var $selectAllTarget = $target.parent().parent().find('.select-all'),
+      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
+      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
+      idx = options.indexOf(val); // the index of the select all option in the list of options
+    options.push(val);
+    setTimeout(function() {
+      $selectAllInput.prop('checked', true)
+    }, 0);
+    $($selectAllTarget).find('.select-all-text').text('Deselect All');
+  }
+  // else if the user manually deselects one option when all were selected
+  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
+  else if (options.length < (optionsMaxLength+1) && allItemsSelectedStateForEachFilterData[parameter] == true) {
+    allItemsSelectedStateForEachFilterData[parameter] = false;
+    var $selectAllTarget = $target.parent().parent().find('.select-all'),
+      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
+      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
+      idx = options.indexOf(val); // the index of the select all option in the list of options
+    options.splice(idx, 1);
+    setTimeout(function() {
+      $selectAllInput.prop('checked', false)
+    }, 0);
+    $($selectAllTarget).find('.select-all-text').text('Select All');
+  }
 
-function deleteAllFiltersFromFilterData(filterObject) {
-  Object.keys(filterObject).forEach(function(key,index) {
-    // key: the name of the object key
-    // index: the ordinal position of the key within the object
-    filterObject[key] = [];
-  });
-}
+  // unfocus the selected checkbox
+  $(event.target).blur();
 
-function createHTMLStringForOneFilter(filterObject, parameter, filterIndex) {
-  var htmlStringToAppend = '<span class="btn btn-default filter-chosen filter-';
-  htmlStringToAppend += parameter;
-  htmlStringToAppend += '-color-inverted" data-filter-parameter="';
-  htmlStringToAppend += parameter;
-  htmlStringToAppend += '" data-filter-value="';
-  htmlStringToAppend += filterObject[parameter][filterIndex];
-  htmlStringToAppend += '">';
-  htmlStringToAppend += '<span class="filter-chosen-text">';
-  htmlStringToAppend += filterObject[parameter][filterIndex];
-  htmlStringToAppend += '</span>'
-  htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
-  htmlStringToAppend += '</span>';
-  return htmlStringToAppend;
-}
-
-// note to self: do I really need this function ever?
-function createHTMLStringForAllFilters(filterObject) {
-  var htmlString = "";
-  Object.keys(filterObject).forEach(function(key,index) {
-    for (var i = 0; i < filterObject[key].length; i++) {
-      htmlString += createHTMLStringForOneFilter(filterObject, key, i);
+  // update the text in the dropdown toggle button based on which options were selected
+  var $dropdownButton = $target.parent().parent().siblings(".button").find(".dropdown-button-text");
+  // if no options were selected
+  if (options.length == 0) {
+    $dropdownButton.text("Select "+parameter+" filter(s).");
+  }
+  // else if one or more options were selected,
+  // then show a list of what was selected, except for the selectAll option
+  else {
+    var optionsSelectedText = options[0];
+    for (var i = 1; i < options.length; i++) {
+      if (options[i] != "selectAll") {
+        optionsSelectedText += ", ";
+        optionsSelectedText += options[i];
+      }
     }
-  });
-  return htmlString;
-}
-
-function addOneFilterHTMLStringToFiltersChosenSection(filterObject, parameter, filterIndex) {
-  var completeString = createHTMLStringForOneFilter(filterObject, parameter, filterIndex);
-  $("#display-filters-chosen-section").append(completeString);
-}
-
-function deleteAllHTMLFiltersFromFiltersChosenSection() {
-  $("#display-filters-chosen-section").html('');
+    $dropdownButton.text(optionsSelectedText);
+  }
 }
 
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
 
-  $("#display-filters-chosen-section").on("click", ".filter-chosen", function() {
-    // remove this element from the html
-    console.log($(this));
-    var filterParameter = $(this).attr("data-filter-parameter");
-    var filterText = $(this).attr("data-filter-value");
-    deleteAFilterFromFilterData(filtersAppliedData, filterParameter, filterText);
-    $(this).remove();
-  });
-
-  // Set search bar size to correct width
-  resizeSearchBarWidth();
-
-  // Initialize the dropdown menu
-  $('.ui.dropdown').dropdown();
-
-  // Populate the dropdown menu
-  populateExistingGroupDropdownMenu();
-
-  // Re-initialize the dropdown, but with particular settings
-  $('.ui.dropdown').dropdown({
-    // if an item in the dropdown was selected, populate and display the rest
-    // of the group edit form accordingly
-    onChange: function (value, text, $selectedItem) {
-      console.log(value);
-      // populateFormUponGroupSelection(value);
-    },
-    forceSelection: false,
-    selectOnKeydown: false,
-    showOnFocus: false,
-    // on: "hover",
-    fullTextSearch: true
-  });
-
+  // ------ SETUP POSTS ------ //
   // populate the page with posts and their relevant info
   addPostHTMLStringToYourStoriesSection();
   adjustSizesOfThumbnailIcons();
@@ -746,11 +1116,9 @@ $(document).ready(function(){
     $("#story-modal-body").append(thisPostInfo.postContent);
   });
 
-  // When the user clicks the "Advanced Search" button,
-  // toggle advanced search mode (hide/show the advanced filters and change button text)
-  $("#advanced-search-button").on("click", function() {
-    advancedSearchMode = toggleAdvancedSearchMode(advancedSearchMode);
-  });
+  // ------ BASIC SEARCH FUNCTIONS ------ //
+  // Set search bar size to correct width
+  resizeSearchBarWidth();
 
   // When the user clicks the "Go" button,
   // change which posts are visible and hidden based on search parameters
@@ -761,7 +1129,7 @@ $(document).ready(function(){
 
   // When the user presses the "ENTER" key,
   // change which posts are visible and hidden based on search parameters
-  $('#searchBox').on('keypress', function (e) {
+  $('#search-box').on('keypress', function (e) {
      if(e.which === 13){ // if the key pressed was the enter key
         // Disable textbox to prevent multiple submit
         $(this).attr("disabled", "disabled");
@@ -771,7 +1139,7 @@ $(document).ready(function(){
      }
    });
 
-  // When the user clicks the "Reset" button,
+  // When the user clicks the "RESET" button,
   // reset all the search filters
   // and show all the posts.
   $("#reset-filters-button").on('click', function() {
@@ -806,14 +1174,147 @@ $(document).ready(function(){
     reorderAndDisplayPosts(searchResultsReturned);
   });
 
-  // When the user clicks on the option,
+  // When the user clicks on the search mode option (all or any),
   // then change the text in the dropdown button according to the option chosen
   // and sort the posts accordingly
   $(".search-mode-option").on("click", function() {
     $("#search-mode-dropdown").attr("data-value", $(this).attr("data-value"));
     $("#search-mode-dropdown").text($(this).attr("data-value"));
   });
+
+  // ------ ADVANCED SEARCH RELATED FUNCTIONS ------ //
+  // When the user clicks the "Advanced Search" button,
+  // toggle advanced search mode (hide/show the advanced filters and change button text)
+  $("#advanced-search-button").on("click", function() {
+    advancedSearchMode = toggleAdvancedSearchMode(advancedSearchMode);
+  });
+
+  // When the user clicks on an advanced filter menu tab,
+  // then hide/show the relevant option selection section
+  $(".advanced-filter-tab").on("click", function() {
+    var filterParameter = $(this).attr("data-filter-parameter");
+    var optionSelectionDiv = $(document).find('div.select-filter-options-section[data-filter-parameter="' + filterParameter + '"]');
+    console.log(optionSelectionDiv);
+    optionSelectionDiv.toggle();
+  });
+
+  // display the filters chosen in the display filters chosen section
+  $("#display-filters-chosen-section").on("click", ".filter-chosen", function() {
+
+    var filterParameter = $(this).attr("data-filter-parameter");
+    var filterText = $(this).attr("data-filter-value");
+
+    updateOptionsSelectedAndDropdownButtonText(filtersAppliedData, possibleFiltersData[filterParameter].length, filterParameter, false, filterText);
+
+    /*// deselect this option from the relevant advanced filters dropdown menu
+    var $input = $('#advanced-search-filters-options-section').find('div[data-filter-parameter="' + filterParameter + '"]').find('a[data-value="'+filterText+'"]').find('input');
+    $input.prop('checked', false);
+    // update the text in the relevant advanced filter dropdown button
+    var $dropdownButton = $('#advanced-search-filters-options-section').find('div[data-filter-parameter="' + filterParameter + '"]').find(".button").find(".dropdown-button-text");
+    var options = filtersAppliedData[filterParameter];
+    // if no options were selected
+    if (options.length == 0) {
+      $dropdownButton.text("Select "+filterParameter+"filter(s).");
+    }
+    // else if one or more options were selected,
+    // then show a list of what was selected, except for the selectAll option
+    else {
+      var optionsSelectedText = options[0];
+      for (var i = 1; i < options.length; i++) {
+        if (options[i] != "selectAll") {
+          optionsSelectedText += ", ";
+          optionsSelectedText += options[i];
+        }
+      }
+      $dropdownButton.text(optionsSelectedText);
+    }*/
+
+
+    // remove this element from the filters applied data
+    // deleteAFilterFromFilterData(filtersAppliedData, filterParameter, filterText);
+    // remove this element from the html
+    $(this).remove();
+    // deselect this option from the relevant advanced filters dropdown menu
+  });
+  // Populate the advanced privacy filters dropdown list
+  populateDropdownList($("#privacy-filters-dropdown > .dropdown-menu"), possibleFiltersData['privacy']);
+
+  // When the user clicks on an advanced filter dropdown's de/select all checkbox,
+  // then toggle the select all mode (allItemsSelected boolean),
+  // update the text label accordingly,
+  // and select or deselect all the options chosen based on the mode.
+  $('.select-all').on('click', function(event) {
+    var parameter = $(this).parent().parent().parent().attr("data-filter-parameter");
+    selectOrDeselectAllOptions(filtersAppliedData, parameter);
+  });
+
+  // When the user clicks on an advanced filter dropdown's list item or checkbox,
+  // then add/remove this to/from the list of options selected.
+  // Also update the text in the dropdown toggle button based on what was selected.
+  $('.advanced-filter-dropdown .dropdown-menu a').on('click', function(event) {
+    var parameter = $(this).parent().parent().parent().attr("data-filter-parameter");
+    updateOptionsSelectedAndDropdownButtonText(filtersAppliedData, possibleFiltersData[parameter].length, parameter, true, "");
+    // To prevent the dropdown from hiding when it was clicked on
+    return false;
+  });
+
+  // When the user starts typing in an advanced search filter dropdown's search box,
+  // then search through the list of options and only show the relevant ones.
+  // Also hide the select all button while something is being searched.
+  $(".filter-search-box").on("keyup", function() {
+    // The input value
+    var value = $(this).val().toLowerCase();
+
+    // Loop through all list items, and hide those who don't match the search query
+    var listItemsList = $(this).parent().parent().find(".option");
+    for (i = 0; i < listItemsList.length; i++) {
+      if ($(listItemsList[i]).text().toLowerCase().indexOf(value) > -1) {
+        $(listItemsList[i]).show();
+      } else {
+        $(listItemsList[i]).hide();
+      }
+    }
+
+    // Simpler search method that doesn't work on IE 8 and below
+    // $(this).parent().find(".option").filter(function() {
+    //   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    // });
+
+    // if the search box gets emptied, then show the select all checkbox
+    if (value != "") {
+      $(this).parent().parent().find(".select-all").hide();
+    } else { // otherwise, hide the select all checkbox
+      $(this).parent().parent().find(".select-all").show();
+    }
+
+  });
+
+  // When the user clicks advanced filter dropdown's searcg box's clear button,
+  // then reset the contents of the search text input without hiding the dropdown.
+  $(".clear-search-button").on("click", function(event) {
+    // prevent dropdown from closing
+    event.stopPropagation();
+    // unfocus the button
+    $(event.target).blur();
+    // reset the value of the text input search box to ""
+    $(this).parent().parent().find(".filter-search-box").val("");
+    // reveal the select all and the option checkboxes
+    $(this).parent().parent().parent().find(".select-all").show();
+    $(this).parent().parent().parent().find(".option").show();
+  });
+
+  // When the user clicks outside the advanced filter dropdown and this dropdown disappears
+  // then reset the contents of the search text input
+  $('.advanced-filter-dropdown').on('hidden.bs.dropdown', function(){
+    // reset the value of the text input search box to ""
+    $(this).parent().parent().find(".filter-search-box").val("");
+    // reveal the select all and the option checkboxes
+    $(this).parent().parent().parent().find(".select-all").show();
+    $(this).parent().parent().parent().find(".option").show();
+  });
+
 });
+
 
 // --- When the window is resized --- //
 $(window).on('resize', function(event){

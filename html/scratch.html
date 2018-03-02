@@ -1,0 +1,43 @@
+<ul class="multiselect-container dropdown-menu">
+    <!-- Filter -->
+    <li class="multiselect-item multiselect-filter" value="0">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input class="form-control multiselect-search" type="text" placeholder="Search">
+            <span class="input-group-btn">
+                <button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button>
+            </span>
+        </div>
+    </li>
+    <!-- Select all -->
+    <li class="multiselect-item multiselect-all" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(234, 234, 234); background: rgb(243, 243, 243);">
+        <a tabindex="0" class="multiselect-all"><label class="checkbox" style="padding: 3px 20px 3px 35px;"><input type="checkbox" value="multiselect-all">  Select all</label></a>
+    </li>
+    <!-- Collapsible and clickable opt group -->
+    <li class="multiselect-item multiselect-group">
+        <a href="javascript:void(0);">
+            <label><input type="checkbox" value="undefined"><b> Group 1</b></label>
+            <span class="caret-container"><b class="caret"></b></span>
+        </a>
+    </li>
+    <!-- Disabled and hidden option (hidden because of collapsible opt groups) -->
+    <li class="disabled hidden">
+        <a tabindex="-1"><label class="checkbox"><input type="checkbox" value="1-1" disabled=""> Option 1.1</label></a>
+    </li>
+    <!-- Hidden but select option -->
+    <li class="active hidden">
+        <a tabindex="0"><label class="checkbox"><input type="checkbox" value="1-2"> Option 1.2</label></a>
+    </li>
+    <!-- ... -->
+    <!-- Another opt group -->
+    <li class="multiselect-item multiselect-group">
+        <a href="javascript:void(0);">
+            <label><input type="checkbox" value="undefined"><b> Group 2</b></label>
+            <span class="caret-container"><b class="caret"></b></span>
+        </a>
+    </li>
+    <!-- Visible but not selected option -->
+    <li>
+        <a tabindex="0"><label class="checkbox"><input type="checkbox" value="2-1"> Option 2.1</label></a>
+    </li>
+</ul>
