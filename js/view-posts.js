@@ -1,11 +1,11 @@
 // ------ GLOBAL VARIABLES ------ //
 var advancedSearchMode = true; // toggles advanced search mode
 var searchResultsReturned = []; // contains which posts result from the basic/advanced search
-
+var storiesSectionContainer = $("#your-stories");
 // contains which advanced filters are currently selected
 var filtersAppliedData = {
-  'where': ['kentucky', 'ohio'],
-  'when': ['29/02/2016', '13/01/2018'],
+  'where': [],
+  'when': [],
   'privacy': [],
   'groups': [],
   'tags': [],
@@ -14,8 +14,8 @@ var filtersAppliedData = {
 
 // contains all the possible options for each advanced filter
 var possibleFiltersData = {
-  'where': ['kentucky', 'ohio'],
-  'when': ['29/02/2016', '13/01/2018'],
+  'where': [],
+  'when': [],
   'privacy': ['private', 'group', 'public'],
   'groups': ['Ice Cream in the Tropics', 'Grenouilles dans les Déserts', 'Edredones',
     'Cooking with Grandparents', 'Playing with Wild Animals'],
@@ -27,7 +27,7 @@ var possibleFiltersData = {
   'media': ['video(s)', 'image(s)', 'audio', 'text']
 };
 
-// contains the state of the select all button for each filter
+// contains the state of the select all button for each advanced filter dropdown
 var allItemsSelectedStateForEachFilterData = {
   'where': false,
   'when': false,
@@ -66,13 +66,6 @@ var originalGroupMasterData = [
     'memberIds': [1, 3, 5, 7]
   }
 ];
-
-// List of possible tags used in all posts so far
-var tagData = ['boat', 'water', 'nature', 'origami', 'paper', 'stones', 'painting',
-  'creativity', 'meditation', 'dams', 'actions', 'righteousness', 'ethics', 'ice cream',
-  'cooking', 'recipe', 'food', 'fruits', 'grandma', 'chocolate', 'history', 'dandelions',
-  'wishes', 'childhood', 'snow', 'quilts', 'animals', 'storytelling', 'reading', 'bedtime',
-  'scary', 'fire'];
 
 // contains list of information regarding each post
 var postData = [
@@ -246,7 +239,7 @@ function findByIdReturnObject(source, id) {
   throw "Couldn't find object with id: " + id;
 }
 
-// Looks up a specific value in a list.
+// Looks up a specific key and corresponding value in a list.
 // Returns the index of the input value in the list.
 function findByKeyAndValueToReturnIndex(source, key, value) {
   for (var i = 0; i < source.length; i++) {
@@ -269,23 +262,14 @@ function findByValueReturnIndex(source, value) {
   throw "Couldn't find object with value: " + value;
 }
 
-// Makes a deep copy of an input array
-function deepCopyArray(originalArray) {
-  var output, v, key;
-  output = Array.isArray(originalArray) ? [] : {};
-  for (key in originalArray) {
-    v = originalArray[key];
-    output[key] = (typeof v === "object" && v !== null) ? deepCopyArray(v) : v;
-  }
-  return output;
-}
-
 // ------ SETUP POSTS RELATED FUNCTIONS ------ //
 // Given the ID of the post and the index of the group that this post belongs to,
 // return the name of the group from the originalGroupMasterData list
 function returnGroupNameString(postID, postGroupIndex) {
+  // get the information about the desired group
   var individualGroupData = findByIdReturnObject(originalGroupMasterData, postData[postID].groupIds[postGroupIndex]);
   var htmlString = '<u>';
+  // get this group's group name
   htmlString += individualGroupData.groupName;
   htmlString += '</u>';
   return htmlString;
@@ -294,14 +278,16 @@ function returnGroupNameString(postID, postGroupIndex) {
 // Given the post index, return an html string which contains the html for how to display
 // this post on the page by looking ip relevant information from the postData list
 function createHTMLStringForOnePost(postIndex) {
+  // outer article container
   var htmlStringToAppend = '<article class="row panel flex-row view-post-container" data-id="';
-  htmlStringToAppend += postData[postIndex].id;
+  htmlStringToAppend += postData[postIndex].id; // data-id of this post = post.id
   htmlStringToAppend += '" data-toggle="modal" data-target="#storyModal">';
   // Thumbnail Div
   // Image
   if (postData[postIndex].thumbnailType == 'image') {
     htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-image-container">';
     htmlStringToAppend += '<img class="img-responsive" src="';
+    // if this post has an image thumbnail, then the source is the url for the image
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '">';
     htmlStringToAppend += '</div>';
@@ -311,6 +297,7 @@ function createHTMLStringForOnePost(postIndex) {
     htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-text-container">';
     htmlStringToAppend += '<blockquote class="quote text-center">';
     htmlStringToAppend += '<p>';
+    // if this post has a text thumbnail, then the source is the quote for the text
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '</p>';
     htmlStringToAppend += '</blockquote>';
@@ -319,6 +306,7 @@ function createHTMLStringForOnePost(postIndex) {
   // Audio
   else if (postData[postIndex].thumbnailType == 'audio') {
     htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item flex-item-align-center view-post-audio-container text-center">';
+    // if this post has an audio thumbnail, then just show a sound icon
     htmlStringToAppend += '<i class="sound icon sound-icon-size"></i>';
     htmlStringToAppend += '</div>';
   }
@@ -326,31 +314,39 @@ function createHTMLStringForOnePost(postIndex) {
   else if (postData[postIndex].thumbnailType == 'video') {
     htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-video-container">';
     htmlStringToAppend += '<img class="img-responsive story-image translucent-image" src="';
+    // if this post has a video thumbnail, then the source is the url for the video screenshot
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '">';
     htmlStringToAppend += '<div class="thumbnail-overlay flex-item flex-item-align-center">';
+    // and overlay a video player icon on top of this screenshot
     htmlStringToAppend += '<i class="video play icon video-icon-size"></i>';
     htmlStringToAppend += '</div>';
     htmlStringToAppend += '</div>';
   }
   // Post Info Div
+  // Outer post info div container
   htmlStringToAppend += '<div class="col-xs-12 col-sm-8 flex-item view-post-info-text-container">';
   // Title
   htmlStringToAppend += '<h4><b>';
-  htmlStringToAppend += postData[postIndex].title;
+  htmlStringToAppend += postData[postIndex].title; // title of the post
   htmlStringToAppend += '</b></h4>';
   // Date
   htmlStringToAppend += '<p class="date"><i>';
-  var dateString = postData[postIndex].date.toDateString();
+  var dateString = postData[postIndex].date.toDateString(); // date of the post, simplified style
   htmlStringToAppend += dateString;
   htmlStringToAppend += '</i></p>';
-  // Privacy
+  // Privacy Setting
   htmlStringToAppend += '<p class="privacy">';
+  // Private post
   if (postData[postIndex].privacy == 'private') {
     htmlStringToAppend += 'Only you can see this post.';
-  } else if (postData[postIndex].privacy == 'public') {
+  }
+  // Public post
+  else if (postData[postIndex].privacy == 'public') {
     htmlStringToAppend += 'Anyone can see this post.';
-  } else if (postData[postIndex].privacy == 'group') {
+  }
+  // Group post
+  else if (postData[postIndex].privacy == 'group') {
     htmlStringToAppend += 'Only members of ';
     htmlStringToAppend += returnGroupNameString(postIndex, 0);
     if (postData[postIndex].groupIds.length == 2 ) {
@@ -370,7 +366,7 @@ function createHTMLStringForOnePost(postIndex) {
     htmlStringToAppend += ' can see this post.'
   }
   htmlStringToAppend += '</p>';
-  // Content
+  // Media types
   htmlStringToAppend += '<p class="content-type">This post contains: ';
   htmlStringToAppend += postData[postIndex].media[0];
   if (postData[postIndex].media.length == 2 ) {
@@ -406,6 +402,7 @@ function createHTMLStringForOnePost(postIndex) {
 // Return the html string for how to display all the posts in the postData list
 function createHTMLStringForAllPosts() {
   var htmlString = "";
+  // iterate through the entire length of post data
   for (var i = 0; i < postData.length; i++) {
     htmlString += createHTMLStringForOnePost(i);
   }
@@ -413,17 +410,17 @@ function createHTMLStringForAllPosts() {
 }
 
 // Add the relevant html string to the correct section of the DOM on the view posts page
-function addPostHTMLStringToYourStoriesSection() {
-  // Step 1: Generate the html and add this to the your-stories section
+function addPostHTMLStringToYourStoriesSection(sectionContainer) {
+  // Step 1: Generate the html and add this to the section that the stories belong to
   var completeString = createHTMLStringForAllPosts();
-  $("#your-stories").append(completeString); // --- make this a variable?
+  sectionContainer.append(completeString);
   // Step 2: Sort the search results
   // sort the stories according to the sorting parameters given by default
   sortPosts(postData);
   // Step 3: Hide all the posts
   hideAllPosts();
   // Step 4: Only show the posts that were narrowed down by the search (in this case, everything)
-  reorderAndDisplayPosts(postData);
+  reorderAndDisplayPosts(postData, storiesSectionContainer);
   // in case the user wants to sort the original data before making a search
   searchResultsReturned = postData;
 }
@@ -526,10 +523,13 @@ function searchPosts(advancedMode) {
 // Reset the contents of the basic main search input box,
 // delete all the filters chosen from the advanced search,
 // and display all the posts based on the default sorting options.
+// advancedMode = the boolean that remembers whether it is set to advanced search mode
+// or basic search mode
 function resetSearchFilters(advancedMode) {
   // if the search mode was set to advanced search mode,
   // then delete all the filters chosen from the filtersAppliedData list
   // and from the html in the filters chosen section
+  // and also unselect all options from the advanced filter dropdown lists
   if (advancedMode == true) {
     console.log("Resetting advanced search...");
     // clear the filters chosen section in the html
@@ -560,6 +560,8 @@ function resetSearchFilters(advancedMode) {
       allItemsSelectedStateForEachFilterData[parameter] = false;
     }
 
+    // resize the height of the advanced filter selection sections
+  resizeAdvancedSearchOptionsDivs();
 
     // delete all data from the filters chosen data object
     deleteAllFiltersFromFilterData(filtersAppliedData);
@@ -579,12 +581,15 @@ function resetSearchFilters(advancedMode) {
   $("#category-dropdown").text("title");
   $("#order-dropdown").text("ascending");
   $("#order-dropdown").attr("data-value", 'ascending');
+  // reset searchResultsReturned to containing all posts in the case the user sorts the
+  // posts before performing another search
+  searchResultsReturned = postData;
   // Sort the search results
-  sortPosts(postData);
+  sortPosts(searchResultsReturned);
   // Hide all the posts
   hideAllPosts();
   // Only show the posts that were narrowed down by the search (in this case, everything)
-  reorderAndDisplayPosts(postData);
+  reorderAndDisplayPosts(searchResultsReturned, storiesSectionContainer);
   // clear the p element showing how many results were found (in this case, nothing)
   $("#number-of-results").text("");
 }
@@ -605,38 +610,34 @@ function showAllPosts() {
 
 // Search all the posts and sort the results based on the inputs provided.
 function searchAndSortPosts(advancedMode) {
-  // Step 1: Search
+  // Part A: Search
   // Search according to the filters given
   // Save the results in a new array
   searchResultsReturned = [];
-  // Step 1a: Perform the basic search,
+  // Step 1: Perform the basic search,
   // search whether the text in the search box matches the text in any of the post
   // titles and post contents (note: this includes looking at the html in post content...)
   console.log("Performing basic search...");
   var searchInput = $("#search-box").val().toUpperCase();
-  var resultsCounter = 0; // to store how many results were found
-  // Loop through all list items, and hide those who don't match the search query
+  // Loop through all list items, and add the posts with the desired text input
+  // into the searchResultsReturned array (search the post title and post content)
+  // Note: the post content contains html as well, so this info will be included in
+  // the search results
   for (i = 0; i < postData.length; i++) {
     var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
     if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
-      // thisPostArticle.show();
       searchResultsReturned.push(postData[i]);
-    } else {
-      thisPostArticle.hide();
     }
   }
 
-  console.log("search results so far: ");
-  console.log(searchResultsReturned);
-
-  // Step 1b: perform the advanced search by taking into consideration the filters
+  // Step 2: perform the advanced search by taking into consideration the filters
   // chosen from the advanced filter menu tabs
   if (advancedMode == true) {
     console.log("Performing advanced search...");
-    // Step 1bi: If the search mode is include "all" filters chosen,
+    // Step 2a: If the search mode is include "all" filters chosen,
     // then use a subtractive process to refine the search results.
     if ($("#search-mode-dropdown").attr("data-value") == "all") {
-      console.log("ALL MODE!!!");
+      console.log("ALL SEARCH MODE");
       // find the list of chosen filters
       var filterListItems = $("#filters-chosen-section").find('.filter-chosen');
       // iterate through the list of chosen filters
@@ -647,13 +648,19 @@ function searchAndSortPosts(advancedMode) {
         // find the parameter and the filter info
         var filterParameter = $(filterListItems[i]).attr("data-filter-parameter");
         var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
-        // perform the search with the following method if it is one of simple dropdown filters
-        // (basically check if the filter value is present in the list of that filter's parameter
-        // present in that post's filter's parameter's list)
+        // Step 2ai: Refine the search according to the privacy filter chosen
+        // The "privacy" key for each post only has one value.
+        // If the filter is from the privacy filter dropdown section,
+        // then iterate through all the posts in the current searchResultsReturned list
+        // and check if the filter's text matches with the privacy key's value for
+        // each post in the list.
+        // If the post has the correct privacy setting, then add it to the temporary
+        // advancedSearchResultsReturned list. At the end of looking through all
+        // of the searchResultsReturned list's posts, empty this list and replace it
+        // with the narrowed down results in the advancedSearchResultsReturned post.
         if (filterParameter == "privacy") {
-          // var advancedSearchResultsReturned = [];
           // iterate through each post in the current search results
-          // to check if it has the desired filter
+          // to check if each post has the desired privacy filter
           for (var j=0; j<searchResultsReturned.length; j++) {
             // if the post does have the desired filter,
             // then add it to the advanced search results
@@ -674,111 +681,99 @@ function searchAndSortPosts(advancedMode) {
           }
         }
 
-        // if this filter is a group filter, then refine accordingly (by id instead of name)
+        // Step 2aii: Refine the search according to the group filter chosen
+        // Using a similar method as above with narrowing down the results, except
+        // checking if the group filters match is a bit more complicated.
+        // Each post has a key called "groupIds" which contains a list of the ids
+        // of all the groups that this post is published under.
+        // The filter text, on the other hand, only contains the name of the group,
+        // not its id.
+        // So first, we need to figure out the group id of the filter group text.
+        // Then, we need to figured out if the post is part of any groups.
+        // If yes, we need to figure out the ids of the groups this post is part of.
+        // Then, we need to iterate through all of this post's group ids, and check
+        // If any of them match with the filter's group id,
+        // then we add this post to the advancedSearchResultsReturned list
+        // which will later replace the searchResultsReturned list after iterating
+        // through all the posts.
         else if (filterParameter == "groups") {
-          console.log("SEARCHING GROUPS");
-          console.log("Search results length: " + searchResultsReturned.length);
-          console.log("advancedSearchResultsReturned length: "+advancedSearchResultsReturned.length);
-          var filterText = $(filterListItems[i]).attr("data-filter-value");
-          console.log("Filter Text: "+filterText);
+          // the filter text should remain case sensitive
+          filterText = $(filterListItems[i]).attr("data-filter-value");
+          // change filter parameter to match the group related key in postData
           var filterParameter = "groupIds";
           // iterate through each post in the current search results
-          // to check if it has the desired filter
+          // to check if it has the desired group filter
           for (var j=0; j<searchResultsReturned.length; j++) {
-            // if the post does have the desired filter,
-            // then add it to the advanced search results
-            console.log("Current post to observe: ");
-            console.log(searchResultsReturned[j]);
-            console.log(searchResultsReturned[j][filterParameter]);
-            // the list of group ids for this particular post in the search results
+            // the list of group ids for this post in the current search results
             var groupIdsList = searchResultsReturned[j][filterParameter];
-            console.log("groupIdsList length: "+groupIdsList.length);
-            // if this post is actually part of one or more groups
+            // continue searching if this post is actually part of one or more groups
             if (groupIdsList.length >= 1) {
-              console.log("Searching the above post's group info.");
-              // console.log(searchResultsReturned[j]);
-              // console.log(searchResultsReturned[j][filterParameter]);
-              // the group id that this filter group name belongs to
+              // find out the index and group id for this group filter
               var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
-              console.log("filterGroupIndex: "+filterGroupIndex);
               var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
-              console.log("filterGroupId: "+filterGroupId);
-              // iterate through each group id in the list of group ids that this post belongs to
-              var numOfMatches = 0;
+              // iterate through each group id in the list of group ids that this
+              // post belongs to
               for (var m=0; m<groupIdsList.length; m++) {
                 if (groupIdsList[m] == filterGroupId) {
                   // add this post to the returned advanced search results list
-                  // console.log(searchResultsReturned[j]);
-                  numOfMatches += 1;
-                  console.log("Match found for group: "+filterGroupId+" total matches: "+numOfMatches);
+                  advancedSearchResultsReturned.push(searchResultsReturned[j]);
+                  break; // there can't be more than one match
                 }
-              }
-              if (numOfMatches == 1) {
-                advancedSearchResultsReturned.push(searchResultsReturned[j]);
               }
             }
           }
-          // update searchResultsReturned list according to the findings of the search refinement
-          // with this particular filter
-          // searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
+          // update searchResultsReturned list according to the refinement above in
+          // the advancedSearchResultsReturned list
+          // empty the contents of searchResultsReturned first
           searchResultsReturned = [];
+          // then push everything from advancedSearchResultsReturned into
+          // searchResultsReturned
           for (var n=0; n<advancedSearchResultsReturned.length; n++) {
             searchResultsReturned.push(advancedSearchResultsReturned[n]);
           }
-        } // end of if statement for searching for a group filter
+        } // end of if statement for searching for a privacy filter
 
-        // if this filter is a tag or media filter, then refine accordingly
-        // (involves searching through a list of filters for each post)
+        // Step 2aiii: Refine the search according to the tag/media filter chosen
+        // Using a similar method as above with narrowing down the results, except
+        // checking if the tag/media filters match is a bit more complicated.
+        // Each post has a list of tags and a list of media types instead of just
+        // one value like for the privacy filter.
+        // Thus, for each post, we need to look through the list of tag/media types,
+        // and iterate through this list, to see if any of these match the text
+        // of the tag/media filter selected.
+        // if there is a match, then we add this post to the advancedSearchResultsReturned
+        // list which will later replace the searchResultsReturned list after iterating
+        // through all the posts.
         else if (filterParameter == "tags" || filterParameter == "media") {
-          console.log("SEARCHING TAGS OR MEDIA");
-          console.log("Search results length: " + searchResultsReturned.length);
-          console.log("advancedSearchResultsReturned length: "+advancedSearchResultsReturned.length);
           var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
-          console.log("Filter Text: "+filterText);
           // iterate through each post in the current search results
-          // to check if it has the desired filter
+          // to check if it has the desired tag/media type
           for (var j=0; j<searchResultsReturned.length; j++) {
-            // if the post does have the desired filter,
-            // then add it to the advanced search results
-            console.log("Current post to observe: ");
-            console.log(searchResultsReturned[j]);
-            console.log(searchResultsReturned[j]['filterParameter']);
-            // the list of group ids for this particular post in the search results
+            // the list of tags of media types for this post
             var thisPostTagsOrMediaList = searchResultsReturned[j][filterParameter];
-            console.log("TAG LIST!!");
-            console.log(thisPostTagsOrMediaList);
-            console.log("thisPostTagsOrMediaList length: "+thisPostTagsOrMediaList.length);
-            // if this post is actually part of one or more groups
+            // If this post actually has a tag or media,
+            // then iterate through each tag/media type that this post has
+            // and check if it matches the input filter's tag/media type.
+            // If there is a match, then add it to the advancedSearchResultsReturned list
             if (thisPostTagsOrMediaList.length >= 1) {
-              console.log("Searching the above post's group info.");
-              // console.log(searchResultsReturned[j]);
-              // console.log(searchResultsReturned[j][filterParameter]);
-              // the group id that this filter group name belongs to
-              // var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
-              // console.log("filterGroupIndex: "+filterGroupIndex);
-              // var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
-              // console.log("filterGroupId: "+filterGroupId);
-              // iterate through each group id in the list of group ids that this post belongs to
-              var numOfMatches = 0;
+              // iterate through each tag/media type that this post has
               for (var m=0; m<thisPostTagsOrMediaList.length; m++) {
-                console.log(m+": "+thisPostTagsOrMediaList[m]);
+                // check if the filter text matchs the current tag/media type
+                // belonging to this post
                 if (thisPostTagsOrMediaList[m].toLowerCase().indexOf(filterText) > -1) {
-                  // add this post to the returned advanced search results list
-                  // console.log(searchResultsReturned[j]);
-                  numOfMatches += 1;
-                  console.log("Match found for group: "+filterGroupId+" total matches: "+numOfMatches);
+                  // add this post to the returned advancedSearchResultsReturned list
+                  advancedSearchResultsReturned.push(searchResultsReturned[j]);
                   break;
                 }
               }
-              if (numOfMatches == 1) {
-                advancedSearchResultsReturned.push(searchResultsReturned[j]);
-              }
             }
           }
-          // update searchResultsReturned list according to the findings of the search refinement
-          // with this particular filter
-          // searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
+          // update searchResultsReturned list according to the refinement above in
+          // the advancedSearchResultsReturned list
+          // empty the contents of searchResultsReturned first
           searchResultsReturned = [];
+          // then push everything from advancedSearchResultsReturned into
+          // searchResultsReturned
           for (var n=0; n<advancedSearchResultsReturned.length; n++) {
             searchResultsReturned.push(advancedSearchResultsReturned[n]);
           }
@@ -786,22 +781,15 @@ function searchAndSortPosts(advancedMode) {
       }
     }
 
-    // Otherwise, if the search mode is include "any" filter chosen,
+    // Step 2b: Otherwise, if the search mode is include "any" filter chosen,
     // then use an additive process to refine the search results.
     else {
       // if there was no text in the search box from the basic search,
       // then make sure that the search results list is still empty
       if (searchInput == "") {
         searchResultsReturned = [];
-        console.log("EMPTY SEARCH RESULTS");
-        console.log(searchResultsReturned);
-      } else {
-        console.log("NOT EMPTY SEARCH RESULTS");
-        console.log(searchResultsReturned);
       }
-      console.log("ANY MODE!!!");
-      console.log("Current search results");
-      console.log(searchResultsReturned);
+      console.log("ANY SEARCH MODE");
       // find the list of chosen filters
       var filterListItems = $("#filters-chosen-section").find('.filter-chosen');
       // iterate through the list of chosen filters
@@ -809,194 +797,150 @@ function searchAndSortPosts(advancedMode) {
         // find the parameter and the filter info
         var filterParameter = $(filterListItems[i]).attr("data-filter-parameter");
         var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
-        // perform the search with the following method if it is one of simple dropdown filters
-        // (basically check if the filter value is present in the list of that filter's parameter
-        // present in that post's filter's parameter's list)
+
+        // Step 2bi: Refine the search according to the privacy filter chosen
+        // The "privacy" key for each post only has one value.
+        // If the filter is from the privacy filter dropdown section,
+        // then iterate through all the posts in postData
+        // and check if the filter's text matches with the privacy key's value for
+        // each post in the list.
+        // If the post has the correct privacy setting,
+        // then check if this post is already present in the searchResultsReturned list.
+        // If not, then add it to the searchResultsReturned list.
         if (filterParameter == "privacy") {
-          // iterate through each post to check if it has the desired filter
+          // iterate through each post in postData to check if each post has the
+          // desired privacy filter
           for (var j=0; j<postData.length; j++) {
-            // if the post does have the desired filter,
+            // if the post does have the desired privacy filter,
             // then add it to the search results if not already in the search results
             if (postData[j][filterParameter].toLowerCase().indexOf(filterText) > -1) {
-              console.log("The following post has the desired filter.");
-              // add this post from the returned advanced search results list
-              console.log(postData[j]);
               var postAlreadyPresentInSearchResults = false;
-              console.log("Checking to see if this post is in the below search results.");
-              console.log("Search length: "+searchResultsReturned.length);
-              console.log(searchResultsReturned);
               // check if this post is already present in the search results
               for (var k=0; k<searchResultsReturned.length; k++) {
                 // if this post is already present in the search results,
                 // then break the for loop and take note of this
                 if (searchResultsReturned[k].id == postData[j].id) {
-                  console.log("search id: "+searchResultsReturned[k].id+" "+searchResultsReturned[k][filterParameter]);
-                  console.log("post id: "+postData[j].id+" "+postData[j][filterParameter]);
                   postAlreadyPresentInSearchResults = true;
                   break;
                 }
-              } // end of for loop to iterate over current search results
-              // if this post was not already in the search results,
-              // then add this post to the search results
+              }
+              // if this post was not already in the searchResultsReturned list,
+              // then add this post to the searchResultsReturned list
               if (postAlreadyPresentInSearchResults == false) {
-                console.log("Pushing post into search results.");
                 searchResultsReturned.push(postData[j]);
-                console.log("Search length: "+searchResultsReturned.length);
-                console.log(searchResultsReturned);
               }
-            } // end of if statement to see if the post has the desired filter
+            } // end of if statement to see if the post has the desired privacy filter
           } // end of for loop to iterate over all the posts
-        } // end of if statement for if the filters are part of the simple dropdown options
-        // if this filter is a group filter, then refine accordingly (by id instead of name)
+        } // end of if statement for if the filter is a privacy filter
+
+        // Step 2bii: Refine the search according to the group filter chosen
+        // Using a similar method as above with broadening the search results, except
+        // checking if the group filters match is a bit more complicated.
+        // Each post has a key called "groupIds" which contains a list of the ids
+        // of all the groups that this post is published under.
+        // The filter text, on the other hand, only contains the name of the group,
+        // not its id.
+        // So first, we need to figure out the group id of the filter group text.
+        // Then, we need to figured out if the post is part of any groups.
+        // If yes, we need to figure out the ids of the groups this post is part of.
+        // Then, we need to iterate through all of this post's group ids, and check
+        // if any of them match with the filter's group id,
+        // then we check if this post is already part of the searchResultsReturned list.
+        // If not, we add this post to the searchResultsReturned list.
         else if (filterParameter == "groups") {
-          console.log("SEARCHING GROUPS");
-          console.log("Search results length: " + searchResultsReturned.length);
+          // the filter text should remain case sensitive
           var filterText = $(filterListItems[i]).attr("data-filter-value");
-          console.log("Filter Text: "+filterText);
+          // change filter parameter to match the group related key in postData
           var filterParameter = "groupIds";
-
-          // iterate through each post to check if it has the desired filter
+          // iterate through each post in the postData list to check if it has the
+          // desired group filter
           for (var j=0; j<postData.length; j++) {
-            // if the post does have the desired filter,
+            // if the post does have the desired group filter,
             // then add it to the search results if not already in the search results
-            // add this post from the returned advanced search results list
-            console.log("Current post to observe: ");
-            console.log(postData[j]);
             var postAlreadyPresentInSearchResults = false;
-            console.log("Search length: "+searchResultsReturned.length);
-            // console.log(searchResultsReturned);
-
-            // the list of group ids for this particular post in the search results
+            // the list of group ids for this particular post in postData
             var groupIdsList = postData[j][filterParameter];
-            console.log("groupIdsList length: "+groupIdsList.length);
-            console.log(postData[j][filterParameter]);
-
-            // if this post is actually part of one or more groups
+            // continue searching if this post is actually part of one or more groups
             if (groupIdsList.length >= 1) {
-              console.log("Searching the above post's group info.");
-              // console.log(searchResultsReturned[j]);
-              // console.log(searchResultsReturned[j][filterParameter]);
-              // the group id that this filter group name belongs to
+              // find out the index and group id for this group filter
               var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
-              // console.log("filterGroupIndex: "+filterGroupIndex);
               var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
-              // console.log("filterGroupId: "+filterGroupId);
-              // iterate through each group id in the list of group ids that this post belongs to
-              var numOfMatches = 0;
+              // iterate through each group id in the list of group ids that this
+              // post belongs to
               for (var m=0; m<groupIdsList.length; m++) {
+                // if there is a match
                 if (groupIdsList[m] == filterGroupId) {
-                  // add this post to the returned advanced search results list
-                  // console.log(searchResultsReturned[j]);
-                  numOfMatches += 1;
-                  console.log("Match found for group: "+filterGroupId+" total matches: "+numOfMatches);
-                  break;
+                  // then check if this post is already present in the search results
+                  for (var k=0; k<searchResultsReturned.length; k++) {
+                    // if this post is already present in the search results,
+                    // then break the for loop and take note of this
+                    if (searchResultsReturned[k].id == postData[j].id) {
+                      postAlreadyPresentInSearchResults = true;
+                      break;
+                    }
+                  }
+                  // if this post was not already in the search results,
+                  // then add this post to the search results
+                  if (postAlreadyPresentInSearchResults == false) {
+                    searchResultsReturned.push(postData[j]);
+                  }
                 }
               }
-              // if there was a match, then add this to the search results
-              if (numOfMatches == 1) {
-                // check if this post is already present in the search results
-                for (var k=0; k<searchResultsReturned.length; k++) {
-                  // if this post is already present in the search results,
-                  // then break the for loop and take note of this
-                  if (searchResultsReturned[k].id == postData[j].id) {
-                    console.log("search id: "+searchResultsReturned[k].id+" "+searchResultsReturned[k][filterParameter]);
-                    console.log("post id: "+postData[j].id+" "+postData[j][filterParameter]);
-                    postAlreadyPresentInSearchResults = true;
-                    break;
-                  }
-                } // end of for loop to iterate over current search results
-                // if this post was not already in the search results,
-                // then add this post to the search results
-                if (postAlreadyPresentInSearchResults == false) {
-                  console.log("Pushing post into search results.");
-                  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                  console.log(searchResultsReturned);
-                  console.log("Search length before: "+searchResultsReturned.length);
-                  searchResultsReturned.push(postData[j]);
-                  console.log("Search length after: "+searchResultsReturned.length);
-                  console.log(searchResultsReturned);
-                }
-              } // end of if statement adding a post if there was a match
             } // end of if statement to see if the post is part of any groups
           } // end of for loop to iterate over all posts
-
-          // update searchResultsReturned list according to the findings of the search refinement
-          // with this particular filter
-          // searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
         } // end of if statement for searching for a group filter
 
-        // if this filter is a group filter, then refine accordingly (by id instead of name)
+        // Step 2biii: Refine the search according to the tag/media filter chosen
+        // Using a similar method as above with narrowing down the results, except
+        // checking if the tag/media filters match is a bit more complicated.
+        // Each post has a list of tags and a list of media types instead of just
+        // one value like for the privacy filter.
+        // Thus, for each post, we need to look through the list of tag/media types,
+        // and iterate through this list, to see if any of these match the text
+        // of the tag/media filter selected.
+        // If there is a match, then we check if this post is already part of the
+        // searchResultsReturned list.
+        // If not, we add this post to the searchResultsReturned list.
         else if (filterParameter == "tags" || filterParameter == "media") {
-          console.log("SEARCHING TAGS OR MEDIA");
-          console.log("Search results length: " + searchResultsReturned.length);
-          var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
-          console.log("Filter Text: "+filterText);
-
-          // iterate through each post to check if it has the desired filter
+          // iterate through each post in postData to check if each post has the
+          // desired tag/media filter
           for (var j=0; j<postData.length; j++) {
-            // if the post does have the desired filter,
+            // if the post does have the desired privacy filter,
             // then add it to the search results if not already in the search results
-            // add this post from the returned advanced search results list
-            console.log("Current post to observe: ");
-            console.log(postData[j]);
             var postAlreadyPresentInSearchResults = false;
-            console.log("Search length: "+searchResultsReturned.length);
-            // console.log(searchResultsReturned);
 
-            // the list of group ids for this particular post in the search results
-            console.log("postData[j][filterParameter]");
-            console.log(postData[j][filterParameter])
+            // the list of tags of media types for this post
             var thisPostTagsOrMediaList = postData[j][filterParameter];
-            console.log("TAG LIST!!");
-            console.log(thisPostTagsOrMediaList);
-            console.log("thisPostTagsOrMediaList length: "+thisPostTagsOrMediaList.length);
 
-            // if this post is actually part of one or more groups
+            // If this post actually has a tag or media,
+            // then iterate through each tag/media type that this post has
+            // and check if it matches the input filter's tag/media type.
+            // If there is a match, then check if it's aleady in the
+            // searchResultsReturned list. If not, then add this post to the
+            // searchResultsReturned.
             if (thisPostTagsOrMediaList.length >= 1) {
-              console.log("Searching the above post's tag/media info.");
-              // console.log(searchResultsReturned[j]);
-              // console.log(searchResultsReturned[j][filterParameter]);
-              // the group id that this filter group name belongs to
-              // var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
-              // console.log("filterGroupIndex: "+filterGroupIndex);
-              // var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
-              // console.log("filterGroupId: "+filterGroupId);
-              // iterate through each group id in the list of group ids that this post belongs to
-              var numOfMatches = 0;
+              // iterate through each tag/media type that this post has
               for (var m=0; m<thisPostTagsOrMediaList.length; m++) {
-                console.log(m+": "+thisPostTagsOrMediaList[m]);
+                // check if the filter text matchs the current tag/media type
+                // belonging to this post
                 if (thisPostTagsOrMediaList[m].toLowerCase().indexOf(filterText) > -1) {
-                  // add this post to the returned advanced search results list
-                  // console.log(searchResultsReturned[j]);
-                  numOfMatches += 1;
+                  // then check if this post is already present in the search results
+                  for (var k=0; k<searchResultsReturned.length; k++) {
+                    // if this post is already present in the search results,
+                    // then break the for loop and take note of this
+                    if (searchResultsReturned[k].id == postData[j].id) {
+                      postAlreadyPresentInSearchResults = true;
+                      break;
+                    }
+                  } // end of for loop to iterate over current search results
+                  // if this post was not already in the search results,
+                  // then add this post to the search results
+                  if (postAlreadyPresentInSearchResults == false) {
+                    searchResultsReturned.push(postData[j]);
+                  }
                   break;
                 }
               }
-              // if there was a match, then add this to the search results
-              if (numOfMatches == 1) {
-                // check if this post is already present in the search results
-                for (var k=0; k<searchResultsReturned.length; k++) {
-                  // if this post is already present in the search results,
-                  // then break the for loop and take note of this
-                  if (searchResultsReturned[k].id == postData[j].id) {
-                    console.log("search id: "+searchResultsReturned[k].id+" "+searchResultsReturned[k][filterParameter]);
-                    console.log("post id: "+postData[j].id+" "+postData[j][filterParameter]);
-                    postAlreadyPresentInSearchResults = true;
-                    break;
-                  }
-                } // end of for loop to iterate over current search results
-                // if this post was not already in the search results,
-                // then add this post to the search results
-                if (postAlreadyPresentInSearchResults == false) {
-                  console.log("Pushing post into search results.");
-                  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                  console.log(searchResultsReturned);
-                  console.log("Search length before: "+searchResultsReturned.length);
-                  searchResultsReturned.push(postData[j]);
-                  console.log("Search length after: "+searchResultsReturned.length);
-                  console.log(searchResultsReturned);
-                }
-              } // end of if statement adding a post if there was a match
             } // end of if statement to see if the post is part of any groups
           } // end of for loop to iterate over all posts
         } // end of if statement for searching for a tag or media filter
@@ -1005,39 +949,17 @@ function searchAndSortPosts(advancedMode) {
     } // any mode end
   } // advanced search mode end
 
-  console.log("Search Results:");
-  console.log("!!!Search length: "+searchResultsReturned.length);
-  console.log(searchResultsReturned);
-
-  // Step 2: Sort the search results
-  // Sort the search results according to the parameters selected.
-  // if ($("#search-mode-dropdown").attr("data-value") == "all") {
-  //   sortPosts(advancedSearchResultsReturned);
-  //   hideAllPosts();
-  //   reorderAndDisplayPosts(advancedSearchResultsReturned);
-  // } else {
-  //   sortPosts(searchResultsReturned);
-  //   hideAllPosts();
-  //   reorderAndDisplayPosts(searchResultsReturned);
-  // }
+  // Part B: Sort the search results
+  // Step 1: Sort the results
   sortPosts(searchResultsReturned);
-  // console.log("Sorted Search Results:");
-  // console.log(searchResultsReturned);
-
-  // Step 3: Hide all the posts
+  // Step 2: Hide all the posts
   hideAllPosts();
+  // Step 3: Only show the posts that were narrowed down by the search
+  reorderAndDisplayPosts(searchResultsReturned, storiesSectionContainer);
 
-  // Step 4: Only show the posts that were narrowed down by the search
-  // for (i = 0; i < searchResultsReturned.length; i++) {
-  //   var thisPostArticle = $('article[data-id="' + searchResultsReturned[i].id + '"]');
-  //   var detachedPost = thisPostArticle.detach();
-  //   detachedPost.appendTo($("#your-stories")).show();
-  // }
-  reorderAndDisplayPosts(searchResultsReturned);
-
-  // Step 5: Write down how many search results were found
+  // Part C: Write down how many search results were found
   // update the p element showing how many results were found
-  resultsCounter = searchResultsReturned.length;
+  var resultsCounter = searchResultsReturned.length; // store how many results were found
   var resultsString = resultsCounter;
   if (resultsCounter == 1) {
     resultsString += " post found.";
@@ -1050,11 +972,15 @@ function searchAndSortPosts(advancedMode) {
 // Detach all the posts from the html,
 // then reattach them to the relevant section in the html
 // in the order of the arrayOfPostsToSort input.
-function reorderAndDisplayPosts(arrayOfPostsToSort) {
+function reorderAndDisplayPosts(arrayOfPostsToSort, sectionContainer) {
   for (i = 0; i < arrayOfPostsToSort.length; i++) {
+    // find the html element that represents this post
     var thisPostArticle = $('article[data-id="' + arrayOfPostsToSort[i].id + '"]');
+    // detach this post from the html dom, but don't delete it so that content doesn't
+    // have to get loaded again
     var detachedPost = thisPostArticle.detach();
-    detachedPost.appendTo($("#your-stories")).show();
+    // add this post back to the html dom and show it
+    detachedPost.appendTo(sectionContainer).show();
   }
 }
 
@@ -1063,9 +989,7 @@ function reorderAndDisplayPosts(arrayOfPostsToSort) {
 function sortPosts(arrayOfPostsToSort) {
   // Determine the options selected from the sorting dropdowns
   var sortCategory = $("#category-dropdown").attr("data-value");
-  console.log("sortCategory: "+sortCategory);
   var sortOrder = $("#order-dropdown").attr("data-value");
-  console.log("sortOrder: "+sortOrder);
   // Sort by post title
   if (sortCategory == "title") {
     // sort by post title in ascending order
@@ -1215,6 +1139,8 @@ function deleteAllHTMLFiltersFromFiltersChosenSection() {
 // updating the label of the advanced search mode button,
 // and deleting all the filters chosen from the filtersAppliedData list,
 // and from the html in the filters chosen section.
+// advancedMode = boolean to tell whether the user has selected advanced search mode
+// and basic search mode
 function toggleAdvancedSearchMode(advancedMode) {
   // if it's currently in the basic search mode,
   // then change the text of the advanced search mode button
@@ -1232,16 +1158,20 @@ function toggleAdvancedSearchMode(advancedMode) {
     deleteAllHTMLFiltersFromFiltersChosenSection();
     // delete all data from the filters chosen data object
     deleteAllFiltersFromFilterData(filtersAppliedData);
+    // reset all the search filters selected in the advanced filter dropdown menus
+    resetSearchFilters(advancedSearchMode);
     // reset search mode preference
     $("#search-mode-dropdown").attr("data-value", 'all');
     $("#search-mode-dropdown").text("all");
     $("#advanced-search-filters-section").hide();
   }
+  // the advanced search mode boolean
   advancedMode = !advancedMode;
   return advancedMode;
 }
 
 // Populates a dropdown menu list with the given data
+// filterDataList = the list of relevant possible filters
 function populateDropdownList(dropdownMenu, filterDataList) {
   var htmlString = '';
   for (var i = 0; i < filterDataList.length; i++) {
@@ -1252,6 +1182,127 @@ function populateDropdownList(dropdownMenu, filterDataList) {
     htmlString += '</a></li>';
   }
   dropdownMenu.append(htmlString);
+}
+
+// When the user clicks on an advanced filter dropdown's list item or checkbox,
+// then add/remove this to/from the list of options selected.
+// Also update the text in the dropdown toggle button based on what was selected.
+function updateOptionsSelectedAndDropdownButtonText (appliedFiltersObject, optionsMaxLength, parameter, targetMode, filterText) {
+  var options = appliedFiltersObject[parameter]; // list of options that have been applied
+
+  // if targetMode is true, then the target is the a tag that was just clicked
+  if (targetMode == true) {
+    var $target = $(event.currentTarget); // the a tag that was clicked
+  }
+  // otherwise the target is the a tag of the filter that was clicked on in the filters chosen section
+  else {
+    var $target = $('#advanced-search-filters-options-section').find('div[data-filter-parameter="' + parameter + '"]').find('a[data-value="'+filterText+'"]');
+  }
+  var val = $target.attr('data-value'), // the data-value of the selected option
+    $input = $target.find('input'), // the input checkbox of the selected option
+    idx = options.indexOf(val); // the index of the selected option in the list of options
+
+  // if the selected option is already in the list of selected options,
+  // then remove this item from the list of selected options
+  if (idx > -1) {
+    // remove the selected option from the selected options list
+    options.splice(idx, 1);
+    // delete the selected option (filter) from the filters chosen section in the html
+    deleteAFilterFromFiltersChosenSection(val);
+    // set the selected option's checkbox as deselected mode
+    setTimeout(function() {
+      $input.prop('checked', false)
+    }, 0);
+  } else { // otherwise, add this option to the list of selected options
+    // add the selected option into the selected options list
+    options.push(val);
+    if (val != "selectAll") {
+      // add the selected option (filter) into the filters chosen section in the html
+      var filterIndex = findByValueReturnIndex(options, val);
+      console.log(filterIndex);
+      addOneFilterHTMLStringToFiltersChosenSection(appliedFiltersObject, parameter, filterIndex);
+    }
+    // set the selected option's checkbox as selected mode
+    setTimeout(function() {
+      $input.prop('checked', true)
+    }, 0);
+  }
+
+  // if the user manually deselects all the items,
+  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
+  if (options.length == 1 && allItemsSelectedStateForEachFilterData[parameter] == true) {
+    allItemsSelectedStateForEachFilterData[parameter] = false;
+    var $selectAllTarget = $target.parent().parent().find('.select-all'),
+      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
+      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
+      idx = options.indexOf(val); // the index of the select all option in the list of options
+    // remove the selected option from the selected options list
+    options.splice(idx, 1);
+    // set the selected option's checkbox as deselected mode
+    setTimeout(function() {
+      $selectAllInput.prop('checked', false)
+    }, 0);
+    // change the select all option text to Select All
+    $($selectAllTarget).find('.select-all-text').text('Select All');
+  }
+  // else if the user manually selects all the items,
+  // then revert to deselect all mode (allItemsSelected = true, checkbox shows "Deselect All")
+  else if (options.length >= optionsMaxLength && allItemsSelectedStateForEachFilterData[parameter] == false) {
+    allItemsSelectedStateForEachFilterData[parameter] = true;
+    var $selectAllTarget = $target.parent().parent().find('.select-all'),
+      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
+      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
+      idx = options.indexOf(val); // the index of the select all option in the list of options
+    // add the selected option (filter) into the filters chosen section in the html
+    options.push(val);
+    // set the selected option's checkbox as selected mode
+    setTimeout(function() {
+      $selectAllInput.prop('checked', true)
+    }, 0);
+    // change the select all option text to Deselect All
+    $($selectAllTarget).find('.select-all-text').text('Deselect All');
+  }
+  // else if the user manually deselects one option when all were selected
+  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
+  else if (options.length < (optionsMaxLength+1) && allItemsSelectedStateForEachFilterData[parameter] == true) {
+    allItemsSelectedStateForEachFilterData[parameter] = false;
+    var $selectAllTarget = $target.parent().parent().find('.select-all'),
+      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
+      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
+      idx = options.indexOf(val); // the index of the select all option in the list of options
+    // remove the selected option from the selected options list
+    options.splice(idx, 1);
+    // set the selected option's checkbox as deselected mode
+    setTimeout(function() {
+      $selectAllInput.prop('checked', false)
+    }, 0);
+    // change the select all option text to Select All
+    $($selectAllTarget).find('.select-all-text').text('Select All');
+  }
+
+  // unfocus the selected checkbox
+  $(event.target).blur();
+
+  // update the text in the dropdown toggle button based on which options were selected
+  var $dropdownButton = $target.parent().parent().siblings(".button").find(".dropdown-button-text");
+  // if no options were selected
+  if (options.length == 0) {
+    $dropdownButton.text("Select "+parameter+" filter(s).");
+  }
+  // else if one or more options were selected,
+  // then show a list of what was selected, except for the selectAll option
+  else {
+    var optionsSelectedText = options[0];
+    for (var i = 1; i < options.length; i++) {
+      if (options[i] != "selectAll") {
+        optionsSelectedText += ", ";
+        optionsSelectedText += options[i];
+      }
+    }
+    $dropdownButton.text(optionsSelectedText);
+    // resize the height of the advanced filter selection sections
+    resizeAdvancedSearchOptionsDivs();
+  }
 }
 
 // When the user clicks on an advanced filter dropdown's de/select all checkbox,
@@ -1307,132 +1358,24 @@ function selectOrDeselectAllOptions(appliedFiltersObject, parameter) {
   }
 }
 
-// When the user clicks on an advanced filter dropdown's list item or checkbox,
-// then add/remove this to/from the list of options selected.
-// Also update the text in the dropdown toggle button based on what was selected.
-function updateOptionsSelectedAndDropdownButtonText (appliedFiltersObject, optionsMaxLength, parameter, targetMode, filterText) {
-  var options = appliedFiltersObject[parameter]; // list of options that have been applied
-
-  // if targetMode is true, then the target is the a tag that was just clicked
-  if (targetMode == true) {
-    var $target = $(event.currentTarget); // the a tag that was clicked
-  }
-  // otherwise the target is the a tag of the filter that was clicked on in the filters chosen section
-  else {
-    var $target = $('#advanced-search-filters-options-section').find('div[data-filter-parameter="' + parameter + '"]').find('a[data-value="'+filterText+'"]');
-  }
-  var val = $target.attr('data-value'), // the data-value of the selected option
-    $input = $target.find('input'), // the input checkbox of the selected option
-    idx = options.indexOf(val); // the index of the selected option in the list of options
-
-  // if the selected option is already in the list of selected options,
-  // then remove this item from the list of selected options
-  if (idx > -1) {
-    // remove the selected option from the selected options list
-    options.splice(idx, 1);
-    // delete the selected option (filter) from the filters chosen section in the html
-    deleteAFilterFromFiltersChosenSection(val);
-    // set the selected option's checkbox as deselected mode
-    setTimeout(function() {
-      $input.prop('checked', false)
-    }, 0);
-  } else { // otherwise, add this option to the list of selected options
-    // add the selected option into the selected options list
-    options.push(val);
-    if (val != "selectAll") {
-      // add the selected option (filter) into the filters chosen section in the html
-      var filterIndex = findByValueReturnIndex(options, val);
-      console.log(filterIndex);
-      addOneFilterHTMLStringToFiltersChosenSection(appliedFiltersObject, parameter, filterIndex);
-    }
-    // set the selected option's checkbox as selected mode
-    setTimeout(function() {
-      $input.prop('checked', true)
-    }, 0);
-  }
-
-  // if the user manually deselects all the items,
-  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
-  if (options.length == 1 && allItemsSelectedStateForEachFilterData[parameter] == true) {
-    allItemsSelectedStateForEachFilterData[parameter] = false;
-    var $selectAllTarget = $target.parent().parent().find('.select-all'),
-      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
-      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
-      idx = options.indexOf(val); // the index of the select all option in the list of options
-    options.splice(idx, 1);
-    setTimeout(function() {
-      $selectAllInput.prop('checked', false)
-    }, 0);
-    $($selectAllTarget).find('.select-all-text').text('Select All');
-  }
-  // else if the user manually selects all the items,
-  // then revert to deselect all mode (allItemsSelected = true, checkbox shows "Deselect All")
-  else if (options.length >= optionsMaxLength && allItemsSelectedStateForEachFilterData[parameter] == false) {
-    allItemsSelectedStateForEachFilterData[parameter] = true;
-    var $selectAllTarget = $target.parent().parent().find('.select-all'),
-      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
-      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
-      idx = options.indexOf(val); // the index of the select all option in the list of options
-    options.push(val);
-    setTimeout(function() {
-      $selectAllInput.prop('checked', true)
-    }, 0);
-    $($selectAllTarget).find('.select-all-text').text('Deselect All');
-  }
-  // else if the user manually deselects one option when all were selected
-  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
-  else if (options.length < (optionsMaxLength+1) && allItemsSelectedStateForEachFilterData[parameter] == true) {
-    allItemsSelectedStateForEachFilterData[parameter] = false;
-    var $selectAllTarget = $target.parent().parent().find('.select-all'),
-      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
-      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
-      idx = options.indexOf(val); // the index of the select all option in the list of options
-    options.splice(idx, 1);
-    setTimeout(function() {
-      $selectAllInput.prop('checked', false)
-    }, 0);
-    $($selectAllTarget).find('.select-all-text').text('Select All');
-  }
-
-  // unfocus the selected checkbox
-  $(event.target).blur();
-
-  // update the text in the dropdown toggle button based on which options were selected
-  var $dropdownButton = $target.parent().parent().siblings(".button").find(".dropdown-button-text");
-  // if no options were selected
-  if (options.length == 0) {
-    $dropdownButton.text("Select "+parameter+" filter(s).");
-  }
-  // else if one or more options were selected,
-  // then show a list of what was selected, except for the selectAll option
-  else {
-    var optionsSelectedText = options[0];
-    for (var i = 1; i < options.length; i++) {
-      if (options[i] != "selectAll") {
-        optionsSelectedText += ", ";
-        optionsSelectedText += options[i];
-      }
-    }
-    $dropdownButton.text(optionsSelectedText);
-    // resize the height of the advanced filter selection sections
-    resizeAdvancedSearchOptionsDivs();
-  }
-}
-
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
 
   // ------ SETUP POSTS ------ //
   // populate the page with posts and their relevant info
-  addPostHTMLStringToYourStoriesSection();
+  addPostHTMLStringToYourStoriesSection(storiesSectionContainer);
+
+  // Change the font-size of the sound and video icons in the thumbnails
   adjustSizesOfThumbnailIcons();
 
   // Stop audio and/or video when the modal closes
   $("#storyModal").on('hidden.bs.modal', function (e) {
+    // reset the audio player
     $('audio').each(function(){
       this.pause(); // Stop playing
       this.currentTime = 0; // Reset time
     });
+    // reload the source for the iframe that the video is in
     $("#storyModal iframe").attr("src", $("#storyModal iframe").attr("src"));
   });
 
@@ -1456,20 +1399,20 @@ $(document).ready(function(){
   resizeSearchBarWidth();
 
   // When the user clicks the "Go" button,
-  // change which posts are visible and hidden based on search parameters
+  // change which posts are visible and hidden based on the input search parameters
   $("#submit-filters-button").on('click', function() {
-    // searchPosts(advancedSearchMode);
     searchAndSortPosts(advancedSearchMode);
   });
 
   // When the user presses the "ENTER" key,
-  // change which posts are visible and hidden based on search parameters
+  // change which posts are visible and hidden based on the input search parameters
   $('#search-box').on('keypress', function (e) {
      if(e.which === 13){ // if the key pressed was the enter key
         // Disable textbox to prevent multiple submit
         $(this).attr("disabled", "disabled");
+        // search and sort the posts
         searchAndSortPosts(advancedSearchMode);
-        //Enable the textbox again.
+        // Enable the textbox again
         $(this).removeAttr("disabled");
      }
    });
@@ -1487,12 +1430,12 @@ $(document).ready(function(){
   $(".sorting-category").on("click", function() {
     $("#category-dropdown").attr("data-value", $(this).attr("data-value"));
     $("#category-dropdown").text($(this).attr("data-value"));
-    // Step 2: Sort the search results
+    // Sort the search results
     sortPosts(searchResultsReturned);
-    // Step 3: Hide all the posts
+    // Hide all the posts
     hideAllPosts();
-    // Step 4: Only show the posts that were narrowed down by the search
-    reorderAndDisplayPosts(searchResultsReturned);
+    // Only show the posts that were narrowed down by the search
+    reorderAndDisplayPosts(searchResultsReturned, storiesSectionContainer);
   });
 
   // When the user clicks a sorting order option,
@@ -1501,17 +1444,16 @@ $(document).ready(function(){
   $(".sorting-order").on("click", function() {
     $("#order-dropdown").attr("data-value", $(this).attr("data-value"));
     $("#order-dropdown").text($(this).attr("data-value"));
-    // Step 2: Sort the search results
+    // Sort the search results
     sortPosts(searchResultsReturned);
-    // Step 3: Hide all the posts
+    // Hide all the posts
     hideAllPosts();
-    // Step 4: Only show the posts that were narrowed down by the search
-    reorderAndDisplayPosts(searchResultsReturned);
+    // Only show the posts that were narrowed down by the search
+    reorderAndDisplayPosts(searchResultsReturned, storiesSectionContainer);
   });
 
   // When the user clicks on the search mode option (all or any),
   // then change the text in the dropdown button according to the option chosen
-  // and sort the posts accordingly
   $(".search-mode-option").on("click", function() {
     $("#search-mode-dropdown").attr("data-value", $(this).attr("data-value"));
     $("#search-mode-dropdown").text($(this).attr("data-value"));
@@ -1533,28 +1475,29 @@ $(document).ready(function(){
     // hide all the tabs
     $(".select-filter-options-section").hide();
     // reveal the correct tab
+    // find the tab's corresponding advanced filter selection div
     var filterParameter = $(this).attr("data-filter-parameter");
     var optionSelectionDiv = $(document).find('div.select-filter-options-section[data-filter-parameter="' + filterParameter + '"]');
-    console.log(optionSelectionDiv);
-    optionSelectionDiv.toggle();
+    // show the tab
+    optionSelectionDiv.show();
+    // display the correct size for the advanced filter selection div
     resizeAdvancedSearchOptionsDivs();
   });
 
   // display the filters chosen in the display filters chosen section
   $("#display-filters-chosen-section").on("click", ".filter-chosen", function() {
-
+    // find information about the filter clicked upon
     var filterParameter = $(this).attr("data-filter-parameter");
     var filterText = $(this).attr("data-filter-value");
-
+    // remove this filter from the filtersAppliedData
+    // and deselect this option from the corresponding dropdown that it belongs to
+    // note to self: this probably will depend on the filter parameter
     updateOptionsSelectedAndDropdownButtonText(filtersAppliedData, possibleFiltersData[filterParameter].length, filterParameter, false, filterText);
-
-    // remove this element from the filters applied data
-    // deleteAFilterFromFilterData(filtersAppliedData, filterParameter, filterText);
     // remove this element from the html
     $(this).remove();
-    // deselect this option from the relevant advanced filters dropdown menu
   });
-  // Populate the advanced privacy filters dropdown list
+
+  // Populate the advanced privacy filters dropdown lists
   populateDropdownList($("#privacy-filters-dropdown > .dropdown-menu"), possibleFiltersData['privacy']);
   populateDropdownList($("#groups-filters-dropdown > .dropdown-menu"), possibleFiltersData['groups']);
   populateDropdownList($("#tags-filters-dropdown > .dropdown-menu"), possibleFiltersData['tags']);
@@ -1596,21 +1539,15 @@ $(document).ready(function(){
       }
     }
 
-    // Simpler search method that doesn't work on IE 8 and below
-    // $(this).parent().find(".option").filter(function() {
-    //   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-    // });
-
-    // if the search box gets emptied, then show the select all checkbox
+    // If the search box gets emptied, then show the select all checkbox
     if (value != "") {
       $(this).parent().parent().find(".select-all").hide();
     } else { // otherwise, hide the select all checkbox
       $(this).parent().parent().find(".select-all").show();
     }
-
   });
 
-  // When the user clicks advanced filter dropdown's searcg box's clear button,
+  // When the user clicks an advanced filter dropdown's search box's clear button,
   // then reset the contents of the search text input without hiding the dropdown.
   $(".clear-search-button").on("click", function(event) {
     // prevent dropdown from closing
@@ -1619,17 +1556,17 @@ $(document).ready(function(){
     $(event.target).blur();
     // reset the value of the text input search box to ""
     $(this).parent().parent().find(".filter-search-box").val("");
-    // reveal the select all and the option checkboxes
+    // reveal the select all checkbox and all the option checkboxes
     $(this).parent().parent().parent().find(".select-all").show();
     $(this).parent().parent().parent().find(".option").show();
   });
 
-  // When the user clicks outside the advanced filter dropdown and this dropdown disappears
-  // then reset the contents of the search text input
+  // When the user clicks outside the advanced filter dropdown and this dropdown
+  // disappears, then reset the contents of the search text input
   $('.advanced-filter-dropdown').on('hidden.bs.dropdown', function(){
     // reset the value of the text input search box to ""
     $(this).parent().parent().find(".filter-search-box").val("");
-    // reveal the select all and the option checkboxes
+    // reveal the select all checkbox and all the option checkboxes
     $(this).parent().parent().parent().find(".select-all").show();
     $(this).parent().parent().parent().find(".option").show();
   });
@@ -1638,8 +1575,7 @@ $(document).ready(function(){
 
 // --- When the window is resized --- //
 $(window).on('resize', function(event){
-  // Change the font-size of the sound icon in the story panel
-  // according to the size of the story panel
+  // Change the font-size of the sound and video icons in the thumbnails
   adjustSizesOfThumbnailIcons();
   // Set search bar size to correct width
   resizeSearchBarWidth();

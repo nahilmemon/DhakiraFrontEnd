@@ -823,8 +823,9 @@ div.ui.search.input > input {
 #group-edit-form {
   display: none;
 }
-
+/* -------------------------- */
 /* ---- View Posts Page ----  */
+/* -------------------------- */
 /* Making columns have equal heights */
 /* Container */
 .flex-row {
@@ -863,7 +864,6 @@ div.ui.search.input > input {
   border: 1px solid #ddd;
   padding: 15px 0;
 }
-
 @media screen and (min-width: 768px) {
   .view-post-info-text-container {
     border-left: 1px solid #ddd;
@@ -913,7 +913,6 @@ button,
   font-weight: 500;
   transition: box-shadow 0.5s;
 }
-
 button:hover,
 .button:hover {
 /*  color: #4bafc9;
@@ -921,7 +920,6 @@ button:hover,
   border-color: #4bafc9;*/
   box-shadow: 3px 3px 20px rgba(0,0,0, .2);
 }
-
 button:focus,
 .button:focus,
 button:active,
@@ -933,7 +931,6 @@ button:active,
   background-color: #fff;
   color: #4bafc9;
 }
-
 .inverted-button:hover {
 /*  color: #fff;
   background-color: #4bafc9;*/
@@ -955,6 +952,7 @@ as mice. */
 #search-filters {
   padding: 30px 50px 15px 50px;
 }
+
 /* Basic Search Section */
 #search-box {
   display: none;
@@ -974,12 +972,12 @@ as mice. */
 .sorting-dropdown {
   display: inline;
 }
-/* sorting dropdown label */
+/* Sorting dropdown label */
 .sorting-dropdown>button {
   font-weight: 500;
   color: #818181;
 }
-/* sorting dropdown list */
+/* Sorting dropdown list */
 .sorting-dropdown-menu {
   position: absolute;
   top: 150%;
@@ -1003,10 +1001,9 @@ as mice. */
   color: #fff;
   font-weight: 500;
   margin-bottom: 2px;
-  /*border: solid 1px #fff;*/
 }
 
-/* Make a border around the inners
+/* Make a border around the inner
 sides of each tab. */
 .advanced-filter-tab:nth-child(n+2),
 .advanced-filter-tab:nth-child(n+2):hover{
@@ -1023,6 +1020,7 @@ sides of each tab. */
   }
 }
 
+/* Advanced filter nenu tab icons*/
 .advanced-filter-icon,
 i.icon.advanced-filter-icon {
   padding-top: 10px;
@@ -1033,17 +1031,18 @@ i.icon.advanced-filter-icon {
   padding: 0;
 }
 
-#filters-and-search-mode-chosen-section {
-  border: solid 1px #4bafc9;
-}
-
+/* Filter Chosen Section */
+/* Border around filters chosen sections */
 #filter-search-mode-chosen-section,
 #filters-chosen-section {
-  border: solid 1px #4bafc9;
+  border: solid 2px #4bafc9;
   padding: 5px;
 }
+#filters-chosen-section {
+  border-left: none;
+}
 
-/* Filter Chosen Section */
+/* Filters chosen heading */
 .filters-chosen-heading {
   margin-bottom: 2px;
 }
@@ -1057,7 +1056,6 @@ i.icon.advanced-filter-icon {
   font-weight: 500;
   border: solid 1px;
 }
-
 .filter-chosen:hover {
   box-shadow: none;
 }
@@ -1066,6 +1064,7 @@ i.icon.advanced-filter-icon {
   padding-left: 5px;
 }
 
+/* Color codes for various filter types */
 .filter-where-color,
 .filter-where-color-inverted:hover {
   background-color: #4bafc9;
@@ -1165,7 +1164,7 @@ i.icon.advanced-filter-icon {
   display: none;
 }
 
-/* Dropdown again */
+/* Dropdowns */
 /* remove the bottom margin underneath
 the dropdown main bar button */
 .dropdown > .button {
@@ -1194,6 +1193,7 @@ the dropdown main bar button */
     /* equivalent to 22px */
   }
 }
+
 /* Dropdown search bar close button */
 .input-group-btn {
   font-size: 1em;
@@ -1203,22 +1203,27 @@ the dropdown main bar button */
   font-weight: 600;
   height: 34px;
 }
+
 /* Full width for the dropdown button */
 .advanced-filter-dropdown > button.dropdown-toggle{
   width: 100%;
 }
+
 /* Caret */
 .advanced-filter-dropdown > button.dropdown-toggle > .caret {
   position: absolute;
   right: 2%;
   top: 45%;
 }
+
 /* Set a max height for dropdown menus */
 .advanced-filter-dropdown > .dropdown-menu {
   max-height: 20vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
+/* Make text in the dropdown button wrap
+and expand the size of the dropdown button */
 .dropdown-button-text {
   max-width: 97%;
   white-space: normal;
