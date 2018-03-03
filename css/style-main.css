@@ -1170,6 +1170,8 @@ i.icon.advanced-filter-icon {
 the dropdown main bar button */
 .dropdown > .button {
   margin-bottom: 0;
+  min-height: 34px;
+  height: auto;
 }
 /* Dropdown menu list items */
 .dropdown-menu,
@@ -1216,4 +1218,9 @@ the dropdown main bar button */
   max-height: 20vh;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.dropdown-button-text {
+  max-width: 97%;
+  white-space: normal;
+  display: block;
 }

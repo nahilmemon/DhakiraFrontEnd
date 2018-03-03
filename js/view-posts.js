@@ -1,7 +1,6 @@
 // ------ GLOBAL VARIABLES ------ //
 var advancedSearchMode = true; // toggles advanced search mode
 var searchResultsReturned = []; // contains which posts result from the basic/advanced search
-// var allItemsSelected = false; // toggles select all mode //--- make list per filter
 
 // contains which advanced filters are currently selected
 var filtersAppliedData = {
@@ -85,7 +84,7 @@ var postData = [
     'groupIds': [],
     'tags': ['boat', 'water', 'nature', 'origami', 'paper'],
     'location': [],
-    'contentType': ['image(s)'],
+    'media': ['image(s)'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg',
     'postContent': '<img class="story-image" src="https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg"><img class="story-image" src="https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb"><img class="story-image" src="https://images.pexels.com/photos/416904/pexels-photo-416904.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb">'
@@ -98,7 +97,7 @@ var postData = [
     'groupIds': [],
     'tags': ['stones', 'water', 'nature'],
     'location': [],
-    'contentType': ['audio'],
+    'media': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
     'postContent': '<div class="text-center"><audio controls><source src="../media/audio/skipping-stones.wav" type="audio/wav">Your browser does not support the audio element.</audio></div>'
@@ -111,7 +110,7 @@ var postData = [
     'groupIds': [],
     'tags': ['painting', 'creativity', 'meditation'],
     'location': [],
-    'contentType': ['text'],
+    'media': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'Paint anything you want on the canvas. Create your own world.',
     'postContent': '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste amet beatae eveniet perspiciatis, ipsa soluta quo deserunt aut molestiae modi, quas odio a, repellendus asperiores suscipit. Delectus eos facere atque.</p><blockquote class=".quote">Paint anything you want on the canvas. Create your own world.</blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada sem sed quam sollicitudin ultricies. Nullam ultrices rhoncus aliquam. Quisque commodo leo libero, sit amet lacinia neque euismod eu. Vestibulum malesuada mi in tellus pulvinar tempor non at felis. Curabitur quam ante, mattis ut vehicula at, auctor quis justo. Sed vel turpis nibh. Sed posuere elementum nisi nec bibendum. Pellentesque vel turpis posuere, eleifend risus id, mollis nunc. Cras gravida cursus nisi, a rhoncus erat volutpat nec. Nunc laoreet mauris eget mauris scelerisque, vitae porta velit congue. Sed imperdiet mi id est mattis lobortis. Nullam posuere arcu vitae lacinia pretium. Curabitur vehicula eleifend leo, nec scelerisque quam dignissim et. Sed justo lorem, scelerisque nec mauris ultricies, placerat vestibulum magna.</p><p>Donec in aliquam massa. Sed tempus mi nec est interdum venenatis. Pellentesque et risus a odio auctor pulvinar a vel ipsum. Nulla tortor purus, mollis nec dapibus et, bibendum ac augue. Curabitur vitae lacus bibendum, sagittis purus non, condimentum dui. Fusce blandit dolor gravida quam malesuada, nec rhoncus odio egestas. Nunc euismod, nunc a tincidunt pretium, ex eros suscipit magna, in porta turpis turpis vitae mi. Suspendisse rutrum enim at diam lobortis, nec scelerisque odio fringilla.</p><p>Quisque faucibus ornare odio vitae porta. Aliquam volutpat orci sed vehicula auctor. Quisque fermentum sit amet nunc non vulputate. Morbi malesuada semper nisl, ac maximus est commodo vel. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed suscipit diam at eleifend hendrerit. Pellentesque malesuada dignissim metus et accumsan.</p><p>Curabitur gravida viverra mauris, id sollicitudin felis dignissim congue. Maecenas commodo, ante ac sagittis eleifend, quam tellus placerat odio, in vehicula sem est eget metus. Donec est felis, hendrerit quis arcu non, venenatis condimentum ante. Nam sit amet ante vehicula est tincidunt tristique sed quis purus. Sed iaculis leo quam, id ullamcorper libero imperdiet ac. Pellentesque sed eros augue. Duis in pellentesque sapien. Suspendisse placerat erat sit amet justo volutpat dapibus. Integer quis volutpat urna, id fermentum ex. Sed mattis metus placerat dolor varius viverra. Fusce lacus ante, posuere laoreet ligula in, gravida accumsan erat. Cras dui leo, ultricies vitae feugiat nec, luctus in elit.</p><p>In hac habitasse platea dictumst. Nam a est ligula. Vestibulum dignissim a enim non pretium. Quisque ultrices nulla ante, eget accumsan quam porta eget. Curabitur non nisl eget felis tincidunt congue. Proin ac tempor lacus. Pellentesque sit amet est est. Etiam facilisis quis ante ac vestibulum. Duis a nisi et ante hendrerit congue sit amet et dui. Donec ultrices sem id augue posuere elementum. Quisque vitae quam quis urna porttitor egestas eget vitae ligula.</p>'
@@ -124,7 +123,7 @@ var postData = [
     'groupIds': [2, 5],
     'tags': ['water', 'nature', 'dams'],
     'location': [],
-    'contentType': ['video(s)'],
+    'media': ['video(s)'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/waterfall.PNG',
     'postContent': '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/LBL1fdbb5wA" frameborder="0" allow="encrypted-media" allowfullscreen></iframe></div>'
@@ -137,7 +136,7 @@ var postData = [
     'groupIds': [],
     'tags': ['actions', 'righteousness', 'ethics'],
     'location': [],
-    'contentType': ['text'],
+    'media': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
     'postContent': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada sem sed quam sollicitudin ultricies. Nullam ultrices rhoncus aliquam. Quisque commodo leo libero, sit amet lacinia neque euismod eu. Vestibulum malesuada mi in tellus pulvinar tempor non at felis. Curabitur quam ante, mattis ut vehicula at, auctor quis justo. Sed vel turpis nibh. Sed posuere elementum nisi nec bibendum. Pellentesque vel turpis posuere, eleifend risus id, mollis nunc. Cras gravida cursus nisi, a rhoncus erat volutpat nec. Nunc laoreet mauris eget mauris scelerisque, vitae porta velit congue. Sed imperdiet mi id est mattis lobortis. Nullam posuere arcu vitae lacinia pretium. Curabitur vehicula eleifend leo, nec scelerisque quam dignissim et. Sed justo lorem, scelerisque nec mauris ultricies, placerat vestibulum magna.</p><p>Donec in aliquam massa. Sed tempus mi nec est interdum venenatis. Pellentesque et risus a odio auctor pulvinar a vel ipsum. Nulla tortor purus, mollis nec dapibus et, bibendum ac augue. Curabitur vitae lacus bibendum, sagittis purus non, condimentum dui. Fusce blandit dolor gravida quam malesuada, nec rhoncus odio egestas. Nunc euismod, nunc a tincidunt pretium, ex eros suscipit magna, in porta turpis turpis vitae mi. Suspendisse rutrum enim at diam lobortis, nec scelerisque odio fringilla.</p><blockquote class=".quote">It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.</blockquote><p>Quisque faucibus ornare odio vitae porta. Aliquam volutpat orci sed vehicula auctor. Quisque fermentum sit amet nunc non vulputate. Morbi malesuada semper nisl, ac maximus est commodo vel. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed suscipit diam at eleifend hendrerit. Pellentesque malesuada dignissim metus et accumsan.</p><p>Curabitur gravida viverra mauris, id sollicitudin felis dignissim congue. Maecenas commodo, ante ac sagittis eleifend, quam tellus placerat odio, in vehicula sem est eget metus. Donec est felis, hendrerit quis arcu non, venenatis condimentum ante. Nam sit amet ante vehicula est tincidunt tristique sed quis purus. Sed iaculis leo quam, id ullamcorper libero imperdiet ac. Pellentesque sed eros augue. Duis in pellentesque sapien. Suspendisse placerat erat sit amet justo volutpat dapibus. Integer quis volutpat urna, id fermentum ex. Sed mattis metus placerat dolor varius viverra. Fusce lacus ante, posuere laoreet ligula in, gravida accumsan erat. Cras dui leo, ultricies vitae feugiat nec, luctus in elit.</p><p>In hac habitasse platea dictumst. Nam a est ligula. Vestibulum dignissim a enim non pretium. Quisque ultrices nulla ante, eget accumsan quam porta eget. Curabitur non nisl eget felis tincidunt congue. Proin ac tempor lacus. Pellentesque sit amet est est. Etiam facilisis quis ante ac vestibulum. Duis a nisi et ante hendrerit congue sit amet et dui. Donec ultrices sem id augue posuere elementum. Quisque vitae quam quis urna porttitor egestas eget vitae ligula.</p>'
@@ -150,7 +149,7 @@ var postData = [
     'groupIds': [1, 4],
     'tags': ['ice cream', 'cooking', 'recipe', 'food', 'fruits'],
     'location': [],
-    'contentType': ['image(s)', 'text'],
+    'media': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/461189/pexels-photo-461189.jpeg',
     'postContent': '<h2 class="modal-body-title text-center">Ingredients</h2><img class="story-image" src="https://static.pexels.com/photos/70862/pexels-photo-70862.jpeg"><img class="story-image" src="https://images.pexels.com/photos/65256/pomegranate-open-cores-fruit-fruit-logistica-65256.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb"><img class="story-image" src="https://static.pexels.com/photos/257840/pexels-photo-257840.jpeg"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque eum voluptatem esse magnam voluptatum ab quod vitae commodi hic eos, adipisci numquam, tempore aperiam natus voluptates quae dolor saepe blanditiis.</p><h2 class="modal-body-title text-center">Assembly</h2><img class="story-image" src="https://static.pexels.com/photos/247685/pexels-photo-247685.png"><img class="story-image" src="https://static.pexels.com/photos/461189/pexels-photo-461189.jpeg"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur praesentium porro quos, voluptatibus voluptates voluptas eveniet veniam. Nihil libero, pariatur quidem? Ipsa qui dolorum quisquam facere expedita perferendis magnam iusto.</p>'
@@ -163,7 +162,7 @@ var postData = [
     'groupIds': [4],
     'tags': ['cooking', 'grandma', 'recipe', 'food'],
     'location': [],
-    'contentType': ['audio'],
+    'media': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
     'postContent': '<div class="text-center"><audio controls><source src="../media/audio/cooking-wok.wav" type="audio/wav">Your browser does not support the audio element.</audio></div>'
@@ -176,7 +175,7 @@ var postData = [
     'groupIds': [4],
     'tags': ['chocolate', 'history', 'food'],
     'location': [],
-    'contentType': ['text'],
+    'media': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'If I were a headmaster I would get rid of the history teacher and get a chocolate teacher instead.',
     'postContent': '<h2 class="modal-body-title">19th Century</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada sem sed quam sollicitudin ultricies. Nullam ultrices rhoncus aliquam. Quisque commodo leo libero, sit amet lacinia neque euismod eu.</p><h3 class="modal-body-title">Bakeries</h3><p>Vestibulum malesuada mi in tellus pulvinar tempor non at felis. Curabitur quam ante, mattis ut vehicula at, auctor quis justo. Sed vel turpis nibh. Sed posuere elementum nisi nec bibendum. Pellentesque vel turpis posuere, eleifend risus id, mollis nunc. Cras gravida cursus nisi, a rhoncus erat volutpat nec. Nunc laoreet mauris eget mauris scelerisque, vitae porta velit congue. Sed imperdiet mi id est mattis lobortis. Nullam posuere arcu vitae lacinia pretium. Curabitur vehicula eleifend leo, nec scelerisque quam dignissim et. Sed justo lorem, scelerisque nec mauris ultricies, placerat vestibulum magna.</p><h4 class="modal-body-title">Deliveries</h4><p>Donec in aliquam massa. Sed tempus mi nec est interdum venenatis. Pellentesque et risus a odio auctor pulvinar a vel ipsum. Nulla tortor purus, mollis nec dapibus et, bibendum ac augue. Curabitur vitae lacus bibendum, sagittis purus non, condimentum dui. Fusce blandit dolor gravida quam malesuada, nec rhoncus odio egestas. Nunc euismod, nunc a tincidunt pretium, ex eros suscipit magna, in porta turpis turpis vitae mi. Suspendisse rutrum enim at diam lobortis, nec scelerisque odio fringilla.</p><blockquote class=".quote">It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.</blockquote><h2 class="modal-body-title">20th Century</h2><p>Quisque faucibus ornare odio vitae porta. Aliquam volutpat orci sed vehicula auctor. Quisque fermentum sit amet nunc non vulputate.</p><h3 class="modal-body-title">The War</h3><p>Morbi malesuada semper nisl, ac maximus est commodo vel. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed suscipit diam at eleifend hendrerit. Pellentesque malesuada dignissim metus et accumsan.</p><h4 class="modal-body-title">At Home</h4><p>Curabitur gravida viverra mauris, id sollicitudin felis dignissim congue. Maecenas commodo, ante ac sagittis eleifend, quam tellus placerat odio, in vehicula sem est eget metus. Donec est felis, hendrerit quis arcu non, venenatis condimentum ante.</p><h3 class="modal-body-title">Industrialization</h3><p>Nam sit amet ante vehicula est tincidunt tristique sed quis purus. Sed iaculis leo quam, id ullamcorper libero imperdiet ac. Pellentesque sed eros augue. Duis in pellentesque sapien. Suspendisse placerat erat sit amet justo volutpat dapibus. Integer quis volutpat urna, id fermentum ex. Sed mattis metus placerat dolor varius viverra. Fusce lacus ante, posuere laoreet ligula in, gravida accumsan erat. Cras dui leo, ultricies vitae feugiat nec, luctus in elit.</p><p>In hac habitasse platea dictumst. Nam a est ligula. Vestibulum dignissim a enim non pretium. Quisque ultrices nulla ante, eget accumsan quam porta eget. Curabitur non nisl eget felis tincidunt congue. Proin ac tempor lacus. Pellentesque sit amet est est. Etiam facilisis quis ante ac vestibulum. Duis a nisi et ante hendrerit congue sit amet et dui. Donec ultrices sem id augue posuere elementum. Quisque vitae quam quis urna porttitor egestas eget vitae ligula.</p>'
@@ -189,7 +188,7 @@ var postData = [
     'groupIds': [],
     'tags': ['dandelions', 'wishes', 'childhood'],
     'location': [],
-    'contentType': ['video(s)', 'text'],
+    'media': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/dandelion.PNG',
     'postContent': '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/-vyZqnJO2Mo" frameborder="0" allow="encrypted-media" allowfullscreen></iframe></div><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci minus atque nihil accusamus nostrum, iure nulla esse ea, eos fugit incidunt qui, temporibus recusandae soluta tenetur quas. Reiciendis, aperiam, necessitatibus!</p>'
@@ -202,7 +201,7 @@ var postData = [
     'groupIds': [1, 3, 4, 5],
     'tags': ['snow', 'quilts', 'animals', 'nature', 'food'],
     'location': [],
-    'contentType': ['video(s)', 'text'],
+    'media': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/snow.PNG',
     'postContent': '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, officiis amet libero adipisci facere, recusandae eum alias totam. Hic optio deserunt sed commodi natus ducimus perferendis quas minima architecto maiores.</p><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/AMkEsmYgDOM" frameborder="0" allow="encrypted-media" allowfullscreen></iframe></div>'
@@ -215,7 +214,7 @@ var postData = [
     'groupIds': [],
     'tags': ['storytelling', 'reading', 'bedtime', 'childhood'],
     'location': [],
-    'contentType': ['image(s)', 'text'],
+    'media': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/33196/still-life-teddy-white-read.jpg',
     'postContent': '<img class="story-image" src="https://static.pexels.com/photos/33196/still-life-teddy-white-read.jpg"><p>Donec in aliquam massa. Sed tempus mi nec est interdum venenatis. Pellentesque et risus a odio auctor pulvinar a vel ipsum. Nulla tortor purus, mollis nec dapibus et, bibendum ac augue. Curabitur vitae lacus bibendum, sagittis purus non, condimentum dui. Fusce blandit dolor gravida quam malesuada, nec rhoncus odio egestas. Nunc euismod, nunc a tincidunt pretium, ex eros suscipit magna, in porta turpis turpis vitae mi. Suspendisse rutrum enim at diam lobortis, nec scelerisque odio fringilla.</p><p>Quisque faucibus ornare odio vitae porta. Aliquam volutpat orci sed vehicula auctor. Quisque fermentum sit amet nunc non vulputate. Morbi malesuada semper nisl, ac maximus est commodo vel. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed suscipit diam at eleifend hendrerit. Pellentesque malesuada dignissim metus et accumsan.</p><p>Curabitur gravida viverra mauris, id sollicitudin felis dignissim congue. Maecenas commodo, ante ac sagittis eleifend, quam tellus placerat odio, in vehicula sem est eget metus. Donec est felis, hendrerit quis arcu non, venenatis condimentum ante. Nam sit amet ante vehicula est tincidunt tristique sed quis purus. Sed iaculis leo quam, id ullamcorper libero imperdiet ac. Pellentesque sed eros augue. Duis in pellentesque sapien. Suspendisse placerat erat sit amet justo volutpat dapibus. Integer quis volutpat urna, id fermentum ex. Sed mattis metus placerat dolor varius viverra. Fusce lacus ante, posuere laoreet ligula in, gravida accumsan erat. Cras dui leo, ultricies vitae feugiat nec, luctus in elit.</p>'
@@ -228,7 +227,7 @@ var postData = [
     'groupIds': [5],
     'tags': ['storytelling', 'scary', 'nature', 'fire'],
     'location': [],
-    'contentType': ['audio', 'text'],
+    'media': ['audio', 'text'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
     'postContent': '<div class="text-center"><audio controls><source src="../media/audio/fire.wav" type="audio/wav">Your browser does not support the audio element.</audio></div><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste amet beatae eveniet perspiciatis, ipsa soluta quo deserunt aut molestiae modi, quas odio a, repellendus asperiores suscipit. Delectus eos facere atque.</p><p>Donec in aliquam massa. Sed tempus mi nec est interdum venenatis. Pellentesque et risus a odio auctor pulvinar a vel ipsum. Nulla tortor purus, mollis nec dapibus et, bibendum ac augue. Curabitur vitae lacus bibendum, sagittis purus non, condimentum dui. Fusce blandit dolor gravida quam malesuada, nec rhoncus odio egestas. Nunc euismod, nunc a tincidunt pretium, ex eros suscipit magna, in porta turpis turpis vitae mi. Suspendisse rutrum enim at diam lobortis, nec scelerisque odio fringilla.</p>'
@@ -249,13 +248,25 @@ function findByIdReturnObject(source, id) {
 
 // Looks up a specific value in a list.
 // Returns the index of the input value in the list.
+function findByKeyAndValueToReturnIndex(source, key, value) {
+  for (var i = 0; i < source.length; i++) {
+    // console.log(i+" "+source[i][key])
+    if (source[i][key] == value) {
+      return i;
+    }
+  }
+  throw "Couldn't find object with value: " + value;
+}
+
+// Looks up a specific value in a list.
+// Returns the index of the input value in the list.
 function findByValueReturnIndex(source, value) {
   for (var i = 0; i < source.length; i++) {
     if (source[i] == value) {
       return i;
     }
   }
-  // throw "Couldn't find object with value: " + value;
+  throw "Couldn't find object with value: " + value;
 }
 
 // Makes a deep copy of an input array
@@ -361,18 +372,18 @@ function createHTMLStringForOnePost(postIndex) {
   htmlStringToAppend += '</p>';
   // Content
   htmlStringToAppend += '<p class="content-type">This post contains: ';
-  htmlStringToAppend += postData[postIndex].contentType[0];
-  if (postData[postIndex].contentType.length == 2 ) {
+  htmlStringToAppend += postData[postIndex].media[0];
+  if (postData[postIndex].media.length == 2 ) {
     htmlStringToAppend += " and ";
-    htmlStringToAppend += postData[postIndex].contentType[1];
+    htmlStringToAppend += postData[postIndex].media[1];
   } else {
-    for (var i = 1; i < postData[postIndex].contentType.length; i++) {
-      if (i < postData[postIndex].contentType.length - 1) {
+    for (var i = 1; i < postData[postIndex].media.length; i++) {
+      if (i < postData[postIndex].media.length - 1) {
         htmlStringToAppend += ', ';
-        htmlStringToAppend += postData[postIndex].contentType[i];
+        htmlStringToAppend += postData[postIndex].media[i];
       } else {
         htmlStringToAppend += ', and ';
-        htmlStringToAppend += postData[postIndex].contentType[i];
+        htmlStringToAppend += postData[postIndex].media[i];
       }
     }
   }
@@ -457,14 +468,12 @@ function resizeSearchBarWidth() {
 // Change the size the advanced filter selection div based on the height of the dropdown
 // button and dropdown menu
 function resizeAdvancedSearchOptionsDivs() {
-  // just in case the height depends on the filter type (e.g. map and data take more
-  // or less space)
   // find all the advanced filter selection option divs
   var listOfAdvancedSelectionDivs = $(".select-filter-options-section");
   // iterate through all the advanced filter selection option divs
   for (var i=0; i<listOfAdvancedSelectionDivs.length; i++) {
     var filterParameter = $(listOfAdvancedSelectionDivs[i]).attr("data-filter-parameter");
-    if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
+    // if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
       var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
       var dropdownButtonHeight = dropdownButton.outerHeight(false);
       var divHeight = 0.2*window.innerHeight + 2*2 + 2*5 + dropdownButtonHeight + 3;
@@ -472,7 +481,7 @@ function resizeAdvancedSearchOptionsDivs() {
       // 2*2: top and bottom border width
       // 2*5: top and bottom padding
       // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
-    }
+    // }
     $(listOfAdvancedSelectionDivs[i]).css("height", divHeight);
   }
 }
@@ -594,6 +603,7 @@ function showAllPosts() {
   });
 }
 
+// Search all the posts and sort the results based on the inputs provided.
 function searchAndSortPosts(advancedMode) {
   // Step 1: Search
   // Search according to the filters given
@@ -615,11 +625,15 @@ function searchAndSortPosts(advancedMode) {
       thisPostArticle.hide();
     }
   }
+
+  console.log("search results so far: ");
+  console.log(searchResultsReturned);
+
   // Step 1b: perform the advanced search by taking into consideration the filters
   // chosen from the advanced filter menu tabs
   if (advancedMode == true) {
     console.log("Performing advanced search...");
-    // If the search mode is include "all" filters chosen,
+    // Step 1bi: If the search mode is include "all" filters chosen,
     // then use a subtractive process to refine the search results.
     if ($("#search-mode-dropdown").attr("data-value") == "all") {
       console.log("ALL MODE!!!");
@@ -636,22 +650,139 @@ function searchAndSortPosts(advancedMode) {
         // perform the search with the following method if it is one of simple dropdown filters
         // (basically check if the filter value is present in the list of that filter's parameter
         // present in that post's filter's parameter's list)
-        if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media" ) {
+        if (filterParameter == "privacy") {
+          // var advancedSearchResultsReturned = [];
           // iterate through each post in the current search results
           // to check if it has the desired filter
           for (var j=0; j<searchResultsReturned.length; j++) {
             // if the post does have the desired filter,
             // then add it to the advanced search results
+            console.log("searchResultsReturned[j][filterParameter]");
+            console.log(searchResultsReturned[j][filterParameter]);
             if (searchResultsReturned[j][filterParameter].toLowerCase().indexOf(filterText) > -1) {
               // add this post to the returned advanced search results list
               console.log(searchResultsReturned[j]);
               advancedSearchResultsReturned.push(searchResultsReturned[j]);
             }
           }
+          // update searchResultsReturned list according to the findings of the search refinement
+          // with this particular filter
+          // searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
+          searchResultsReturned = [];
+          for (var n=0; n<advancedSearchResultsReturned.length; n++) {
+            searchResultsReturned.push(advancedSearchResultsReturned[n]);
+          }
         }
-        // update searchResultsReturned list according to the findings of the search refinement
-        // with this particular filter
-        searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
+
+        // if this filter is a group filter, then refine accordingly (by id instead of name)
+        else if (filterParameter == "groups") {
+          console.log("SEARCHING GROUPS");
+          console.log("Search results length: " + searchResultsReturned.length);
+          console.log("advancedSearchResultsReturned length: "+advancedSearchResultsReturned.length);
+          var filterText = $(filterListItems[i]).attr("data-filter-value");
+          console.log("Filter Text: "+filterText);
+          var filterParameter = "groupIds";
+          // iterate through each post in the current search results
+          // to check if it has the desired filter
+          for (var j=0; j<searchResultsReturned.length; j++) {
+            // if the post does have the desired filter,
+            // then add it to the advanced search results
+            console.log("Current post to observe: ");
+            console.log(searchResultsReturned[j]);
+            console.log(searchResultsReturned[j][filterParameter]);
+            // the list of group ids for this particular post in the search results
+            var groupIdsList = searchResultsReturned[j][filterParameter];
+            console.log("groupIdsList length: "+groupIdsList.length);
+            // if this post is actually part of one or more groups
+            if (groupIdsList.length >= 1) {
+              console.log("Searching the above post's group info.");
+              // console.log(searchResultsReturned[j]);
+              // console.log(searchResultsReturned[j][filterParameter]);
+              // the group id that this filter group name belongs to
+              var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
+              console.log("filterGroupIndex: "+filterGroupIndex);
+              var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
+              console.log("filterGroupId: "+filterGroupId);
+              // iterate through each group id in the list of group ids that this post belongs to
+              var numOfMatches = 0;
+              for (var m=0; m<groupIdsList.length; m++) {
+                if (groupIdsList[m] == filterGroupId) {
+                  // add this post to the returned advanced search results list
+                  // console.log(searchResultsReturned[j]);
+                  numOfMatches += 1;
+                  console.log("Match found for group: "+filterGroupId+" total matches: "+numOfMatches);
+                }
+              }
+              if (numOfMatches == 1) {
+                advancedSearchResultsReturned.push(searchResultsReturned[j]);
+              }
+            }
+          }
+          // update searchResultsReturned list according to the findings of the search refinement
+          // with this particular filter
+          // searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
+          searchResultsReturned = [];
+          for (var n=0; n<advancedSearchResultsReturned.length; n++) {
+            searchResultsReturned.push(advancedSearchResultsReturned[n]);
+          }
+        } // end of if statement for searching for a group filter
+
+        // if this filter is a tag or media filter, then refine accordingly
+        // (involves searching through a list of filters for each post)
+        else if (filterParameter == "tags" || filterParameter == "media") {
+          console.log("SEARCHING TAGS OR MEDIA");
+          console.log("Search results length: " + searchResultsReturned.length);
+          console.log("advancedSearchResultsReturned length: "+advancedSearchResultsReturned.length);
+          var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
+          console.log("Filter Text: "+filterText);
+          // iterate through each post in the current search results
+          // to check if it has the desired filter
+          for (var j=0; j<searchResultsReturned.length; j++) {
+            // if the post does have the desired filter,
+            // then add it to the advanced search results
+            console.log("Current post to observe: ");
+            console.log(searchResultsReturned[j]);
+            console.log(searchResultsReturned[j]['filterParameter']);
+            // the list of group ids for this particular post in the search results
+            var thisPostTagsOrMediaList = searchResultsReturned[j][filterParameter];
+            console.log("TAG LIST!!");
+            console.log(thisPostTagsOrMediaList);
+            console.log("thisPostTagsOrMediaList length: "+thisPostTagsOrMediaList.length);
+            // if this post is actually part of one or more groups
+            if (thisPostTagsOrMediaList.length >= 1) {
+              console.log("Searching the above post's group info.");
+              // console.log(searchResultsReturned[j]);
+              // console.log(searchResultsReturned[j][filterParameter]);
+              // the group id that this filter group name belongs to
+              // var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
+              // console.log("filterGroupIndex: "+filterGroupIndex);
+              // var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
+              // console.log("filterGroupId: "+filterGroupId);
+              // iterate through each group id in the list of group ids that this post belongs to
+              var numOfMatches = 0;
+              for (var m=0; m<thisPostTagsOrMediaList.length; m++) {
+                console.log(m+": "+thisPostTagsOrMediaList[m]);
+                if (thisPostTagsOrMediaList[m].toLowerCase().indexOf(filterText) > -1) {
+                  // add this post to the returned advanced search results list
+                  // console.log(searchResultsReturned[j]);
+                  numOfMatches += 1;
+                  console.log("Match found for group: "+filterGroupId+" total matches: "+numOfMatches);
+                  break;
+                }
+              }
+              if (numOfMatches == 1) {
+                advancedSearchResultsReturned.push(searchResultsReturned[j]);
+              }
+            }
+          }
+          // update searchResultsReturned list according to the findings of the search refinement
+          // with this particular filter
+          // searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
+          searchResultsReturned = [];
+          for (var n=0; n<advancedSearchResultsReturned.length; n++) {
+            searchResultsReturned.push(advancedSearchResultsReturned[n]);
+          }
+        } // end of if statement for searching for a tag or media filter
       }
     }
 
@@ -662,6 +793,11 @@ function searchAndSortPosts(advancedMode) {
       // then make sure that the search results list is still empty
       if (searchInput == "") {
         searchResultsReturned = [];
+        console.log("EMPTY SEARCH RESULTS");
+        console.log(searchResultsReturned);
+      } else {
+        console.log("NOT EMPTY SEARCH RESULTS");
+        console.log(searchResultsReturned);
       }
       console.log("ANY MODE!!!");
       console.log("Current search results");
@@ -676,7 +812,7 @@ function searchAndSortPosts(advancedMode) {
         // perform the search with the following method if it is one of simple dropdown filters
         // (basically check if the filter value is present in the list of that filter's parameter
         // present in that post's filter's parameter's list)
-        if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media" ) {
+        if (filterParameter == "privacy") {
           // iterate through each post to check if it has the desired filter
           for (var j=0; j<postData.length; j++) {
             // if the post does have the desired filter,
@@ -711,6 +847,160 @@ function searchAndSortPosts(advancedMode) {
             } // end of if statement to see if the post has the desired filter
           } // end of for loop to iterate over all the posts
         } // end of if statement for if the filters are part of the simple dropdown options
+        // if this filter is a group filter, then refine accordingly (by id instead of name)
+        else if (filterParameter == "groups") {
+          console.log("SEARCHING GROUPS");
+          console.log("Search results length: " + searchResultsReturned.length);
+          var filterText = $(filterListItems[i]).attr("data-filter-value");
+          console.log("Filter Text: "+filterText);
+          var filterParameter = "groupIds";
+
+          // iterate through each post to check if it has the desired filter
+          for (var j=0; j<postData.length; j++) {
+            // if the post does have the desired filter,
+            // then add it to the search results if not already in the search results
+            // add this post from the returned advanced search results list
+            console.log("Current post to observe: ");
+            console.log(postData[j]);
+            var postAlreadyPresentInSearchResults = false;
+            console.log("Search length: "+searchResultsReturned.length);
+            // console.log(searchResultsReturned);
+
+            // the list of group ids for this particular post in the search results
+            var groupIdsList = postData[j][filterParameter];
+            console.log("groupIdsList length: "+groupIdsList.length);
+            console.log(postData[j][filterParameter]);
+
+            // if this post is actually part of one or more groups
+            if (groupIdsList.length >= 1) {
+              console.log("Searching the above post's group info.");
+              // console.log(searchResultsReturned[j]);
+              // console.log(searchResultsReturned[j][filterParameter]);
+              // the group id that this filter group name belongs to
+              var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
+              // console.log("filterGroupIndex: "+filterGroupIndex);
+              var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
+              // console.log("filterGroupId: "+filterGroupId);
+              // iterate through each group id in the list of group ids that this post belongs to
+              var numOfMatches = 0;
+              for (var m=0; m<groupIdsList.length; m++) {
+                if (groupIdsList[m] == filterGroupId) {
+                  // add this post to the returned advanced search results list
+                  // console.log(searchResultsReturned[j]);
+                  numOfMatches += 1;
+                  console.log("Match found for group: "+filterGroupId+" total matches: "+numOfMatches);
+                  break;
+                }
+              }
+              // if there was a match, then add this to the search results
+              if (numOfMatches == 1) {
+                // check if this post is already present in the search results
+                for (var k=0; k<searchResultsReturned.length; k++) {
+                  // if this post is already present in the search results,
+                  // then break the for loop and take note of this
+                  if (searchResultsReturned[k].id == postData[j].id) {
+                    console.log("search id: "+searchResultsReturned[k].id+" "+searchResultsReturned[k][filterParameter]);
+                    console.log("post id: "+postData[j].id+" "+postData[j][filterParameter]);
+                    postAlreadyPresentInSearchResults = true;
+                    break;
+                  }
+                } // end of for loop to iterate over current search results
+                // if this post was not already in the search results,
+                // then add this post to the search results
+                if (postAlreadyPresentInSearchResults == false) {
+                  console.log("Pushing post into search results.");
+                  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                  console.log(searchResultsReturned);
+                  console.log("Search length before: "+searchResultsReturned.length);
+                  searchResultsReturned.push(postData[j]);
+                  console.log("Search length after: "+searchResultsReturned.length);
+                  console.log(searchResultsReturned);
+                }
+              } // end of if statement adding a post if there was a match
+            } // end of if statement to see if the post is part of any groups
+          } // end of for loop to iterate over all posts
+
+          // update searchResultsReturned list according to the findings of the search refinement
+          // with this particular filter
+          // searchResultsReturned = deepCopyArray(advancedSearchResultsReturned);
+        } // end of if statement for searching for a group filter
+
+        // if this filter is a group filter, then refine accordingly (by id instead of name)
+        else if (filterParameter == "tags" || filterParameter == "media") {
+          console.log("SEARCHING TAGS OR MEDIA");
+          console.log("Search results length: " + searchResultsReturned.length);
+          var filterText = $(filterListItems[i]).attr("data-filter-value").toLowerCase();
+          console.log("Filter Text: "+filterText);
+
+          // iterate through each post to check if it has the desired filter
+          for (var j=0; j<postData.length; j++) {
+            // if the post does have the desired filter,
+            // then add it to the search results if not already in the search results
+            // add this post from the returned advanced search results list
+            console.log("Current post to observe: ");
+            console.log(postData[j]);
+            var postAlreadyPresentInSearchResults = false;
+            console.log("Search length: "+searchResultsReturned.length);
+            // console.log(searchResultsReturned);
+
+            // the list of group ids for this particular post in the search results
+            console.log("postData[j][filterParameter]");
+            console.log(postData[j][filterParameter])
+            var thisPostTagsOrMediaList = postData[j][filterParameter];
+            console.log("TAG LIST!!");
+            console.log(thisPostTagsOrMediaList);
+            console.log("thisPostTagsOrMediaList length: "+thisPostTagsOrMediaList.length);
+
+            // if this post is actually part of one or more groups
+            if (thisPostTagsOrMediaList.length >= 1) {
+              console.log("Searching the above post's tag/media info.");
+              // console.log(searchResultsReturned[j]);
+              // console.log(searchResultsReturned[j][filterParameter]);
+              // the group id that this filter group name belongs to
+              // var filterGroupIndex = findByKeyAndValueToReturnIndex(originalGroupMasterData, 'groupName', filterText);
+              // console.log("filterGroupIndex: "+filterGroupIndex);
+              // var filterGroupId = originalGroupMasterData[filterGroupIndex].id;
+              // console.log("filterGroupId: "+filterGroupId);
+              // iterate through each group id in the list of group ids that this post belongs to
+              var numOfMatches = 0;
+              for (var m=0; m<thisPostTagsOrMediaList.length; m++) {
+                console.log(m+": "+thisPostTagsOrMediaList[m]);
+                if (thisPostTagsOrMediaList[m].toLowerCase().indexOf(filterText) > -1) {
+                  // add this post to the returned advanced search results list
+                  // console.log(searchResultsReturned[j]);
+                  numOfMatches += 1;
+                  break;
+                }
+              }
+              // if there was a match, then add this to the search results
+              if (numOfMatches == 1) {
+                // check if this post is already present in the search results
+                for (var k=0; k<searchResultsReturned.length; k++) {
+                  // if this post is already present in the search results,
+                  // then break the for loop and take note of this
+                  if (searchResultsReturned[k].id == postData[j].id) {
+                    console.log("search id: "+searchResultsReturned[k].id+" "+searchResultsReturned[k][filterParameter]);
+                    console.log("post id: "+postData[j].id+" "+postData[j][filterParameter]);
+                    postAlreadyPresentInSearchResults = true;
+                    break;
+                  }
+                } // end of for loop to iterate over current search results
+                // if this post was not already in the search results,
+                // then add this post to the search results
+                if (postAlreadyPresentInSearchResults == false) {
+                  console.log("Pushing post into search results.");
+                  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                  console.log(searchResultsReturned);
+                  console.log("Search length before: "+searchResultsReturned.length);
+                  searchResultsReturned.push(postData[j]);
+                  console.log("Search length after: "+searchResultsReturned.length);
+                  console.log(searchResultsReturned);
+                }
+              } // end of if statement adding a post if there was a match
+            } // end of if statement to see if the post is part of any groups
+          } // end of for loop to iterate over all posts
+        } // end of if statement for searching for a tag or media filter
+
       } // end of for loop to iterate over all the filters chosens
     } // any mode end
   } // advanced search mode end
@@ -721,9 +1011,18 @@ function searchAndSortPosts(advancedMode) {
 
   // Step 2: Sort the search results
   // Sort the search results according to the parameters selected.
+  // if ($("#search-mode-dropdown").attr("data-value") == "all") {
+  //   sortPosts(advancedSearchResultsReturned);
+  //   hideAllPosts();
+  //   reorderAndDisplayPosts(advancedSearchResultsReturned);
+  // } else {
+  //   sortPosts(searchResultsReturned);
+  //   hideAllPosts();
+  //   reorderAndDisplayPosts(searchResultsReturned);
+  // }
   sortPosts(searchResultsReturned);
-  console.log("Sorted Search Results:");
-  console.log(searchResultsReturned);
+  // console.log("Sorted Search Results:");
+  // console.log(searchResultsReturned);
 
   // Step 3: Hide all the posts
   hideAllPosts();
@@ -764,7 +1063,9 @@ function reorderAndDisplayPosts(arrayOfPostsToSort) {
 function sortPosts(arrayOfPostsToSort) {
   // Determine the options selected from the sorting dropdowns
   var sortCategory = $("#category-dropdown").attr("data-value");
+  console.log("sortCategory: "+sortCategory);
   var sortOrder = $("#order-dropdown").attr("data-value");
+  console.log("sortOrder: "+sortOrder);
   // Sort by post title
   if (sortCategory == "title") {
     // sort by post title in ascending order
@@ -804,14 +1105,16 @@ function sortPosts(arrayOfPostsToSort) {
     if (sortOrder == "ascending") {
       console.log('sorting by date in ascending order');
       arrayOfPostsToSort.sort(function (a, b) {
-        return a.date - b.date;
+        // return a.date - b.date;
+        return new Date(a.date) - new Date(b.date);
       });
     }
     // sort by date in descending order
     else {
       console.log('sorting by date in descending order');
       arrayOfPostsToSort.sort(function (a, b) {
-        return b.date - a.date;
+        // return b.date - a.date;
+        return new Date(b.date) - new Date(a.date);
       });
     }
   }
@@ -856,15 +1159,16 @@ function deleteAllFiltersFromFilterData(filterObject) {
 
 // Create the html string for one of the selected filters in the applied filters data object
 function createHTMLStringForOneFilter(filterObject, parameter, filterIndex) {
+  var filterText = filterObject[parameter][filterIndex];
   var htmlStringToAppend = '<button class="filter-chosen filter-';
   htmlStringToAppend += parameter;
   htmlStringToAppend += '-color-inverted" data-filter-parameter="';
   htmlStringToAppend += parameter;
   htmlStringToAppend += '" data-filter-value="';
-  htmlStringToAppend += filterObject[parameter][filterIndex];
+  htmlStringToAppend += filterText;
   htmlStringToAppend += '">';
   htmlStringToAppend += '<span class="filter-chosen-text">';
-  htmlStringToAppend += filterObject[parameter][filterIndex];
+  htmlStringToAppend += filterText;
   htmlStringToAppend += '</span>'
   htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
   htmlStringToAppend += '</button>';
@@ -972,6 +1276,7 @@ function selectOrDeselectAllOptions(appliedFiltersObject, parameter) {
         options.push(val);
         // add the selected option (filter) into the filters chosen section in the html
         var filterIndex = findByValueReturnIndex(options, val);
+        console.log("Actual filter index returned: "+filterIndex);
         addOneFilterHTMLStringToFiltersChosenSection(appliedFiltersObject, parameter, filterIndex);
         // set the selected option's checkbox as selected mode
         $input.prop('checked', true);
@@ -1109,6 +1414,8 @@ function updateOptionsSelectedAndDropdownButtonText (appliedFiltersObject, optio
       }
     }
     $dropdownButton.text(optionsSelectedText);
+    // resize the height of the advanced filter selection sections
+    resizeAdvancedSearchOptionsDivs();
   }
 }
 
@@ -1223,10 +1530,14 @@ $(document).ready(function(){
   // When the user clicks on an advanced filter menu tab,
   // then hide/show the relevant option selection section
   $(".advanced-filter-tab").on("click", function() {
+    // hide all the tabs
+    $(".select-filter-options-section").hide();
+    // reveal the correct tab
     var filterParameter = $(this).attr("data-filter-parameter");
     var optionSelectionDiv = $(document).find('div.select-filter-options-section[data-filter-parameter="' + filterParameter + '"]');
     console.log(optionSelectionDiv);
     optionSelectionDiv.toggle();
+    resizeAdvancedSearchOptionsDivs();
   });
 
   // display the filters chosen in the display filters chosen section
@@ -1237,30 +1548,6 @@ $(document).ready(function(){
 
     updateOptionsSelectedAndDropdownButtonText(filtersAppliedData, possibleFiltersData[filterParameter].length, filterParameter, false, filterText);
 
-    /*// deselect this option from the relevant advanced filters dropdown menu
-    var $input = $('#advanced-search-filters-options-section').find('div[data-filter-parameter="' + filterParameter + '"]').find('a[data-value="'+filterText+'"]').find('input');
-    $input.prop('checked', false);
-    // update the text in the relevant advanced filter dropdown button
-    var $dropdownButton = $('#advanced-search-filters-options-section').find('div[data-filter-parameter="' + filterParameter + '"]').find(".button").find(".dropdown-button-text");
-    var options = filtersAppliedData[filterParameter];
-    // if no options were selected
-    if (options.length == 0) {
-      $dropdownButton.text("Select "+filterParameter+"filter(s).");
-    }
-    // else if one or more options were selected,
-    // then show a list of what was selected, except for the selectAll option
-    else {
-      var optionsSelectedText = options[0];
-      for (var i = 1; i < options.length; i++) {
-        if (options[i] != "selectAll") {
-          optionsSelectedText += ", ";
-          optionsSelectedText += options[i];
-        }
-      }
-      $dropdownButton.text(optionsSelectedText);
-    }*/
-
-
     // remove this element from the filters applied data
     // deleteAFilterFromFilterData(filtersAppliedData, filterParameter, filterText);
     // remove this element from the html
@@ -1269,6 +1556,9 @@ $(document).ready(function(){
   });
   // Populate the advanced privacy filters dropdown list
   populateDropdownList($("#privacy-filters-dropdown > .dropdown-menu"), possibleFiltersData['privacy']);
+  populateDropdownList($("#groups-filters-dropdown > .dropdown-menu"), possibleFiltersData['groups']);
+  populateDropdownList($("#tags-filters-dropdown > .dropdown-menu"), possibleFiltersData['tags']);
+  populateDropdownList($("#media-filters-dropdown > .dropdown-menu"), possibleFiltersData['media']);
 
   // When the user clicks on an advanced filter dropdown's de/select all checkbox,
   // then toggle the select all mode (allItemsSelected boolean),
@@ -1343,7 +1633,6 @@ $(document).ready(function(){
     $(this).parent().parent().parent().find(".select-all").show();
     $(this).parent().parent().parent().find(".option").show();
   });
-
 });
 
 
