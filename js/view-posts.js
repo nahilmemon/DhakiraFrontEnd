@@ -956,6 +956,8 @@ function searchAndSortPosts(advancedMode) {
   hideAllPosts();
   // Step 3: Only show the posts that were narrowed down by the search
   reorderAndDisplayPosts(searchResultsReturned, storiesSectionContainer);
+  // Step 4: Make sure the thumbnail icons display at the correct size
+  adjustSizesOfThumbnailIcons();
 
   // Part C: Write down how many search results were found
   // update the p element showing how many results were found
