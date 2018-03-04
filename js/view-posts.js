@@ -1,7 +1,8 @@
 // ------ GLOBAL VARIABLES ------ //
 var advancedSearchMode = true; // toggles advanced search mode
 var searchResultsReturned = []; // contains which posts result from the basic/advanced search
-var storiesSectionContainer = $("#your-stories");
+var storiesSectionContainer = $("#your-stories"); // section in which the posts belong
+var whenFilterAlreadyPresent = false; // to avoid adding the when filter multiple times
 // contains which advanced filters are currently selected
 var filtersAppliedData = {
   'where': [],
@@ -464,60 +465,35 @@ function resizeSearchBarWidth() {
 
 // Change the size the advanced filter selection div based on the height of the dropdown
 // button and dropdown menu
-function resizeAdvancedSearchOptionsDivs() {
+function resizeAdvancedSearchOptionsDivs(makeSmaller) {
   // find all the advanced filter selection option divs
   var listOfAdvancedSelectionDivs = $(".select-filter-options-section");
   // iterate through all the advanced filter selection option divs
   for (var i=0; i<listOfAdvancedSelectionDivs.length; i++) {
     var filterParameter = $(listOfAdvancedSelectionDivs[i]).attr("data-filter-parameter");
-    // if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
-      var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
-      var dropdownButtonHeight = dropdownButton.outerHeight(false);
-      var divHeight = 0.2*window.innerHeight + 2*2 + 2*5 + dropdownButtonHeight + 3;
-      // 0.2*window.innerHeight: dropdown menu is 20vh in height
-      // 2*2: top and bottom border width
-      // 2*5: top and bottom padding
-      // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
-    // }
-    $(listOfAdvancedSelectionDivs[i]).css("height", divHeight);
-  }
-}
-
-// Search, sort, and hide/display the posts based on the inputs given by the user.
-// --- Note to self: delete later
-function searchPosts(advancedMode) {
-  // if the search mode is currently basic search mode,
-  // then search whether the text in the search box matches the text in any of the post
-  // titles and post contents (note: this includes looking at the html in post content...)
-  if (advancedMode == false) {
-    console.log("Performing basic search...");
-    // obtain what was written in the main basic search input box
-    var searchInput = $("#search-box").val().toUpperCase();
-    var resultsCounter = 0; // to store how many results were found
-    // Loop through all list items, and hide those who don't match the search query
-    for (i = 0; i < postData.length; i++) {
-      var thisPostArticle = $('article[data-id="' + postData[i].id + '"]');
-      if (postData[i].title.toUpperCase().indexOf(searchInput) > -1 || postData[i].postContent.toUpperCase().indexOf(searchInput) > -1) {
-        thisPostArticle.show();
-        resultsCounter += 1;
-      } else {
-        thisPostArticle.hide();
+    if (makeSmaller == true) {
+      if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
+        var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
+        var dropdownButtonHeight = dropdownButton.outerHeight(false);
+        var divHeight = 0.2*window.innerHeight + 2*2 + 2*5 + dropdownButtonHeight + 3;
+        // 0.2*window.innerHeight: dropdown menu is 20vh in height
+        // 2*2: top and bottom border width
+        // 2*5: top and bottom padding
+        // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
+      }
+    } else {
+      if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
+        var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
+        var dropdownButtonHeight = dropdownButton.outerHeight(false);
+        var divHeight = 2*2 + 2*5 + dropdownButtonHeight + 3;
+        // 0.2*window.innerHeight: dropdown menu is 20vh in height
+        // 2*2: top and bottom border width
+        // 2*5: top and bottom padding
+        // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
       }
     }
+    $(listOfAdvancedSelectionDivs[i]).css("height", divHeight);
   }
-  // otherwise, perform an advanced search by taking into consideration the filters
-  // chosen from the advanced filter menu tabs
-  else {
-    console.log("Performing advanced search...");
-  }
-  // update the p element showing how many results were found
-  var resultsString = resultsCounter;
-  if (resultsCounter == 1) {
-    resultsString += " post found.";
-  } else {
-    resultsString += " posts found.";
-  }
-  $("#number-of-results").text(resultsString);
 }
 
 // Reset the contents of the basic main search input box,
@@ -561,10 +537,17 @@ function resetSearchFilters(advancedMode) {
     }
 
     // resize the height of the advanced filter selection sections
-  resizeAdvancedSearchOptionsDivs();
+    resizeAdvancedSearchOptionsDivs();
 
     // delete all data from the filters chosen data object
     deleteAllFiltersFromFilterData(filtersAppliedData);
+
+    // reset the when filter selection section
+    // reset the whenFilterAlreadyPresent boolean to false
+    whenFilterAlreadyPresent = false;
+    // make the inputs of the date time pickers empty
+    $("#datetimepicker-start").data("DateTimePicker").date(null);
+    $("#datetimepicker-end").data("DateTimePicker").date(null);
 
     // reset search mode preference
     $("#search-mode-dropdown").attr("data-value", 'all');
@@ -778,6 +761,36 @@ function searchAndSortPosts(advancedMode) {
             searchResultsReturned.push(advancedSearchResultsReturned[n]);
           }
         } // end of if statement for searching for a tag or media filter
+
+        // Step 2aiv: Refine the search according to the when filter chosen
+        // Using a similar method as above with narrowing down the results, except
+        // this time we need to check if each post's date in the searchResultsReturned
+        // list is within the desired date range.
+        // If so, then we add this post to the advancedSearchResultsReturned list
+        // which will later replace the searchResultsReturned list after iterating
+        // through all the posts.
+        else if (filterParameter == "when") {
+          // obtain the start and end dates of the desired date range
+          var dateStart = filtersAppliedData["when"][0];
+          var dateEnd = filtersAppliedData["when"][1];
+          // iterate through each post in the current search results
+          // to check if each post's date is within the desired range
+          for (var j=0; j<searchResultsReturned.length; j++) {
+            // deterime the date of this post
+            var thisPostDate = searchResultsReturned[j]["date"];
+            // check if this post after the start date and before the end date
+            if (thisPostDate >= dateStart && thisPostDate <= dateEnd) {
+              // add it to the advanced search results
+              advancedSearchResultsReturned.push(searchResultsReturned[j]);
+            }
+          }
+          // update searchResultsReturned list according to the findings of the search refinement
+          // with this particular filter
+          searchResultsReturned = [];
+          for (var n=0; n<advancedSearchResultsReturned.length; n++) {
+            searchResultsReturned.push(advancedSearchResultsReturned[n]);
+          }
+        } // end of if statement for searching the when filter
       }
     }
 
@@ -944,6 +957,46 @@ function searchAndSortPosts(advancedMode) {
             } // end of if statement to see if the post is part of any groups
           } // end of for loop to iterate over all posts
         } // end of if statement for searching for a tag or media filter
+
+        // Step 2biv: Refine the search according to the when filter chosen
+        // The "when" filter is a date range.
+        // If the filter is from the when filter dropdown section,
+        // then iterate through all the posts in postData
+        // and check if each post's date is within the desired date range.
+        // If so, then check if this post is already present in the
+        // searchResultsReturned list. If not, then add it to the searchResultsReturned
+        // list.
+        if (filterParameter == "when") {
+          // obtain the start and end dates of the desired date range
+          var dateStart = filtersAppliedData["when"][0];
+          var dateEnd = filtersAppliedData["when"][1];
+          // iterate through each post in postData to check if each post's date is
+          // within the desired date range
+          for (var j=0; j<postData.length; j++) {
+            // if the post does have the desired privacy filter,
+            // then add it to the search results if not already in the search results
+            // deterime the date of this post
+            var thisPostDate = postData[j]["date"];
+            // check if this post after the start date and before the end date
+            if (thisPostDate >= dateStart && thisPostDate <= dateEnd) {
+              var postAlreadyPresentInSearchResults = false;
+              // check if this post is already present in the search results
+              for (var k=0; k<searchResultsReturned.length; k++) {
+                // if this post is already present in the search results,
+                // then break the for loop and take note of this
+                if (searchResultsReturned[k].id == postData[j].id) {
+                  postAlreadyPresentInSearchResults = true;
+                  break;
+                }
+              }
+              // if this post was not already in the searchResultsReturned list,
+              // then add this post to the searchResultsReturned list
+              if (postAlreadyPresentInSearchResults == false) {
+                searchResultsReturned.push(postData[j]);
+              }
+            } // end of if statement to see if the post has the desired privacy filter
+          } // end of for loop to iterate over all the posts
+        } // end of if statement for if the filter is a privacy filter
 
       } // end of for loop to iterate over all the filters chosens
     } // any mode end
@@ -1493,8 +1546,18 @@ $(document).ready(function(){
     var filterText = $(this).attr("data-filter-value");
     // remove this filter from the filtersAppliedData
     // and deselect this option from the corresponding dropdown that it belongs to
-    // note to self: this probably will depend on the filter parameter
-    updateOptionsSelectedAndDropdownButtonText(filtersAppliedData, possibleFiltersData[filterParameter].length, filterParameter, false, filterText);
+    if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
+      updateOptionsSelectedAndDropdownButtonText(filtersAppliedData, possibleFiltersData[filterParameter].length, filterParameter, false, filterText);
+    } else if (filterParameter == "when") {
+      // empty the contents of the when section of the filtersAppliedData list
+      filtersAppliedData["when"] = [];
+      // reset the when filter selection section
+      // reset the whenFilterAlreadyPresent boolean to false
+      whenFilterAlreadyPresent = false;
+      // make the inputs of the date time pickers empty
+      $("#datetimepicker-start").data("DateTimePicker").date(null);
+      $("#datetimepicker-end").data("DateTimePicker").date(null);
+    }
     // remove this element from the html
     $(this).remove();
   });
@@ -1565,14 +1628,124 @@ $(document).ready(function(){
 
   // When the user clicks outside the advanced filter dropdown and this dropdown
   // disappears, then reset the contents of the search text input
+  // resize the containing div to a larger height
   $('.advanced-filter-dropdown').on('hidden.bs.dropdown', function(){
     // reset the value of the text input search box to ""
     $(this).parent().parent().find(".filter-search-box").val("");
     // reveal the select all checkbox and all the option checkboxes
     $(this).parent().parent().parent().find(".select-all").show();
     $(this).parent().parent().parent().find(".option").show();
+    // resize the advanced filter section div to a larger height
+    var makeDivSmaller = false;
+    resizeAdvancedSearchOptionsDivs(makeDivSmaller);
+  });
+
+  // When the user opens an advanced filter dropdown,
+  // then increase the height of the relevant advanced filter selection div
+  $('.advanced-filter-dropdown').on('shown.bs.dropdown', function(){
+    // resize the advanced filter section div to a larger height
+    var makeDivSmaller = true;
+    resizeAdvancedSearchOptionsDivs(makeDivSmaller);
+  });
+
+  // Initialize the datetimepicker inputs in the when filter selection section
+  $(function () {
+    $('#datetimepicker-start').datetimepicker({
+    });
+    $('#datetimepicker-end').datetimepicker({
+      useCurrent: false, //Important! See issue #1075
+    });
+    // prevent the end date from going behind the start date
+    $("#datetimepicker-start").on("dp.change", function (e) {
+      $('#datetimepicker-end').data("DateTimePicker").minDate(e.date);
+    });
+    // ensure that neither of the date time pickers will allow the user
+    // to select a date from the future
+    $('#datetimepicker-start').data("DateTimePicker").maxDate(moment());
+    $('#datetimepicker-end').data("DateTimePicker").maxDate(moment());
+  });
+
+  // If the starting datetimepicker is clicked on,
+  // then add the date chosen into the filtersAppliedData list
+  // and the filters chosen section (remove the previous filter chosen first)
+  $('#datetimepicker-start').datetimepicker().on('dp.change',function(e){
+    // if a when filter is already present, then remove the previous when filter tag
+    if (whenFilterAlreadyPresent == true) {
+      // find the when filter tag
+      var whenFilterTag = $('.filter-chosen[data-filter-parameter=when]');
+      // remove this filter tag
+      whenFilterTag.remove();
+    }
+    // add a new when filter tag to the filters chosen section and add the dates of
+    // both starting and ending datetimepickers to the filtersAppliedData if both
+    // fields have been populated
+    addWhenFilterToFiltersChosenSectionAndFilterData($("#datetimepicker-start"),$("#datetimepicker-end"));
+    // take note that a when filter tag is now present
+    whenFilterAlreadyPresent = true;
+  });
+
+  // If the starting datetimepicker is clicked on,
+  // then add the date chosen into the filtersAppliedData list
+  // and the filters chosen section (remove the previous filter chosen first)
+  $('#datetimepicker-end').datetimepicker().on('dp.change',function(e){
+    // if a when filter is already present, then remove the previous when filter tag
+    if (whenFilterAlreadyPresent == true) {
+      // find the when filter tag
+      var whenFilterTag = $('.filter-chosen[data-filter-parameter=when]');
+      // remove this filter tag
+      whenFilterTag.remove();
+    }
+    // add a new when filter tag to the filters chosen section and add the dates of
+    // both starting and ending datetimepickers to the filtersAppliedData if both
+    // fields have been populated
+    addWhenFilterToFiltersChosenSectionAndFilterData($("#datetimepicker-start"),$("#datetimepicker-end"));
+    // take note that a when filter tag is now present
+    whenFilterAlreadyPresent = true;
   });
 });
+
+// Get the date of a date time picker and return the format as a Date object
+// dateInput = a datetimepicker input
+function getDate(dateInput) {
+  // if the dateInput was empty, then the following function will return null
+  var thisDate = dateInput.data("DateTimePicker").date();
+  // if the date isn't null, then convert it from a Moment object to a Date object
+  if (thisDate != null) {
+    thisDate.format();
+    thisDate = new Date(thisDate);
+  }
+  return thisDate;
+}
+
+// Get the dates of both datetimepickers from the when filter selection tab.
+// If both dates aren't empty, then add this filter to the filters chosen section
+// and add these dates to the filtersAppliedData.
+function addWhenFilterToFiltersChosenSectionAndFilterData(dateInput1, dateInput2) {
+  var date1 = getDate(dateInput1);
+  var date2 = getDate(dateInput2);
+  if (date1 != null && date2 != null) {
+    // add these two dates as separate entries into the filtersAppliedData list
+    filtersAppliedData["when"][0] = date1;
+    filtersAppliedData["when"][1] = date2;
+    // add these two dates as one filter tag to the filters chosen section
+    var filterText = date1.toDateString() + "–" + date2.toDateString();
+    var parameter = "when";
+    var htmlStringToAppend = '<button class="filter-chosen filter-';
+    htmlStringToAppend += parameter;
+    htmlStringToAppend += '-color-inverted" data-filter-parameter="';
+    htmlStringToAppend += parameter;
+    htmlStringToAppend += '" data-filter-value="';
+    htmlStringToAppend += filterText;
+    htmlStringToAppend += '">';
+    htmlStringToAppend += '<span class="filter-chosen-text">';
+    htmlStringToAppend += filterText;
+    htmlStringToAppend += '</span>'
+    htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
+    htmlStringToAppend += '</button>';
+    $("#display-filters-chosen-section").append(htmlStringToAppend);
+    return htmlStringToAppend;
+  }
+}
 
 
 // --- When the window is resized --- //

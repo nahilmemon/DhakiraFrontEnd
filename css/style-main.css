@@ -1041,6 +1041,12 @@ i.icon.advanced-filter-icon {
 #filters-chosen-section {
   border-left: none;
 }
+@media screen and (max-width: 767px) {
+  #filters-chosen-section {
+    border-left: solid 2px #4bafc9;
+    border-top: none;
+  }
+}
 
 /* Filters chosen heading */
 .filters-chosen-heading {
@@ -1228,4 +1234,62 @@ and expand the size of the dropdown button */
   max-width: 97%;
   white-space: normal;
   display: block;
+}
+
+/* When filter datetimepicker inputs */
+/* Dropdown */
+.datepicker,
+.table-condensed {
+  width: 100%;
+  height: auto;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  background-color: #fff;
+  border-color: #fff;
+  width: 100%;
+}
+/* Hide the arrow dibbit on top of
+the dropdown */
+.bootstrap-datetimepicker-widget.dropdown-menu:after,
+.bootstrap-datetimepicker-widget.dropdown-menu:before {
+  display: none !important;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu .arrow {
+  display: none !important;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu .arrow:after,
+.bootstrap-datetimepicker-widget.dropdown-menu .arrow:before {
+  display: none !important;
+}
+/* Buttons in the dropdown*/
+.bootstrap-datetimepicker-widget.dropdown-menu a span:hover,
+.bootstrap-datetimepicker-widget.dropdown-menu a span:focus {
+  background-color: #c94b70 !important;
+  color: #fff !important;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu a span {
+  background-color: #fff !important;
+  color: #c94b70 !important;
+}
+/* Toggle period (AM/PM) button */
+.btn[data-action="togglePeriod"],
+.btn-primary[data-action="togglePeriod"] {
+  background: #c94b70;
+  border:none;
+}
+.btn[data-action="togglePeriod"]:hover,
+.btn-primary[data-action="togglePeriod"]:focus {
+  background: #c94b70;
+  border:none;
+}
+/* Selected day */
+.bootstrap-datetimepicker-widget table tr td.active:active,
+.bootstrap-datetimepicker-widget table tr td.active.highlighted:active,
+.bootstrap-datetimepicker-widget table tr td.active.active,
+.bootstrap-datetimepicker-widget table tr td.active.highlighted.active {
+  background-color: #c94b70;
+}
+/* Arrow for current day */
+.bootstrap-datetimepicker-widget table td.today:before {
+  border-bottom-color: #c94b70;
 }

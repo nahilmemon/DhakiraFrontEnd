@@ -14,6 +14,8 @@
   <!-- Bootstrap Frameworks -->
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Datepicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
   <!-- Semantic UI Individual Components -->
   <!-- Semantic UI Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/components/icon.min.css">
@@ -144,6 +146,34 @@
 
         <!-- Advanced Filter Option Selection Section -->
         <section class="row" id="advanced-search-filters-options-section">
+          <!-- When Filter Selection Section -->
+          <div class="col-xs-12 no-padding select-filter-options-section filter-when-color-inverted-static" id="select-when-filters-section" data-filter-parameter="when">
+            <!-- Start Date Time Input -->
+            <div class='col-xs-12 col-sm-6'>
+              <div class="form-group">
+                <p><b>Start Date:</b></p>
+                <div class='input-group date when-filter-input' id='datetimepicker-start'>
+                  <input type='text' class="form-control" placeholder="Select start date">
+                  <span class="input-group-addon">
+                    <i class="calendar alternate icon"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- End Date Time Input -->
+            <div class='col-xs-12 col-sm-6'>
+              <div class="form-group">
+                <p><b>End Date:</b></p>
+                <div class='input-group date when-filter-input' id='datetimepicker-end'>
+                  <input type='text' class="form-control" placeholder="Select end date">
+                  <span class="input-group-addon">
+                    <i class="calendar alternate icon"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Privacy Filter Selection Section -->
           <div class="col-xs-12 no-padding select-filter-options-section filter-privacy-color-inverted-static" id="select-privacy-filters-section" data-filter-parameter="privacy">
             <div class="dropdown advanced-filter-dropdown" id="privacy-filters-dropdown" data-filter-parameter="privacy">
@@ -305,11 +335,17 @@
   </footer>
 
 <!-- Links to JS files -->
+  <!-- Moment -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
   <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
   <!-- Bootstrap Framework -->
   <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Datepicker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
   <!-- Custom JS Files -->
   <!-- View Posts JS -->
   <script src="../js/view-posts.js"></script>
