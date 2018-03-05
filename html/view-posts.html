@@ -146,12 +146,31 @@
 
         <!-- Advanced Filter Option Selection Section -->
         <section class="row" id="advanced-search-filters-options-section">
+          <!-- Where Filter Selection Section -->
+          <div class="col-xs-12 no-padding select-filter-options-section filter-where-color-inverted-static" id="select-where-filters-section" data-filter-parameter="where">
+            <p class="filter-instructions">To search for a particular location, enter a lattitude and longitude coordinates and a radius for away to search from this point.</p>
+            <form>
+              <div class="form-group col-xs-12 col-sm-4">
+                <label for="usr">Lattitude:</label>
+                <input type="text" class="form-control where-filter-input" id="lattitude-input" placeholder="Enter lattitude">
+              </div>
+              <div class="form-group col-xs-12 col-sm-4">
+                <label for="usr">Longitude:</label>
+                <input type="text" class="form-control where-filter-input" id="longitude-input" placeholder="Enter longitude">
+              </div>
+              <div class="form-group col-xs-12 col-sm-4">
+                <label for="usr">Search radius:</label>
+                <input type="text" class="form-control where-filter-input" id="radius-input" placeholder="Enter radius (km)">
+              </div>
+            </form>
+          </div>
+
           <!-- When Filter Selection Section -->
           <div class="col-xs-12 no-padding select-filter-options-section filter-when-color-inverted-static" id="select-when-filters-section" data-filter-parameter="when">
             <!-- Start Date Time Input -->
             <div class='col-xs-12 col-sm-6'>
               <div class="form-group">
-                <p><b>Start Date:</b></p>
+                <p class="when-filter-label"><b>Start Date:</b></p>
                 <div class='input-group date when-filter-input' id='datetimepicker-start'>
                   <input type='text' class="form-control" placeholder="Select start date">
                   <span class="input-group-addon">
@@ -163,7 +182,7 @@
             <!-- End Date Time Input -->
             <div class='col-xs-12 col-sm-6'>
               <div class="form-group">
-                <p><b>End Date:</b></p>
+                <p class="when-filter-label"><b>End Date:</b></p>
                 <div class='input-group date when-filter-input' id='datetimepicker-end'>
                   <input type='text' class="form-control" placeholder="Select end date">
                   <span class="input-group-addon">

@@ -3,6 +3,8 @@ var advancedSearchMode = true; // toggles advanced search mode
 var searchResultsReturned = []; // contains which posts result from the basic/advanced search
 var storiesSectionContainer = $("#your-stories"); // section in which the posts belong
 var whenFilterAlreadyPresent = false; // to avoid adding the when filter multiple times
+var whereFilterAlreadyPresent = false; // to avoid adding the where filter multiple times
+
 // contains which advanced filters are currently selected
 var filtersAppliedData = {
   'where': [],
@@ -13,10 +15,8 @@ var filtersAppliedData = {
   'media': []
 };
 
-// contains all the possible options for each advanced filter
+// contains all the possible options for each advanced filter (excluding where and when)
 var possibleFiltersData = {
-  'where': [],
-  'when': [],
   'privacy': ['private', 'group', 'public'],
   'groups': ['Ice Cream in the Tropics', 'Grenouilles dans les Déserts', 'Edredones',
     'Cooking with Grandparents', 'Playing with Wild Animals'],
@@ -30,8 +30,6 @@ var possibleFiltersData = {
 
 // contains the state of the select all button for each advanced filter dropdown
 var allItemsSelectedStateForEachFilterData = {
-  'where': false,
-  'when': false,
   'privacy': false,
   'groups': false,
   'tags': false,
@@ -77,7 +75,7 @@ var postData = [
     'privacy': 'public',
     'groupIds': [],
     'tags': ['boat', 'water', 'nature', 'origami', 'paper'],
-    'location': [],
+    'location': [24.466516, 54.339915],
     'media': ['image(s)'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/436791/pexels-photo-436791.jpeg',
@@ -90,7 +88,7 @@ var postData = [
     'privacy': 'public',
     'groupIds': [],
     'tags': ['stones', 'water', 'nature'],
-    'location': [],
+    'location': [24.349534, 54.4999],
     'media': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -103,7 +101,7 @@ var postData = [
     'privacy': 'private',
     'groupIds': [],
     'tags': ['painting', 'creativity', 'meditation'],
-    'location': [],
+    'location': [49.162588, -123.107349],
     'media': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'Paint anything you want on the canvas. Create your own world.',
@@ -116,7 +114,7 @@ var postData = [
     'privacy': 'group',
     'groupIds': [2, 5],
     'tags': ['water', 'nature', 'dams'],
-    'location': [],
+    'location': [24.530292, 54.445158],
     'media': ['video(s)'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/waterfall.PNG',
@@ -129,7 +127,7 @@ var postData = [
     'privacy': 'public',
     'groupIds': [],
     'tags': ['actions', 'righteousness', 'ethics'],
-    'location': [],
+    'location': [32.349204, -86.287787],
     'media': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
@@ -142,7 +140,7 @@ var postData = [
     'privacy': 'group',
     'groupIds': [1, 4],
     'tags': ['ice cream', 'cooking', 'recipe', 'food', 'fruits'],
-    'location': [],
+    'location': [24.497493, 54.387986],
     'media': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/461189/pexels-photo-461189.jpeg',
@@ -155,7 +153,7 @@ var postData = [
     'privacy': 'group',
     'groupIds': [4],
     'tags': ['cooking', 'grandma', 'recipe', 'food'],
-    'location': [],
+    'location': [24.434691, 54.412562],
     'media': ['audio'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -168,7 +166,7 @@ var postData = [
     'privacy': 'group',
     'groupIds': [4],
     'tags': ['chocolate', 'history', 'food'],
-    'location': [],
+    'location': [25.204849, 55.270783],
     'media': ['text'],
     'thumbnailType': 'text',
     'thumbnailContent': 'If I were a headmaster I would get rid of the history teacher and get a chocolate teacher instead.',
@@ -181,7 +179,7 @@ var postData = [
     'privacy': 'private',
     'groupIds': [],
     'tags': ['dandelions', 'wishes', 'childhood'],
-    'location': [],
+    'location': [24.495924, 54.383226],
     'media': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/dandelion.PNG',
@@ -194,7 +192,7 @@ var postData = [
     'privacy': 'group',
     'groupIds': [1, 3, 4, 5],
     'tags': ['snow', 'quilts', 'animals', 'nature', 'food'],
-    'location': [],
+    'location': [24.485155, 54.607565],
     'media': ['video(s)', 'text'],
     'thumbnailType': 'video',
     'thumbnailContent': '../media/images/video-screenshots/snow.PNG',
@@ -207,7 +205,7 @@ var postData = [
     'privacy': 'public',
     'groupIds': [],
     'tags': ['storytelling', 'reading', 'bedtime', 'childhood'],
-    'location': [],
+    'location': [24.470133, 54.372758],
     'media': ['image(s)', 'text'],
     'thumbnailType': 'image',
     'thumbnailContent': 'https://static.pexels.com/photos/33196/still-life-teddy-white-read.jpg',
@@ -220,7 +218,7 @@ var postData = [
     'privacy': 'group',
     'groupIds': [5],
     'tags': ['storytelling', 'scary', 'nature', 'fire'],
-    'location': [],
+    'location': [37.711789, -122.162644],
     'media': ['audio', 'text'],
     'thumbnailType': 'audio',
     'thumbnailContent': '',
@@ -411,7 +409,7 @@ function createHTMLStringForAllPosts() {
 }
 
 // Add the relevant html string to the correct section of the DOM on the view posts page
-function addPostHTMLStringToYourStoriesSection(sectionContainer) {
+function addPostHTMLStringToDesiredSection(sectionContainer) {
   // Step 1: Generate the html and add this to the section that the stories belong to
   var completeString = createHTMLStringForAllPosts();
   sectionContainer.append(completeString);
@@ -465,32 +463,20 @@ function resizeSearchBarWidth() {
 
 // Change the size the advanced filter selection div based on the height of the dropdown
 // button and dropdown menu
-function resizeAdvancedSearchOptionsDivs(makeSmaller) {
+function resizeAdvancedSearchOptionsDivs() {
   // find all the advanced filter selection option divs
   var listOfAdvancedSelectionDivs = $(".select-filter-options-section");
   // iterate through all the advanced filter selection option divs
   for (var i=0; i<listOfAdvancedSelectionDivs.length; i++) {
     var filterParameter = $(listOfAdvancedSelectionDivs[i]).attr("data-filter-parameter");
-    if (makeSmaller == true) {
-      if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
-        var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
-        var dropdownButtonHeight = dropdownButton.outerHeight(false);
-        var divHeight = 0.2*window.innerHeight + 2*2 + 2*5 + dropdownButtonHeight + 3;
-        // 0.2*window.innerHeight: dropdown menu is 20vh in height
-        // 2*2: top and bottom border width
-        // 2*5: top and bottom padding
-        // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
-      }
-    } else {
-      if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
-        var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
-        var dropdownButtonHeight = dropdownButton.outerHeight(false);
-        var divHeight = 2*2 + 2*5 + dropdownButtonHeight + 3;
-        // 0.2*window.innerHeight: dropdown menu is 20vh in height
-        // 2*2: top and bottom border width
-        // 2*5: top and bottom padding
-        // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
-      }
+    if (filterParameter == "privacy" || filterParameter == "groups" || filterParameter == "tags" || filterParameter == "media") {
+      var dropdownButton = $(listOfAdvancedSelectionDivs[i]).find(".dropdown-toggle");
+      var dropdownButtonHeight = dropdownButton.outerHeight(false);
+      var divHeight = 0.2*window.innerHeight + 2*2 + 2*5 + dropdownButtonHeight + 3;
+      // 0.2*window.innerHeight: dropdown menu is 20vh in height
+      // 2*2: top and bottom border width
+      // 2*5: top and bottom padding
+      // 3: extra spacing since there's an unknown gap between the dropdown button and dropdown menu
     }
     $(listOfAdvancedSelectionDivs[i]).css("height", divHeight);
   }
@@ -548,6 +534,14 @@ function resetSearchFilters(advancedMode) {
     // make the inputs of the date time pickers empty
     $("#datetimepicker-start").data("DateTimePicker").date(null);
     $("#datetimepicker-end").data("DateTimePicker").date(null);
+
+    // reset the where filter selection section
+    // reset the whereFilterAlreadyPresent boolean to false
+    whereFilterAlreadyPresent = false;
+    // empty the contents of the where inputs
+    $("#lattitude-input").val("");
+    $("#longitude-input").val("");
+    $("#radius-input").val("");
 
     // reset search mode preference
     $("#search-mode-dropdown").attr("data-value", 'all');
@@ -784,13 +778,49 @@ function searchAndSortPosts(advancedMode) {
               advancedSearchResultsReturned.push(searchResultsReturned[j]);
             }
           }
-          // update searchResultsReturned list according to the findings of the search refinement
-          // with this particular filter
+          // update searchResultsReturned list according to the findings of the search
+          // refinement with this particular filter
           searchResultsReturned = [];
           for (var n=0; n<advancedSearchResultsReturned.length; n++) {
             searchResultsReturned.push(advancedSearchResultsReturned[n]);
           }
         } // end of if statement for searching the when filter
+
+        // Step 2av: Refine the search according to the where filter chosen
+        // Using a similar method as above with narrowing down the results, except
+        // this time we need to check if each post's location in the
+        // searchResultsReturned list is within the desired radius away from the
+        // desired location coordinates provided by the filter
+        // If so, then we add this post to the advancedSearchResultsReturned list
+        // which will later replace the searchResultsReturned list after iterating
+        // through all the posts.
+        else if (filterParameter == "where") {
+          // obtain the desired lattitude, longitude, and radius
+          var filterLattitude = filtersAppliedData["where"][0];
+          var filterLongitude = filtersAppliedData["where"][1];
+          var filterRadius = filtersAppliedData["where"][2];
+          // iterate through each post in the current search results
+          // to check if each post's location is within the desired range
+          for (var j=0; j<searchResultsReturned.length; j++) {
+            // deterime the location of this post
+            var thisPostLattitude = searchResultsReturned[j]["location"][0];
+            var thisPostLongitude = searchResultsReturned[j]["location"][1];
+            // determine the distance between this post's location and the location
+            // given by the user
+            var distanceDifference = getDistanceFromLatLonInKm(filterLattitude,filterLongitude,thisPostLattitude,thisPostLongitude);
+            // check if this post after the start date and before the end date
+            if (distanceDifference <= filterRadius) {
+              // add it to the advanced search results
+              advancedSearchResultsReturned.push(searchResultsReturned[j]);
+            }
+          }
+          // update searchResultsReturned list according to the findings of the search
+          // refinement with this particular filter
+          searchResultsReturned = [];
+          for (var n=0; n<advancedSearchResultsReturned.length; n++) {
+            searchResultsReturned.push(advancedSearchResultsReturned[n]);
+          }
+        } // end of if statement for searching the where filter
       }
     }
 
@@ -973,7 +1003,7 @@ function searchAndSortPosts(advancedMode) {
           // iterate through each post in postData to check if each post's date is
           // within the desired date range
           for (var j=0; j<postData.length; j++) {
-            // if the post does have the desired privacy filter,
+            // if the post's date is within the desired date range,
             // then add it to the search results if not already in the search results
             // deterime the date of this post
             var thisPostDate = postData[j]["date"];
@@ -996,7 +1026,53 @@ function searchAndSortPosts(advancedMode) {
               }
             } // end of if statement to see if the post has the desired privacy filter
           } // end of for loop to iterate over all the posts
-        } // end of if statement for if the filter is a privacy filter
+        } // end of if statement for if the filter is a when filter
+
+        // Step 2bv: Refine the search according to the where filter chosen
+        // The "where" filter included location coordinates and a radius around this
+        // If the filter is from the when filter dropdown section,
+        // then iterate through all the posts in postData
+        // and check if each post's date is within the desired date range.
+        // If so, then check if this post is already present in the
+        // searchResultsReturned list. If not, then add it to the searchResultsReturned
+        // list.
+        if (filterParameter == "where") {
+          // obtain the desired lattitude, longitude, and radius
+          var filterLattitude = filtersAppliedData["where"][0];
+          var filterLongitude = filtersAppliedData["where"][1];
+          var filterRadius = filtersAppliedData["where"][2];
+          // iterate through each post in the postData to check if each post's
+          // location is within the desired range
+          for (var j=0; j<postData.length; j++) {
+            // if the post's location is within the desired radius of the provided
+            // location coordinates,
+            // then add it to the search results if not already in the search results
+            // deterime the location of this post
+            var thisPostLattitude = postData[j]["location"][0];
+            var thisPostLongitude = postData[j]["location"][1];
+            // determine the distance between this post's location and the location
+            // given by the user
+            var distanceDifference = getDistanceFromLatLonInKm(filterLattitude,filterLongitude,thisPostLattitude,thisPostLongitude);
+            // check if this post's location is within the desired radius
+            if (distanceDifference <= filterRadius) {
+              var postAlreadyPresentInSearchResults = false;
+              // check if this post is already present in the search results
+              for (var k=0; k<searchResultsReturned.length; k++) {
+                // if this post is already present in the search results,
+                // then break the for loop and take note of this
+                if (searchResultsReturned[k].id == postData[j].id) {
+                  postAlreadyPresentInSearchResults = true;
+                  break;
+                }
+              }
+              // if this post was not already in the searchResultsReturned list,
+              // then add this post to the searchResultsReturned list
+              if (postAlreadyPresentInSearchResults == false) {
+                searchResultsReturned.push(postData[j]);
+              }
+            } // end of if statement to see if the post has the desired privacy filter
+          } // end of for loop to iterate over all the posts
+        } // end of if statement for if the filter is a where filter
 
       } // end of for loop to iterate over all the filters chosens
     } // any mode end
@@ -1201,8 +1277,14 @@ function toggleAdvancedSearchMode(advancedMode) {
   // then change the text of the advanced search mode button
   // and display the advanced search mode filters
   if (advancedMode == false) {
+    // change the text of the Advanced Search button to Basic Search
     $("#advanced-search-button").text("Basic Search");
+    // show the advanced filter selection menu
     $("#advanced-search-filters-section").show();
+    // hide all the advanced filter selection tabs
+    $(".select-filter-options-section").hide();
+    // reveal the where filter selection tab
+    $("#select-where-filters-section").show();
   } else {
     // if it's currently in the basic search mode,
     // then change the text of the advanced search mode button
@@ -1413,12 +1495,108 @@ function selectOrDeselectAllOptions(appliedFiltersObject, parameter) {
   }
 }
 
+// Find the distance between two coordinates using the Haversine formula (in km)
+// Used to compare the post's location with the desired location in the where filter
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1);
+  var a =
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ;
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c; // Distance in km
+  return d;
+}
+
+// Convert an angle from degrees to radians
+// Used in the getDistanceFromLatLonInKm function
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
+// Get the dates of both datetimepickers from the when filter selection tab.
+// If both dates aren't empty, then add this filter to the filters chosen section
+// and add these dates to the filtersAppliedData.
+function addWhereFilterToFiltersChosenSectionAndFilterData(latInput, longInput, radiusInput) {
+  var lat = latInput.val();
+  var long = longInput.val();
+  var radius = radiusInput.val();
+  if (lat != "" && long != "" && radius != "") {
+    // add these three numbers as separate entries into the filtersAppliedData list
+    filtersAppliedData["where"][0] = parseFloat(lat);
+    filtersAppliedData["where"][1] = parseFloat(long);
+    filtersAppliedData["where"][2] = parseFloat(radius);
+    // add these three numbers as one filter tag to the filters chosen section
+    var filterText = lat + "°, " + long + "°, " + radius + "km";
+    var parameter = "where";
+    var htmlStringToAppend = '<button class="filter-chosen filter-';
+    htmlStringToAppend += parameter;
+    htmlStringToAppend += '-color-inverted" data-filter-parameter="';
+    htmlStringToAppend += parameter;
+    htmlStringToAppend += '" data-filter-value="';
+    htmlStringToAppend += filterText;
+    htmlStringToAppend += '">';
+    htmlStringToAppend += '<span class="filter-chosen-text">';
+    htmlStringToAppend += filterText;
+    htmlStringToAppend += '</span>'
+    htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
+    htmlStringToAppend += '</button>';
+    $("#display-filters-chosen-section").append(htmlStringToAppend);
+    return htmlStringToAppend;
+  }
+}
+
+// Get the date of a date time picker and return the format as a Date object
+// dateInput = a datetimepicker input
+function getDate(dateInput) {
+  // if the dateInput was empty, then the following function will return null
+  var thisDate = dateInput.data("DateTimePicker").date();
+  // if the date isn't null, then convert it from a Moment object to a Date object
+  if (thisDate != null) {
+    thisDate.format();
+    thisDate = new Date(thisDate);
+  }
+  return thisDate;
+}
+
+// Get the dates of both datetimepickers from the when filter selection tab.
+// If both dates aren't empty, then add this filter to the filters chosen section
+// and add these dates to the filtersAppliedData.
+function addWhenFilterToFiltersChosenSectionAndFilterData(dateInput1, dateInput2) {
+  var date1 = getDate(dateInput1);
+  var date2 = getDate(dateInput2);
+  if (date1 != null && date2 != null) {
+    // add these two dates as separate entries into the filtersAppliedData list
+    filtersAppliedData["when"][0] = date1;
+    filtersAppliedData["when"][1] = date2;
+    // add these two dates as one filter tag to the filters chosen section
+    var filterText = date1.toDateString() + "–" + date2.toDateString();
+    var parameter = "when";
+    var htmlStringToAppend = '<button class="filter-chosen filter-';
+    htmlStringToAppend += parameter;
+    htmlStringToAppend += '-color-inverted" data-filter-parameter="';
+    htmlStringToAppend += parameter;
+    htmlStringToAppend += '" data-filter-value="';
+    htmlStringToAppend += filterText;
+    htmlStringToAppend += '">';
+    htmlStringToAppend += '<span class="filter-chosen-text">';
+    htmlStringToAppend += filterText;
+    htmlStringToAppend += '</span>'
+    htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
+    htmlStringToAppend += '</button>';
+    $("#display-filters-chosen-section").append(htmlStringToAppend);
+    return htmlStringToAppend;
+  }
+}
+
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
-
   // ------ SETUP POSTS ------ //
   // populate the page with posts and their relevant info
-  addPostHTMLStringToYourStoriesSection(storiesSectionContainer);
+  addPostHTMLStringToDesiredSection(storiesSectionContainer);
 
   // Change the font-size of the sound and video icons in the thumbnails
   adjustSizesOfThumbnailIcons();
@@ -1628,24 +1806,12 @@ $(document).ready(function(){
 
   // When the user clicks outside the advanced filter dropdown and this dropdown
   // disappears, then reset the contents of the search text input
-  // resize the containing div to a larger height
   $('.advanced-filter-dropdown').on('hidden.bs.dropdown', function(){
     // reset the value of the text input search box to ""
     $(this).parent().parent().find(".filter-search-box").val("");
     // reveal the select all checkbox and all the option checkboxes
     $(this).parent().parent().parent().find(".select-all").show();
     $(this).parent().parent().parent().find(".option").show();
-    // resize the advanced filter section div to a larger height
-    var makeDivSmaller = false;
-    resizeAdvancedSearchOptionsDivs(makeDivSmaller);
-  });
-
-  // When the user opens an advanced filter dropdown,
-  // then increase the height of the relevant advanced filter selection div
-  $('.advanced-filter-dropdown').on('shown.bs.dropdown', function(){
-    // resize the advanced filter section div to a larger height
-    var makeDivSmaller = true;
-    resizeAdvancedSearchOptionsDivs(makeDivSmaller);
   });
 
   // Initialize the datetimepicker inputs in the when filter selection section
@@ -1702,51 +1868,24 @@ $(document).ready(function(){
     // take note that a when filter tag is now present
     whenFilterAlreadyPresent = true;
   });
+
+  // When the where input changes, update the filter
+  $(".where-filter-input").keyup(function(){
+    // if a where filter is already present, then remove the previous where filter tag
+    if (whereFilterAlreadyPresent == true) {
+      // find the where filter tag
+      var whereFilterTag = $('.filter-chosen[data-filter-parameter=where]');
+      // remove this filter tag
+      whereFilterTag.remove();
+    }
+    // add a new where filter tag to the filters chosen section and add the dates of
+    // both starting and ending datetimepickers to the filtersAppliedData if both
+    // fields have been populated
+    addWhereFilterToFiltersChosenSectionAndFilterData($("#lattitude-input"),$("#longitude-input"),$("#radius-input"));
+    // take note that a where filter tag is now present
+    whereFilterAlreadyPresent = true;
+  });
 });
-
-// Get the date of a date time picker and return the format as a Date object
-// dateInput = a datetimepicker input
-function getDate(dateInput) {
-  // if the dateInput was empty, then the following function will return null
-  var thisDate = dateInput.data("DateTimePicker").date();
-  // if the date isn't null, then convert it from a Moment object to a Date object
-  if (thisDate != null) {
-    thisDate.format();
-    thisDate = new Date(thisDate);
-  }
-  return thisDate;
-}
-
-// Get the dates of both datetimepickers from the when filter selection tab.
-// If both dates aren't empty, then add this filter to the filters chosen section
-// and add these dates to the filtersAppliedData.
-function addWhenFilterToFiltersChosenSectionAndFilterData(dateInput1, dateInput2) {
-  var date1 = getDate(dateInput1);
-  var date2 = getDate(dateInput2);
-  if (date1 != null && date2 != null) {
-    // add these two dates as separate entries into the filtersAppliedData list
-    filtersAppliedData["when"][0] = date1;
-    filtersAppliedData["when"][1] = date2;
-    // add these two dates as one filter tag to the filters chosen section
-    var filterText = date1.toDateString() + "–" + date2.toDateString();
-    var parameter = "when";
-    var htmlStringToAppend = '<button class="filter-chosen filter-';
-    htmlStringToAppend += parameter;
-    htmlStringToAppend += '-color-inverted" data-filter-parameter="';
-    htmlStringToAppend += parameter;
-    htmlStringToAppend += '" data-filter-value="';
-    htmlStringToAppend += filterText;
-    htmlStringToAppend += '">';
-    htmlStringToAppend += '<span class="filter-chosen-text">';
-    htmlStringToAppend += filterText;
-    htmlStringToAppend += '</span>'
-    htmlStringToAppend += '<span class="filter-chosen-close-button">x</span>';
-    htmlStringToAppend += '</button>';
-    $("#display-filters-chosen-section").append(htmlStringToAppend);
-    return htmlStringToAppend;
-  }
-}
-
 
 // --- When the window is resized --- //
 $(window).on('resize', function(event){
