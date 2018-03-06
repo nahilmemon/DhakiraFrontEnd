@@ -5,14 +5,10 @@
 // ------ GLOBAL VARIABLES ------ //
 var advancedSearchMode = false; // toggles advanced search mode
 var searchResultsReturned = []; // contains which posts result from the basic/advanced search
-var storiesSectionContainer = $("#your-stories"); // section in which the posts belong
+var storiesSectionContainer = $("#stories"); // section in which the posts belong
 var whenFilterAlreadyPresent = false; // to avoid adding the when filter multiple times
 var whereFilterAlreadyPresent = false; // to avoid adding the where filter multiple times
 var postInfoForModal; // to store info about the post that triggered a modal
-// to store information regarding the group-privacy multiselect dropdown in the modal
-var groupPrivacyFiltersApplied = [];
-var possibleGroupPrivacyFilters = ['Ice Cream in the Tropics', 'Grenouilles dans les Déserts', 'Edredones','Cooking with Grandparents', 'Playing with Wild Animals'];
-var allGroupPrivacyFiltersSelected = false;
 
 // contains which advanced filters are currently selected
 var filtersAppliedData = {
@@ -286,15 +282,18 @@ function returnGroupNameString(postID, postGroupIndex) {
 // Given the post index, return an html string which contains the html for how to display
 // this post on the page by looking ip relevant information from the postData list
 function createHTMLStringForOnePost(postIndex) {
-  // outer article container
-  var htmlStringToAppend = '<article class="row panel flex-row view-post-container" data-id="';
+
+  // Outer article container
+  var htmlStringToAppend = '<article class="col-sm-4 col-xs-12 homepage-post-container" data-id="';
   htmlStringToAppend += postData[postIndex].id; // data-id of this post = post.id
-  htmlStringToAppend += '" data-toggle="modal" data-target="#storyModal">';
-  // Thumbnail Div
+  htmlStringToAppend += '">';
+  // Panel Div
+  htmlStringToAppend += '<div class="panel panel-default text-center">';
+  // Panel Body
   // Image
   if (postData[postIndex].thumbnailType == 'image') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-image-container">';
-    htmlStringToAppend += '<img class="img-responsive" src="';
+    htmlStringToAppend += '<div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">'
+    htmlStringToAppend += '<img class="story-image" src="';
     // if this post has an image thumbnail, then the source is the url for the image
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '">';
@@ -302,8 +301,8 @@ function createHTMLStringForOnePost(postIndex) {
   }
   // Text
   else if (postData[postIndex].thumbnailType == 'text') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-text-container">';
-    htmlStringToAppend += '<blockquote class="quote text-center">';
+    htmlStringToAppend += '<div class="panel-body panel-body-quote panel-body-height" data-toggle="modal" data-target="#storyModal">';
+    htmlStringToAppend += '<blockquote class="quote panel-body-height">';
     htmlStringToAppend += '<p>';
     // if this post has a text thumbnail, then the source is the quote for the text
     htmlStringToAppend += postData[postIndex].thumbnailContent;
@@ -313,96 +312,33 @@ function createHTMLStringForOnePost(postIndex) {
   }
   // Audio
   else if (postData[postIndex].thumbnailType == 'audio') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item flex-item-align-center view-post-audio-container text-center">';
+    htmlStringToAppend += '<div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">';
     // if this post has an audio thumbnail, then just show a sound icon
     htmlStringToAppend += '<i class="sound icon sound-icon-size"></i>';
     htmlStringToAppend += '</div>';
   }
   // Video
   else if (postData[postIndex].thumbnailType == 'video') {
-    htmlStringToAppend += '<div class="col-xs-12 col-sm-4 flex-item view-post-video-container">';
-    htmlStringToAppend += '<img class="img-responsive story-image translucent-image" src="';
+    htmlStringToAppend += '<div class="panel-body panel-body-height" data-toggle="modal" data-target="#storyModal">';
+    htmlStringToAppend += '<img class="story-image translucent-image" src="';
     // if this post has a video thumbnail, then the source is the url for the video screenshot
     htmlStringToAppend += postData[postIndex].thumbnailContent;
     htmlStringToAppend += '">';
-    htmlStringToAppend += '<div class="thumbnail-overlay flex-item flex-item-align-center">';
+    htmlStringToAppend += '</div>';
+    htmlStringToAppend += '<div class="panel-body panel-body-height panel-overlay" data-toggle="modal" data-target="#storyModal">';
     // and overlay a video player icon on top of this screenshot
-    htmlStringToAppend += '<i class="video play icon video-icon-size"></i>';
-    htmlStringToAppend += '</div>';
+    htmlStringToAppend += '<i class="video play icon sound-icon-size"></i>';
     htmlStringToAppend += '</div>';
   }
-  // Post Info Div
-  // Outer post info div container
-  htmlStringToAppend += '<div class="col-xs-12 col-sm-8 flex-item view-post-info-text-container">';
-  // Title
-  htmlStringToAppend += '<h4><b>';
+
+  // Panel Heading
+  htmlStringToAppend += '<div class="panel-heading" data-toggle="modal" data-target="#storyModal">';
+  htmlStringToAppend += '<h4 class="story-title text">';
   htmlStringToAppend += postData[postIndex].title; // title of the post
-  htmlStringToAppend += '</b></h4>';
-  // Date
-  htmlStringToAppend += '<p class="date"><i>';
-  var dateString = postData[postIndex].date.toDateString(); // date of the post, simplified style
-  htmlStringToAppend += dateString;
-  htmlStringToAppend += '</i></p>';
-  // Privacy Setting
-  htmlStringToAppend += '<p class="privacy">';
-  // Private post
-  if (postData[postIndex].privacy == 'private') {
-    htmlStringToAppend += 'Only you can see this post.';
-  }
-  // Public post
-  else if (postData[postIndex].privacy == 'public') {
-    htmlStringToAppend += 'Anyone can see this post.';
-  }
-  // Group post
-  else if (postData[postIndex].privacy == 'group') {
-    htmlStringToAppend += 'Only members of ';
-    htmlStringToAppend += returnGroupNameString(postIndex, 0);
-    if (postData[postIndex].groupIds.length == 2 ) {
-      htmlStringToAppend += " and ";
-      htmlStringToAppend += returnGroupNameString(postIndex, 1);
-    } else {
-      for (var i = 1; i < postData[postIndex].groupIds.length; i++) {
-        if (i < postData[postIndex].groupIds.length - 1) {
-          htmlStringToAppend += ', ';
-          htmlStringToAppend += returnGroupNameString(postIndex, i);
-        } else {
-          htmlStringToAppend += ', and ';
-          htmlStringToAppend += returnGroupNameString(postIndex, i);
-        }
-      }
-    }
-    htmlStringToAppend += ' can see this post.'
-  }
-  htmlStringToAppend += '</p>';
-  // Media types
-  htmlStringToAppend += '<p class="content-type">This post contains: ';
-  htmlStringToAppend += postData[postIndex].media[0];
-  if (postData[postIndex].media.length == 2 ) {
-    htmlStringToAppend += " and ";
-    htmlStringToAppend += postData[postIndex].media[1];
-  } else {
-    for (var i = 1; i < postData[postIndex].media.length; i++) {
-      if (i < postData[postIndex].media.length - 1) {
-        htmlStringToAppend += ', ';
-        htmlStringToAppend += postData[postIndex].media[i];
-      } else {
-        htmlStringToAppend += ', and ';
-        htmlStringToAppend += postData[postIndex].media[i];
-      }
-    }
-  }
-  htmlStringToAppend += '.</p>';
-  // Tags
-  htmlStringToAppend += '<p class="tags">Tags: ';
-  for (var i = 0; i < postData[postIndex].tags.length; i++) {
-    htmlStringToAppend += '<span class="view-post-tag">';
-    htmlStringToAppend += postData[postIndex].tags[i];
-    htmlStringToAppend += '</span> ';
-  }
-  htmlStringToAppend += '</p>';
-  // End of post data container
   htmlStringToAppend += '</div>';
-  // End of post article
+  // End Panel
+  htmlStringToAppend += '</div>';
+  // End Article
   htmlStringToAppend += '</article>';
   return htmlStringToAppend;
 }
@@ -582,14 +518,14 @@ function resetSearchFilters(advancedMode) {
 
 // Hide all the posts on the page.
 function hideAllPosts() {
-  $(".view-post-container").each(function(index) {
+  $(".homepage-post-container").each(function(index) {
     $(this).hide();
   });
 }
 
 // Show all the posts on the page.
 function showAllPosts() {
-  $(".view-post-container").each(function(index) {
+  $(".homepage-post-container").each(function(index) {
     $(this).show();
   });
 }
@@ -1601,220 +1537,6 @@ function addWhenFilterToFiltersChosenSectionAndFilterData(dateInput1, dateInput2
   }
 }
 
-// ------ PRIVACY SETTINGS FUNCTIONS ------ //
-function updateOptionsSelectedAndDropdownButtonTextForGeneralMultiselectDropdown(appliedFiltersList, optionsMaxLength, defaultText, allItemsSelected) {
-  var options = appliedFiltersList; // list of options that have been applied
-  var $target = $(event.currentTarget); // the a tag that was clicked in the dropdown menu
-  var val = $target.attr('data-value'), // the data-value of the selected option
-    $input = $target.find('input'), // the input checkbox of the selected option
-    idx = options.indexOf(val); // the index of the selected option in the list of options
-
-  // if the selected option is already in the list of selected options,
-  // then remove this item from the list of selected options
-  if (idx > -1) {
-    // remove the selected option from the selected options list
-    options.splice(idx, 1);
-    // set the selected option's checkbox as deselected mode
-    setTimeout(function() {
-      $input.prop('checked', false)
-    }, 0);
-  } else { // otherwise, add this option to the list of selected options
-    // add the selected option into the selected options list
-    options.push(val);
-    // set the selected option's checkbox as selected mode
-    setTimeout(function() {
-      $input.prop('checked', true)
-    }, 0);
-  }
-
-  // if the user manually deselects all the items,
-  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
-  if (options.length == 1 && allItemsSelected == true) {
-    allItemsSelected = false;
-    var $selectAllTarget = $target.parent().parent().find('.select-all'),
-      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
-      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
-      idx = options.indexOf(val); // the index of the select all option in the list of options
-    // remove the selected option from the selected options list
-    options.splice(idx, 1);
-    // set the selected option's checkbox as deselected mode
-    setTimeout(function() {
-      $selectAllInput.prop('checked', false)
-    }, 0);
-    // change the select all option text to Select All
-    $($selectAllTarget).find('.select-all-text').text('Select All');
-  }
-  // else if the user manually selects all the items,
-  // then revert to deselect all mode (allItemsSelected = true, checkbox shows "Deselect All")
-  else if (options.length >= optionsMaxLength && allItemsSelected == false) {
-    allItemsSelected = true;
-    var $selectAllTarget = $target.parent().parent().find('.select-all'),
-      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
-      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
-      idx = options.indexOf(val); // the index of the select all option in the list of options
-    // add the selected option (filter) into the filters chosen section in the html
-    options.push(val);
-    // set the selected option's checkbox as selected mode
-    setTimeout(function() {
-      $selectAllInput.prop('checked', true)
-    }, 0);
-    // change the select all option text to Deselect All
-    $($selectAllTarget).find('.select-all-text').text('Deselect All');
-  }
-  // else if the user manually deselects one option when all were selected
-  // then revert to select all mode (allItemsSelected = false, checkbox shows "Select All")
-  else if (options.length < (optionsMaxLength+1) && allItemsSelected == true) {
-    allItemsSelected = false;
-    var $selectAllTarget = $target.parent().parent().find('.select-all'),
-      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
-      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
-      idx = options.indexOf(val); // the index of the select all option in the list of options
-    // remove the selected option from the selected options list
-    options.splice(idx, 1);
-    // set the selected option's checkbox as deselected mode
-    setTimeout(function() {
-      $selectAllInput.prop('checked', false)
-    }, 0);
-    // change the select all option text to Select All
-    $($selectAllTarget).find('.select-all-text').text('Select All');
-  }
-
-  // unfocus the selected checkbox
-  $(event.target).blur();
-
-  // update the text in the dropdown toggle button based on which options were selected
-  var $dropdownButton = $target.parent().parent().siblings(".button").find(".dropdown-button-text");
-  // if no options were selected
-  if (options.length == 0) {
-    $dropdownButton.text(defaultText);
-  }
-  // else if one or more options were selected,
-  // then show a list of what was selected, except for the selectAll option
-  else {
-    console.log(options);
-    var optionsSelectedText = options[0];
-    for (var i = 1; i < options.length; i++) {
-      if (options[i] != "selectAll") {
-        optionsSelectedText += ", ";
-        optionsSelectedText += options[i];
-      }
-    }
-    $dropdownButton.text(optionsSelectedText);
-  }
-  return allItemsSelected;
-}
-
-function selectOrDeselectAllOptionsForGeneralMultiselectDropdown(appliedFiltersList, allItemsSelected) {
-  // Get the list of options in the relevant advanced filter dropdown menu
-  var options = appliedFiltersList, // list of options that have been applied
-    listItems = $(event.currentTarget).parent().parent().find('.option');
-
-  // if not everything is selected, then select everything
-  if (allItemsSelected == false) {
-    for (var i = 0; i < listItems.length; i++) {
-      var val = $(listItems[i]).attr('data-value'), // the data-value of the option
-        $input = $(listItems[i]).find('input'), // the input checkbox of the selected option
-        idx = options.indexOf(val); // the index of the selected option in the list of options
-      // if the current option is not already in the list of selected options,
-      // then add this item to the current list of selected options
-      if (idx == -1) {
-        // add the selected option into the selected options list
-        options.push(val);
-        // set the selected option's checkbox as selected mode
-        $input.prop('checked', true);
-      }
-    }
-    // toggle the select all mode
-    allItemsSelected = true;
-    // change the text in the select all span to deselect all
-    $(event.currentTarget).find('.select-all-text').text('Deselect All');
-  } else { // otherwise, deselect everything
-    for (var i = 0; i < listItems.length; i++) {
-      var val = $(listItems[i]).attr('data-value'), // the data-value of the option
-        $input = $(listItems[i]).find('input'), // the input checkbox of the selected option
-        idx = options.indexOf(val); // the index of the selected option in the list of options
-      // if the current option is already in the list of selected options,
-      // then delete this item from the current list of selected options
-      // remove the selected option from the selected options list
-      options.splice(idx, 1);
-      // set the selected option's checkbox as deselected mode
-      $input.prop('checked', false);
-    }
-    // toggle the select all mode
-    allItemsSelected = false;
-    // change the text in the select all span to deselect all
-    $(event.currentTarget).find('.select-all-text').text('Select All');
-  }
-  return allItemsSelected;
-}
-
-function prepopulateMultiselectDropdown(appliedFiltersList, optionsMaxLength, defaultText, allItemsSelected, dropdown, allPossibleOptionsList) {
-  var options = appliedFiltersList; // list of options that have been applied]
-
-  // deselect everything in the dropdown
-  for (var i=0; i<allPossibleOptionsList.length; i++) {
-    var $target = dropdown.find('a[data-value="'+allPossibleOptionsList[i]+'"]');
-    var val = $target.attr('data-value'), // the data-value of the selected option
-      $input = $target.find('input'); // the input checkbox of the selected option
-    // set the selected option's checkbox as selected mode
-    $input.prop('checked', false);
-  }
-  // Change the select all button back to its original state
-  var $selectAllTarget = dropdown.find('.select-all');
-  var $input = $selectAllTarget.find('input');
-  $input.prop('checked', false);
-  $($selectAllTarget).find('.select-all-text').text('Select All');
-  allItemsSelected = false;
-
-  // iterate through each option in the appliedFiltersList
-  // and tell the corresponding input option to check itself
-  for (var i=0; i<options.length; i++) {
-    var $target = dropdown.find('a[data-value="'+options[i]+'"]');
-    var val = $target.attr('data-value'), // the data-value of the selected option
-      $input = $target.find('input'), // the input checkbox of the selected option
-      idx = options.indexOf(val); // the index of the selected option in the list of options
-    // set the selected option's checkbox as selected mode
-    $input.prop('checked', true);
-  }
-
-  // if all the items end up getting selected,
-  // then revert to deselect all mode (allItemsSelected = true, checkbox shows
-  // "Deselect All")
-  if (options.length >= optionsMaxLength && allItemsSelected == false) {
-    allItemsSelected = true;
-    var $selectAllTarget = dropdown.find('.select-all'),
-      $selectAllInput = $selectAllTarget.find('input'), // the input checkbox of the select all option
-      val = $selectAllTarget.attr('data-value'), // the data-value of the selected option
-      idx = options.indexOf(val); // the index of the select all option in the list of options
-    // add the selected option (filter) into the filters chosen section in the html
-    options.push(val);
-    // set the selected option's checkbox as selected mode
-    $selectAllInput.prop('checked', true)
-    // change the select all option text to Deselect All
-    $($selectAllTarget).find('.select-all-text').text('Deselect All');
-  }
-
-  // update the text in the dropdown toggle button based on which options were selected
-  var $dropdownButton = $target.parent().parent().siblings(".button").find(".dropdown-button-text");
-  // if no options were selected
-  if (options.length == 0) {
-    $dropdownButton.text(defaultText);
-  }
-  // else if one or more options were selected,
-  // then show a list of what was selected, except for the selectAll option
-  else {
-    var optionsSelectedText = options[0];
-    for (var i = 1; i < options.length; i++) {
-      if (options[i] != "selectAll") {
-        optionsSelectedText += ", ";
-        optionsSelectedText += options[i];
-      }
-    }
-    $dropdownButton.text(optionsSelectedText);
-  }
-  return allItemsSelected;
-}
-
 // --- When the document is fully loaded --- //
 $(document).ready(function(){
   // ------ SETUP POSTS ------ //
@@ -1836,174 +1558,19 @@ $(document).ready(function(){
   });
 
   // When the user clicks a post, update the contents of the modal accordingly
-  $(".view-post-container").on('click', function () {
-    $("#story-modal-body").show();
-    $("#change-privacy-button").show();
-    $("#close-story-modal-button").show();
-    $("#submit-privacy-button").hide();
-    $("#cancel-privacy-button").hide();
-    $("#change-privacy-setting-modal-body").hide();
+  $(".homepage-post-container").on('click', function () {
     // Empty the contents of the title div and body div of the story modal
     $("#story-modal-title").empty();
     $("#story-modal-body").empty();
     // Get information regarding the selected post
     var thisPostInfo = findByIdReturnObject(postData, $(this).attr("data-id"));
+    console.log(thisPostInfo);
     // Add new desired content to the title div and body div of the story modal
     var storyModalHeaderString = '<h2 class="modal-title text-center">';
     storyModalHeaderString += thisPostInfo.title;
     storyModalHeaderString += '</h2>';
     $("#story-modal-title").append(storyModalHeaderString);
     $("#story-modal-body").append(thisPostInfo.postContent);
-    // to remember this post's info in case the user wants to change its privacy
-    // settings
-    postInfoForModal = thisPostInfo;
-  });
-
-  // When the user clicks on the "Change Privacy Settings" button,
-  // then empty the contents of the story modal,
-  // ask the user for the desired privacy settings,
-  // save their responses,
-  // and reset the story modal's footer
-  $("#change-privacy-button").on('click', function () {
-
-    // reset the audio player
-    $('audio').each(function(){
-      this.pause(); // Stop playing
-      this.currentTime = 0; // Reset time
-    });
-    // reload the source for the iframe that the video is in
-    $("#storyModal iframe").attr("src", $("#storyModal iframe").attr("src"));
-
-    $("#story-modal-body").hide();
-    $("#change-privacy-button").hide();
-    $("#close-story-modal-button").hide();
-    $("#submit-privacy-button").show();
-    $("#cancel-privacy-button").show();
-    $("#change-privacy-setting-modal-body").show();
-
-    $("#privacy-setting-dropdown").attr("data-value", postInfoForModal["privacy"]);
-    $("#privacy-setting-dropdown").text(postInfoForModal["privacy"]);
-    // If this post belongs to any groups, then also pre-populate the group setting
-    // dropdown
-    // empty the contents of the groupPrivacyFiltersApplied list
-    groupPrivacyFiltersApplied = [];
-    // find this post's id and list of group ids
-    console.log("post id: "+postInfoForModal["id"]);
-    console.log("group ids: "+postInfoForModal["groupIds"]);
-    var thisPostId = postInfoForModal["id"];
-    var thisGroupIdList = postInfoForModal["groupIds"];
-    // if this post is part of any groups, then add them to the
-    // groupPrivacyFiltersApplied list
-    // if (postInfoForModal["groupIds"].length != 0) {
-      // iterate through every group id
-      // get the the group name
-      // add this group to the group privacy filters applied list
-      // update the dropdown options
-      // show the dropdown
-      console.log("checking for group ids");
-      // iterate through each id in the list of group ids belonging to this post
-      for (var i=0; i<thisGroupIdList.length; i++) {
-        var thisGroupId = thisGroupIdList[i];
-        // console.log("this post id: " + thisPostId);
-        // console.log(i+"th group id: " + thisGroupIdList[i]);
-
-        // get the information about the desired group
-        var thisGroupData = findByIdReturnObject(originalGroupMasterData, thisGroupId);
-        // console.log("this group data:");
-        // console.log(thisGroupData);
-        var thisGroupName = thisGroupData["groupName"];
-        console.log("group name: "+thisGroupName);
-        // add this group's name to the groupPrivacyFiltersApplied list
-        groupPrivacyFiltersApplied.push(thisGroupName);
-      }
-      console.log("applied group names");
-      console.log(groupPrivacyFiltersApplied);
-
-      allGroupPrivacyFiltersSelected = prepopulateMultiselectDropdown(groupPrivacyFiltersApplied, possibleGroupPrivacyFilters.length, "Select group(s)", allGroupPrivacyFiltersSelected, $("#group-privacy-setting-dropdown"), possibleGroupPrivacyFilters);
-
-
-      // (groupPrivacyFiltersApplied, possibleGroupPrivacyFilters.length, "Select group(s)", allGroupPrivacyFiltersSelected);
-    // }
-
-    // reset search filters when the modal is closed
-    // resetSearchFilters();
-  });
-
-  // When the user clicks the submit button,
-  // then change the information in postData for this particular post
-  // and close the modal
-  $("#submit-privacy-button").on("click", function() {
-    // private and no groups, or if groups and not empty, or if public
-    var privacyChosen = $("#privacy-setting-dropdown").attr("data-value");
-    if ((privacyChosen == "privacy" && groupPrivacyFiltersApplied.length == 0)
-      || (privacyChosen == "group" && groupPrivacyFiltersApplied.length != 0)
-      || (privacyChosen == "public")) {
-      console.log("no error");
-      // change post info
-      // change privacy setting
-      postInfoForModal["privacy"] = $("#privacy-setting-dropdown").attr("data-value");
-      // change groupIds list
-      // create groupIds list
-      var thisPostNewGroupIdsList = [];
-      // iterate through the list of all selected groups
-      for (var i=0; i<groupPrivacyFiltersApplied.length; i++) {
-        // iterate through all the groups in originalGroupMasterData
-        // and figure out the id of the selected group
-        for (var j=0; j<originalGroupMasterData.length; j++) {
-          if (originalGroupMasterData[j]["groupName"] == groupPrivacyFiltersApplied[i]) {
-            // add this id to thisPostNewGroupIdsList
-            thisPostNewGroupIdsList.push(originalGroupMasterData[j]["id"]);
-            break;
-          }
-        }
-      }
-      // replaced the groupIds list for this post with thisPostNewGroupIdsList
-      postInfoForModal["groupIds"] = thisPostNewGroupIdsList;
-
-      // close the modal
-      $('#storyModal').modal('hide');
-    } else {
-      console.log("error");
-      if (privacyChosen == "private") {
-        alert("You have selected the private setting. You cannot select to publish this post under any groups with this setting selected. Either choose the group/public setting or deselect all groups before continuing.");
-      } else if (privacyChosen == "group") {
-        alert("You have selected the group privacy setting. Thus you cannot continue until you select at least one group to publish this post under.");
-      }
-    }
-  });
-
-  // When the user clicks a privacy setting option,
-  // then change the text in the dropdown button according to the option chosen
-  // and reveal the next dropdown depending on the option chosen
-  $(".privacy-setting-option").on("click", function() {
-    $("#privacy-setting-dropdown").attr("data-value", $(this).attr("data-value"));
-    $("#privacy-setting-dropdown").text($(this).attr("data-value"));
-
-    // // Sort the search results
-    // sortPosts(searchResultsReturned);
-    // // Hide all the posts
-    // hideAllPosts();
-    // // Only show the posts that were narrowed down by the search
-    // reorderAndDisplayPosts(searchResultsReturned, storiesSectionContainer);
-  });
-
-  // Populate the group privacy setting dropdown
-  populateDropdownList($("#group-privacy-setting-dropdown > .dropdown-menu"), possibleGroupPrivacyFilters);
-  // groupPrivacyFiltersApplied, possibleGroupPrivacyFilters,
-  // allGroupPrivacyFiltersSelected
-
-
-  $('#group-privacy-setting-dropdown .select-all').on('click', function(event) {
-    console.log("selecting all options");
-    allGroupPrivacyFiltersSelected = selectOrDeselectAllOptionsForGeneralMultiselectDropdown(groupPrivacyFiltersApplied, allGroupPrivacyFiltersSelected);
-  });
-
-
-  $('#group-privacy-setting-dropdown .dropdown-menu a').on('click', function(event) {
-    // selected/deselect whichever option was chosen
-    allGroupPrivacyFiltersSelected = updateOptionsSelectedAndDropdownButtonTextForGeneralMultiselectDropdown(groupPrivacyFiltersApplied, possibleGroupPrivacyFilters.length, "Select group(s)", allGroupPrivacyFiltersSelected);
-    // To prevent the dropdown from hiding when it was clicked on
-    return false;
   });
 
   // ------ BASIC SEARCH FUNCTIONS ------ //

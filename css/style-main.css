@@ -20,8 +20,8 @@ body {
 }
 
 nav, main, footer, .btn,
-.sorting-dropdown-menu,
-.sorting-dropdown-header,
+.dropdown-menu,
+.dropdown-header,
 #searchBox, .form-control {
   font-size: 1em;
   /* equivalent to 16px */
@@ -31,8 +31,8 @@ nav, main, footer, .btn,
 
 @media (min-width: 43.75em) {
   nav, main, footer, .btn,
-  .sorting-dropdown-menu,
-  .sorting-dropdown-header,
+  .dropdown-menu,
+  .dropdown-header,
   #searchBox, .form-control {
     font-size: 1em;
     /* equivalent to 16px */
@@ -991,7 +991,7 @@ as mice. */
 
 /* Advanced Search Filters Section */
 #advanced-search-filters-section {
-  /*display: none;*/
+  display: none;
   margin-bottom: 5px;
 }
 
@@ -1209,14 +1209,24 @@ the dropdown main bar button */
   font-weight: 600;
   height: 34px;
 }
+@media screen and (max-width: 768px) {
+  /* Make form inputs and buttons bigger
+  on smaller devices */
+  .form-control,
+  .clear-search-button {
+    height: 40px
+  }
+}
 
 /* Full width for the dropdown button */
-.advanced-filter-dropdown > button.dropdown-toggle{
+.advanced-filter-dropdown > button.dropdown-toggle,
+#group-privacy-setting-dropdown > button.dropdown-toggle {
   width: 100%;
 }
 
 /* Caret */
-.advanced-filter-dropdown > button.dropdown-toggle > .caret {
+.advanced-filter-dropdown > button.dropdown-toggle > .caret,
+#group-privacy-setting-dropdown > button.dropdown-toggle > .caret {
   position: absolute;
   right: 2%;
   top: 45%;
@@ -1292,4 +1302,33 @@ the dropdown */
 /* Arrow for current day */
 .bootstrap-datetimepicker-widget table td.today:before {
   border-bottom-color: #c94b70;
+}
+/* Where filter instructions text */
+.filter-instructions {
+  padding: 15px 15px 0 15px;
+  color: #818181;
+}
+
+
+/* Story Modal - Privacy Settings */
+@media screen and (max-width: 768px) {
+  .dropdown-menu > li > a,
+  .dropdown-menu > .dropdown-header {
+    padding: 10px 10px 10px 20px;
+  }
+}
+/* group privacy dropdown button width*/
+#group-privacy-setting-dropdown>button {
+  width: 100%;
+}
+/* disabled privacy dropdown toggle button */
+.privacy-dropdown-toggle-disable,
+.privacy-dropdown-toggle-disable:hover {
+  background-color: #c94b70;
+  color: #fff;
+  border: #c94b70;
+}
+
+#change-privacy-setting-modal-body {
+  display: none;
 }

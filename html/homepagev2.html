@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>View Your Posts</title>
+  <title>Homepage</title>
 
   <!-- Make sure that special characters show up correctly. -->
   <meta charset="utf-8">
@@ -41,57 +41,11 @@
         </div>
         <div class="modal-body">
           <div id="story-modal-body">
-          </div>
-          <div id="change-privacy-setting-modal-body">
-            <!-- Instructions -->
-            <section id="change-privacy-setting-instructions">
-              <p>To change the privacy settings for this post, select the desired in the first dropown below.
-                <ul>
-                  <li>If you choose to make this post private, then only you will be able to see this post.</li>
-                  <li>If you choose the group setting, then only members of the groups selected in the second dropdown below will be able to see this post. <i>Please note that you must choose at least one group to publish this post if you select the group setting.</i></li>
-                  <li>If you choose to make this post public, then anyone who visits this website can see this post. <i>Please note that you may choose to also publish this under one or more of the groups in the second dropdown below, but you do not have to.</i></li>
-                </ul>
-              </p>
-            </section>
-            <!-- Dropdown: Privacy Settings -->
-            <section id="privacy-setting-section">
-              <p class="modal-dropdown-heading"><b>Select a privacy setting for this post.</b></p>
-              <div class="dropdown change-privacy-dropdown">
-                <button class="dropdown-button dropdown-toggle filter-where-color-inverted" type="button" data-toggle="dropdown" id="privacy-dropdown-toggle">
-                  <span id="privacy-setting-dropdown" data-value="private">private</span>
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li class="dropdown-header">Select a privacy setting for this post.</li>
-                  <li><a class="privacy-setting-option" data-value="private">private</a></li>
-                  <li><a class="privacy-setting-option" data-value="group">group</a></li>
-                  <li><a class="privacy-setting-option" data-value="public">public</a></li>
-                </ul>
-              </div>
-            </section>
-            <!-- Dropdown: Group Privacy Settings -->
-            <section id="group-privacy-setting-section">
-              <p class="modal-dropdown-heading"><b>Select group(s) to publish this post in.</b></p>
-              <div class="dropdown" id="group-privacy-setting-dropdown" data-filter-parameter="groups">
-                <button type="button" class="button filter-where-color-inverted dropdown-toggle" data-toggle="dropdown" id="group-privacy-dropdown-toggle"><span class="dropdown-button-text">Select group filter(s)</span><span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <div class="input-group">
-                    <input class="form-control filter-search-box" id="groups-filter-search-box" type="text" placeholder="Search group filters">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default clear-search-button" type="button">X</button>
-                    </span>
-                  </div>
-                  <li><a href="#" data-value="selectAll" tabIndex="-1" class="select-all" id="group-privacy-dropdown-select-all"><input type="checkbox"/>&nbsp;<b class="select-all-text">Select All</b></a></li>
-                </ul>
-              </div>
-            </section>
+            <p>Option 1</p>
           </div>
         </div>
-        <div class="modal-footer" id="story-modal-footer">
-          <button type="button" class="button inverted-button modal-button" id="change-privacy-button">Change Privacy Settings</button>
-          <button type="button" class="button inverted-button modal-button" data-dismiss="modal" id="close-story-modal-button">Close</button>
-          <button type="button" class="button inverted-button modal-button" id="submit-privacy-button">Submit</button>
-          <button type="button" class="button inverted-button modal-button" id="cancel-privacy-button" data-dismiss="modal">Cancel</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -152,9 +106,66 @@
 
   <!-- All content except the navbar and footer. This is the thing that changes as the page changes. -->
   <main>
-    <header class="jumbotron mini-header text-center">
-      <h1>View Your Posts</h1>
+
+    <!-- Website Title/Welcome Header -->
+    <header class="jumbotron text-center">
+      <h1>Montage</h1>
+      <p>Insert snazzy one sentence description for new visitors.</p>
     </header>
+
+    <!-- Featured Section -->
+    <section id="featured" class="jumbotron text-center">
+      <div class="row">
+        <!-- Carousel div -->
+        <div class="col-sm-12" id="myCarouselContainer">
+          <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#myCarousel" data-slide-to="1"></li>
+              <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+              <div class="item active">
+                <img class="carousel-img" src="https://static.pexels.com/photos/8453/nature-night-frog.jpg" alt="Frog on a rock.">
+                <div class="carousel-caption">
+                  <h4>"Il était une fois inconnu, il y aurait..."</h4>
+                  <p>Collection: Grenouilles dans les déserts</p>
+                </div>
+              </div>
+
+              <div class="item">
+                <img class="carousel-img" src="https://static.pexels.com/photos/162917/ice-fruit-ice-mixed-ice-cream-sundae-162917.jpeg" alt="Ice cream.">
+                <div class="carousel-caption">
+                  <h4>"Fruity tuti, kulfi, pista..."</h4>
+                  <p>Collection: Ice cream in the tropics</p>
+                </div>
+              </div>
+
+              <div class="item">
+                <img class="carousel-img" src="http://handeyemagazine.com/sites/default/files/small_QA006-1.jpg" alt="Pakistani quilt.">
+                <div class="carousel-caption">
+                  <h4>"En la pared colgaba un gran tapiz..."</h4>
+                  <p>Colección: Edredones</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Search/Filtering Section -->
     <section id="search-filters" class="container-fluid bg-grey">
@@ -383,8 +394,8 @@
       </section>
     </section> <!-- End of Search Filter Section -->
 
-    <!-- Stories Section - List View -->
-    <section id="your-stories" class="container-fluid">
+    <!-- Stories Section -->
+    <section id="stories" class="container-fluid">
     </section>
   </main>
 
@@ -408,11 +419,13 @@
   <!-- Bootstrap Framework -->
   <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
   <!-- Datepicker -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
   <!-- Custom JS Files -->
-  <!-- View Posts JS -->
-  <script src="../js/view-posts.js"></script>
+
+  <!-- Search Filters JS -->
+  <script src="../js/homepagev2.js"></script>
+  <!-- Main Custom JS -->
+  <script src="../js/script-mainv2.js"></script>
 </body>
 </html>
